@@ -1,6 +1,6 @@
-﻿const MENU_ACTION = "menu";
-const LOGOUT_ACTION = "logout";
-const RELOGIN_ACTION = "reloginlink";
+﻿const MENU_ACTION = "/commonMenu";
+const LOGOUT_ACTION = "/commonLogout";
+const RELOGIN_ACTION = "/commonReloginlink";
 
 function menu() {
     location.href = MENU_ACTION;

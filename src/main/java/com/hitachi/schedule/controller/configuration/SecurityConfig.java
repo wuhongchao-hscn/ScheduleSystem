@@ -28,7 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()  //authorizeRequests定义哪些URL需要被保护、哪些不需要被保护
 //                .antMatchers("/**").permitAll() //任意资源 全放行 测试用
-                .antMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/getImg/**").permitAll() //静态资源 全放行
+                .antMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll() //静态资源 全放行
+                .antMatchers("/common**").permitAll() // 共通 全放行
                 .anyRequest().access("@uriAccessService.canAccess(request, authentication)")
 
                 .and().formLogin()    //需要登录
@@ -40,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(loginSuccessHandler())
 
                 .and().logout()
-                .logoutSuccessUrl("/logoutSucess") //登出后的默认网址
+                .logoutSuccessUrl("/commonLogoutSucess") //登出后的默认网址
                 .permitAll() //登出页面每个人都可以访问
                 .invalidateHttpSession(true) //销毁session
 

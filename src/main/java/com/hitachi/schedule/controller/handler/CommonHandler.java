@@ -32,8 +32,8 @@ public class CommonHandler {
     @Value("${web.default-image.path}")
     private String webDefaultImagePath;
 
-    @RequestMapping("/logoutSucess")
-    public String onLogoutSuccess(
+    @RequestMapping("/commonLogoutSucess")
+    public String commonLogoutSucess(
             HttpServletRequest request,
             RedirectAttributes redirectModel) {
         String loginMsg = messageUtil.getMessage("GSAXM009I");
@@ -43,23 +43,23 @@ public class CommonHandler {
         return "redirect:GSAXS010Display";
     }
 
-    @RequestMapping("/reloginlink")
-    public String doReloginlink() {
+    @RequestMapping("/commonReloginlink")
+    public String commonReloginlink() {
         log.info("再ログインボタンを押下しました。");
         return "redirect:GSAXS010Display";
     }
 
 
-    @GetMapping("/userDetail")
-    public String userDetail(HttpServletRequest request) {
+    @GetMapping("/commonUserDetail")
+    public String commonUserDetail(HttpServletRequest request) {
         log.info("ユーザ情報リンクを押下しました。");
 
         String loginUserId = SessionUtil.getUserId(request);
         return "forward:GSACS050Detail?userId=" + loginUserId;
     }
 
-    @GetMapping("/getImg")
-    public void getImg(
+    @GetMapping("/commonGetImg")
+    public void commonGetImg(
             HttpServletRequest request,
             String user_id,
             HttpServletResponse response) throws IOException {

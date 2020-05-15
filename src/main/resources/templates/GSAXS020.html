@@ -32,7 +32,7 @@
                         <ul class="nav flex-column pad-left-40">
                             <br/>
                             <li class="nav-item">
-                                <img th:src="'/getImg?user_id=' + ${session.GS_USERINFO.userId}"
+                                <img th:src="'/commonGetImg?user_id=' + ${session.GS_USERINFO.userId}"
                                      width="200" height="200" class="rounded-circle"
                                      alt="利用者画像"/>
                             </li>
@@ -64,7 +64,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a title="ユーザ情報" class="btn nav-link bg-success-bright"
-                                           href="userDetail"
+                                           href="/commonUserDetail"
                                            data-original-title="Settings" data-toggle="tooltip">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="feather feather-user"
                                                  fill="none"
