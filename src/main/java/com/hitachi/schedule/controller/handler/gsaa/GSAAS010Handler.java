@@ -31,7 +31,7 @@ public class GSAAS010Handler {
     private CommonUtil commonUtil;
 
     private static final String RTN_STR_NG = "GSAAS010";
-    private static final String RTN_STR_OK = "redirect:GSAAS020Display";
+    private static final String RTN_STR_OK = "redirect:/GSAAS020Display";
 
     @PostMapping("/GSAAS010Register")
     public String GSAAS010Register(

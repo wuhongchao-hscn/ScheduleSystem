@@ -51,7 +51,7 @@ public class SessionUtil {
 
     public static UserFindParam getGsacSearchParam(HttpServletRequest request) {
         Object obj = getSessionValue(request, GCConstGlobals.GSAA_PROP_GSACT010_KNSK_JUKN);
-        return StringUtils.isEmpty(obj) ? null : (UserFindParam) obj;
+        return (UserFindParam) obj;
     }
 
     public static void setGsacSearchParam(HttpServletRequest request, UserFindParam ufp) {
@@ -69,7 +69,7 @@ public class SessionUtil {
 
     public static List<UserDetialInfoList> getGsacUserDetialList(HttpServletRequest request) {
         Object obj = getSessionValue(request, GCConstGlobals.GSAA_PROP_GSACT030_USER_KEKA);
-        return StringUtils.isEmpty(obj) ? null : (List<UserDetialInfoList>) obj;
+        return (List<UserDetialInfoList>) obj;
     }
 
     public static void setGsacUserDetialList(HttpServletRequest request, List<UserDetialInfoList> udil) {

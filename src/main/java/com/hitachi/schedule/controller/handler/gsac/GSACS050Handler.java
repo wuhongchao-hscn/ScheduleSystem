@@ -43,7 +43,7 @@ public class GSACS050Handler {
     @Autowired
     private CommonUtil commonUtil;
 
-    private static final String RTN_STR_OK = "redirect:GSACS010Display";
+    private static final String RTN_STR_OK = "redirect:/GSACS010Display";
 
     @GetMapping("/GSACS050Detail")
     public String GSACS050Detail(
@@ -65,7 +65,7 @@ public class GSACS050Handler {
                 GCConstGlobals.GSAA_PROP_GSACT020_USER_ID,
                 userId
         );
-        return "redirect:GSACS030Display";
+        return "redirect:/GSACS030Display";
     }
 
     @PostMapping("/GSACS050Back")

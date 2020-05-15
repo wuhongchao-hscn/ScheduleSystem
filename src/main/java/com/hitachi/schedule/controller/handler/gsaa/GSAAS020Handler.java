@@ -26,21 +26,21 @@ public class GSAAS020Handler {
 
     @PostMapping("/GSAAS020Today")
     public String GSAAS020Today(HttpServletRequest request) {
-        return "redirect:GSAAS020Display";
+        return "redirect:/GSAAS020Display";
     }
 
 
     @PostMapping("/GSAAS020PreviousDay")
     public String GSAAS020PreviousDay(RedirectAttributes redirectModel) {
         redirectModel.addFlashAttribute("timedelta", -1);
-        return "redirect:GSAAS020Display";
+        return "redirect:/GSAAS020Display";
     }
 
 
     @PostMapping("/GSAAS020NextDay")
     public String GSAAS020NextDay(RedirectAttributes redirectModel) {
         redirectModel.addFlashAttribute("timedelta", 1);
-        return "redirect:GSAAS020Display";
+        return "redirect:/GSAAS020Display";
     }
 
 
@@ -64,7 +64,7 @@ public class GSAAS020Handler {
         outForm.setStrKigstName("1");
 
         redirectModel.addFlashAttribute("form", outForm);
-        return "redirect:GSAAS010Display";
+        return "redirect:/GSAAS010Display";
     }
 
 
@@ -79,7 +79,7 @@ public class GSAAS020Handler {
             String errMsg = messageUtil.getMessage("GSAAM004E");
             redirectModel.addFlashAttribute("timedelta", 0);
             redirectModel.addFlashAttribute("error", errMsg);
-            return "redirect:GSAAS020Display";
+            return "redirect:/GSAAS020Display";
         }
 
         SessionUtil.saveSessionValue(
@@ -88,7 +88,7 @@ public class GSAAS020Handler {
                 scheduleId
         );
 
-        return "redirect:GSAAS010Display";
+        return "redirect:/GSAAS010Display";
     }
 
 
@@ -103,7 +103,7 @@ public class GSAAS020Handler {
             String errMsg = messageUtil.getMessage("GSAAM004E");
             redirectModel.addFlashAttribute("timedelta", 0);
             redirectModel.addFlashAttribute("error", errMsg);
-            return "redirect:GSAAS020Display";
+            return "redirect:/GSAAS020Display";
         }
 
         SessionUtil.saveSessionValue(
@@ -111,6 +111,6 @@ public class GSAAS020Handler {
                 GCConstGlobals.GSAA_PROP_GSAAT050_SCHEDULE_ID,
                 scheduleId
         );
-        return "redirect:GSAAS030Display";
+        return "redirect:/GSAAS030Display";
     }
 }

@@ -27,13 +27,13 @@ public class GSACS030Handler {
     @Autowired
     private GSACScheduleF gsacService;
 
-    private static final String RTN_STR_OK = "redirect:GSACS020Display";
+    private static final String RTN_STR_OK = "redirect:/GSACS020Display";
 
 
     @PostMapping("/GSACS030Update")
     public String GSACS030Update() {
         log.info("更新ボタンを押下しました。");
-        return "redirect:GSACS040Display";
+        return "redirect:/GSACS040Display";
     }
 
     @PostMapping("/GSACS030Delete")
@@ -64,7 +64,7 @@ public class GSACS030Handler {
                         GCConstGlobals.GSAA_PROP_GSACT030_USER_KEKA,
                         GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY
                 });
-        return "redirect:GSACS020Display";
+        return "redirect:/GSACS020Display";
     }
 
     private int doDelete(GSACS030Form form, List<String> userIdList, String loginUserId) {

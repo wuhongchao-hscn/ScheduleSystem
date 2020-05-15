@@ -25,7 +25,7 @@ public class GSACS010Handler {
     private CommonUtil commonUtil;
 
     private static final String RTN_STR_NG = "GSACS010";
-    private static final String RTN_STR_OK = "redirect:GSACS020Display";
+    private static final String RTN_STR_OK = "redirect:/GSACS020Display";
 
     @PostMapping("/GSACS010Search")
     public String GSACS010Search(
@@ -64,6 +64,6 @@ public class GSACS010Handler {
     @PostMapping("/GSACS010Register")
     public String GSACS010Register(HttpServletRequest request) {
         log.info("新規登録ボタンを押下しました。");
-        return "redirect:GSACS050Display";
+        return "redirect:/GSACS050Display";
     }
 }

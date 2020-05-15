@@ -23,8 +23,8 @@ public class GSAAS030Handler {
     @Autowired
     private CommonUtil commonUtil;
 
-    private static final String RTN_STR_NG = "redirect:GSAAS030Display";
-    private static final String RTN_STR_OK = "redirect:GSAAS020Display";
+    private static final String RTN_STR_NG = "redirect:/GSAAS030Display";
+    private static final String RTN_STR_OK = "redirect:/GSAAS020Display";
 
     @PostMapping("/GSAAS030Delete")
     public String GSAAS030Delete(

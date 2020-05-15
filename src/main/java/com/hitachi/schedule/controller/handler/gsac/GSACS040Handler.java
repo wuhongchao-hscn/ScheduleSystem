@@ -36,8 +36,8 @@ public class GSACS040Handler {
     @Autowired
     private GSACScheduleF gsacService;
 
-    private static final String RTN_STR_NG = "redirect:GSACS040Display";
-    private static final String RTN_STR_OK = "redirect:GSACS040Display";
+    private static final String RTN_STR_NG = "redirect:/GSACS040Display";
+    private static final String RTN_STR_OK = "redirect:/GSACS040Display";
 
 
     @PostMapping("/GSACS040Update")
@@ -84,7 +84,7 @@ public class GSACS040Handler {
                         GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY
                 });
 
-        return "redirect:GSACS030Display";
+        return "redirect:/GSACS030Display";
     }
 
     private boolean doUpdatePre(
@@ -163,7 +163,7 @@ public class GSACS040Handler {
                 String errMsg = messageUtil.getMessage("GSACM027E");
                 redirectModel.addFlashAttribute("error", errMsg);
                 SessionUtil.clearSessionValue(request);
-                return "redirect:GSAXS010Display";
+                return "redirect:/GSAXS010Display";
             }
         }
 

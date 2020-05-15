@@ -40,13 +40,13 @@ public class CommonHandler {
         redirectModel.addFlashAttribute("warning", loginMsg);
 
         SessionUtil.clearSessionValue(request);
-        return "redirect:GSAXS010Display";
+        return "redirect:/GSAXS010Display";
     }
 
     @RequestMapping("/commonReloginlink")
     public String commonReloginlink() {
         log.info("再ログインボタンを押下しました。");
-        return "redirect:GSAXS010Display";
+        return "redirect:/GSAXS010Display";
     }
 
 
@@ -55,7 +55,7 @@ public class CommonHandler {
         log.info("ユーザ情報リンクを押下しました。");
 
         String loginUserId = SessionUtil.getUserId(request);
-        return "forward:GSACS050Detail?userId=" + loginUserId;
+        return "forward:/GSACS050Detail?userId=" + loginUserId;
     }
 
     @GetMapping("/commonGetImg")
@@ -84,14 +84,11 @@ public class CommonHandler {
             File f = classPathResource.getFile();
             imgData = Files.readAllBytes(Paths.get(f.getAbsolutePath()));
         }
-
-        if (null != imgData) {
-            try {
-                ImgGetUtil.setProperties(response);
-                ImgGetUtil.doExport(imgData, response.getOutputStream());
-            } catch (Exception e) {
-                throw new ErrorDownload();
-            }
+        try {
+            ImgGetUtil.setProperties(response);
+            ImgGetUtil.doExport(imgData, response.getOutputStream());
+        } catch (Exception e) {
+            throw new ErrorDownload();
         }
     }
 }

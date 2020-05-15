@@ -35,8 +35,8 @@ public class GSACS020Handler {
     @Autowired
     private GSACS020Checker checker;
 
-    private static final String RTN_STR_NG = "redirect:GSACS020Display";
-    private static final String RTN_STR_OK = "redirect:GSACS020Display";
+    private static final String RTN_STR_NG = "redirect:/GSACS020Display";
+    private static final String RTN_STR_OK = "redirect:/GSACS020Display";
 
 
     @GetMapping("/GSACS020PageJump")
@@ -103,7 +103,7 @@ public class GSACS020Handler {
             return RTN_STR_NG;
         }
         doDeleteErrorRtnPre(request, form, deleteUserId);
-        return "redirect:GSACS030Display";
+        return "redirect:/GSACS030Display";
     }
 
     private void doDeleteErrorRtnPre(HttpServletRequest request, GSACS020Form form, String... deleteUserId) {
@@ -129,7 +129,7 @@ public class GSACS020Handler {
                 GCConstGlobals.GSAA_PROP_GSACT020_USER_ID,
                 userId
         );
-        return "redirect:GSACS030Display";
+        return "redirect:/GSACS030Display";
     }
 
     @PostMapping
@@ -165,6 +165,6 @@ public class GSACS020Handler {
                         GCConstGlobals.GSAA_PROP_GSACT030_USER_KEKA,
                         GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY
                 });
-        return "redirect:GSACS010Display";
+        return "redirect:/GSACS010Display";
     }
 }
