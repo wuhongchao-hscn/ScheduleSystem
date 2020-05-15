@@ -183,27 +183,37 @@ function articleAgree(articleId, agreeFlg) {
     let agreeSpanItem = $('#' + agreeSpanItemId);
 
     let className = "temrafafawfawfw";
+    let agreeParam = 0;
 
     if (agreeFlg) {
-        agreeItem.addClass(className);
+        let activeFlg = agreeItem.hasClass(className);
         disAgreeItem.removeClass(className)
+        if (activeFlg) {
+            // agree cancel
+            agreeParam = 1;
+            agreeItem.removeClass(className);
+        } else {
+            // agree
+            agreeParam = 2;
+            agreeItem.addClass(className);
+        }
     } else {
+        let activeFlg = disAgreeItem.hasClass(className);
         agreeItem.removeClass(className);
-        disAgreeItem.addClass(className)
+        if (activeFlg) {
+            // disAgree cancel
+            agreeParam = 3;
+            disAgreeItem.removeClass(className);
+        } else {
+            // disAgree
+            agreeParam = 4;
+            disAgreeItem.addClass(className);
+        }
     }
 
-    if (agreeItem.hasClass('selected')) {
-        agreeSpanItem.val(agreeSpanItem.val() + agreeFlg ? 1 : -1);
+    let url = "/GSABSArticleAgree/" + articleId + '?agreeParam=' + agreeParam;
 
-    }
-
-    agreeSpanItem.val(agreeSpanItem.val() + agreeFlg ? 1 : -1);
-
-    let url = "/GSABSArticleAgree/" + articleId + '?agreeFlg=' + agreeFlg;
-    let articleItemId = $(this).attr('id');
-    let fun = 'agreeUpdate';
-
-    return ajaxGet(url, articleItemId, fun);
+    return ajaxGet(url, agreeSpanItem, fun);
     return false;
 }
 

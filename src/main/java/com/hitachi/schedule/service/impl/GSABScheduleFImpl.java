@@ -53,13 +53,20 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
     }
 
     @Override
-    public long updateArticleAgree(long articleId, boolean agreeFlg) {
+    public long updateArticleAgree(long articleId, int agreeParam) {
         Article article = articleDao.findByArticleId(articleId);
         long articleAgree = article.getArticleAgree();
-        if (agreeFlg) {
-            articleAgree += 1l;
-        } else {
+
+        if (1 == agreeParam) {
+            // agree cancel
             articleAgree -= 1l;
+        } else if (2 == agreeParam) {
+            // agree
+            articleAgree += 1l;
+        } else if (3 == agreeParam) {
+            // disAgree cancel
+        } else {
+            // disAgree
         }
         articleDao.save(article);
 

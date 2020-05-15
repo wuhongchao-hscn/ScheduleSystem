@@ -14,5 +14,5 @@ public interface GSABSScheduleF {
 
     TitleFindResult findByTitle(long titleId, long articleId);
 
-    long updateArticleAgree(long articleId, boolean agreeFlg);
+    long updateArticleAgree(long articleId, int agreeFlg);
 }

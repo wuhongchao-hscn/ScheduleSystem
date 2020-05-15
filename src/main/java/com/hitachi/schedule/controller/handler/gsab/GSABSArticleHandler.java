@@ -26,7 +26,7 @@ public class GSABSArticleHandler {
     @ResponseBody
     public long GSABSArticleAgree(
             @PathVariable("articleId") long articleId,
-            boolean agreeFlg) {
-        return gsabsService.updateArticleAgree(articleId, agreeFlg);
+            int agreeParam) {
+        return gsabsService.updateArticleAgree(articleId, agreeParam);
     }
 }

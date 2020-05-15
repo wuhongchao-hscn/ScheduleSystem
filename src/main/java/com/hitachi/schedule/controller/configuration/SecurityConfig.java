@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()  //authorizeRequests定义哪些URL需要被保护、哪些不需要被保护
 //                .antMatchers("/**").permitAll() //任意资源 全放行 测试用
-                .antMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll() //静态资源 全放行
+                .antMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/getImg/**").permitAll() //静态资源 全放行
                 .anyRequest().access("@uriAccessService.canAccess(request, authentication)")
 
                 .and().formLogin()    //需要登录

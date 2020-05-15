@@ -118,7 +118,7 @@
                     <p class="mb-0" th:include="GSAXS040"></p>
                     <ul class="nav nav-tabs" th:if="*{navList}">
                         <li class="nav-item" th:each="obj, stat : *{navList}">
-                            <a class="nav-link border-0" th:href="@{/${obj.hrefUrl}}">
+                            <a class="nav-link border-0" th:href="${obj.hrefUrl}">
                                 [[${obj.hrefText}]]
                             </a>
                         </li>
