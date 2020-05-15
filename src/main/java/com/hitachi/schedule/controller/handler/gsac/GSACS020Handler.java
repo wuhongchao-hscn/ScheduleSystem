@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -159,12 +160,12 @@ public class GSACS020Handler {
     public String GSACS020Back(HttpServletRequest request) {
         log.info("戻るボタンを押下しました。");
         SessionUtil.removeSessionValue(request,
-                new String[]{
+                Arrays.asList(
                         GCConstGlobals.GSAA_PROP_GSACT010_KNSK_KEKA,
                         GCConstGlobals.GSAA_PROP_GSACT020_USER_ID,
                         GCConstGlobals.GSAA_PROP_GSACT030_USER_KEKA,
                         GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY
-                });
+                ));
         return "redirect:/GSACS010Display";
     }
 }

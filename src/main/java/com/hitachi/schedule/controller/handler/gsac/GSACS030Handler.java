@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -59,11 +60,11 @@ public class GSACS030Handler {
     public String GSACS030Back(HttpServletRequest request) {
         log.info("戻るボタンを押下しました。");
         SessionUtil.removeSessionValue(request,
-                new String[]{
+                Arrays.asList(
                         GCConstGlobals.GSAA_PROP_GSACT020_USER_ID,
                         GCConstGlobals.GSAA_PROP_GSACT030_USER_KEKA,
                         GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY
-                });
+                ));
         return "redirect:/GSACS020Display";
     }
 

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 
 @Controller
@@ -35,7 +36,7 @@ public class GSAXDisplayHandler {
         log.info("メニュー画面を表示します。");
 
         SessionUtil.removeSessionValue(request,
-                new String[]{
+                Arrays.asList(
                         GCConstGlobals.GSAA_PROP_GSACT010_KNSK_JUKN,
                         GCConstGlobals.GSAA_PROP_GSACT010_KNSK_KEKA,
                         GCConstGlobals.GSAA_PROP_GSACT020_USER_ID,
@@ -46,7 +47,7 @@ public class GSAXDisplayHandler {
                         GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY,
                         GCConstGlobals.GSAA_PROP_GSAAT050_SCHEDULE_ID,
                         GCConstGlobals.GSAA_PROP_GSAAT050_EX_KEY
-                });
+                ));
         GSAXS020Form outForm = new GSAXS020Form();
 
         model.addAttribute("form", outForm);

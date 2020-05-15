@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 @Controller
 @Slf4j
@@ -57,10 +58,10 @@ public class GSAAS030Handler {
             HttpServletRequest request,
             RedirectAttributes redirectModel) {
         SessionUtil.removeSessionValue(request,
-                new String[]{
+                Arrays.asList(
                         GCConstGlobals.GSAA_PROP_GSAAT050_SCHEDULE_ID,
                         GCConstGlobals.GSAA_PROP_GSAAT050_EX_KEY
-                });
+                ));
         redirectModel.addFlashAttribute("timedelta", 0);
         return RTN_STR_OK;
     }
@@ -96,10 +97,10 @@ public class GSAAS030Handler {
 
     private void doDeletePro(HttpServletRequest request, RedirectAttributes redirectModel) {
         SessionUtil.removeSessionValue(request,
-                new String[]{
+                Arrays.asList(
                         GCConstGlobals.GSAA_PROP_GSAAT050_SCHEDULE_ID,
                         GCConstGlobals.GSAA_PROP_GSAAT050_EX_KEY
-                });
+                ));
         redirectModel.addFlashAttribute("timedelta", 0);
     }
 }
