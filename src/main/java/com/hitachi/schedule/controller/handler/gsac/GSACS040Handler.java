@@ -21,9 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -80,10 +79,6 @@ public class GSACS040Handler {
     @PostMapping("/GSACS040Back")
     public String GSACS040Back(HttpServletRequest request) {
         log.info("戻るボタンを押下しました。");
-        SessionUtil.removeSessionValue(request,
-                Arrays.asList(
-                        GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY
-                ));
 
         return "redirect:/GSACS030Display";
     }
@@ -145,7 +140,7 @@ public class GSACS040Handler {
             String loginUserId) {
         List<String> rlIdList = form.getRlIdList();
         if (userId.equals(loginUserId)) {
-            HashMap<String, Object> gs_info = SessionUtil.getUserDetial(request);
+            Map<String, Object> gs_info = SessionUtil.getUserDetial(request);
 
             String strImageRadio = form.getStrImageRadio();
             if ("6".equals(strImageRadio)) {

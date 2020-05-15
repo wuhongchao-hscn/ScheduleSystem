@@ -8,7 +8,6 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -89,7 +88,7 @@ public class SessionUtil {
 
     public static void saveUserDetial(
             HttpServletRequest request,
-            HashMap<String, Object> gs_info) {
+            Map<String, Object> gs_info) {
         saveSessionValue(request, GCConstGlobals.GS_PROP_USER_INFO, gs_info);
     }
 
