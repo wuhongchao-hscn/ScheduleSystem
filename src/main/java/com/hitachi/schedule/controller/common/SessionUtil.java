@@ -1,0 +1,98 @@
+package com.hitachi.schedule.controller.common;
+
+import com.hitachi.schedule.controller.exception.ErrorTimeOut;
+import com.hitachi.schedule.controller.param.UserDetialInfoList;
+import com.hitachi.schedule.service.param.UserFindParam;
+import com.hitachi.schedule.service.param.UserFindResult;
+import org.springframework.util.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+
+public class SessionUtil {
+    public static Object getSessionValue(HttpServletRequest request, String key) {
+        HttpSession session = request.getSession();
+        return session.getAttribute(key);
+    }
+
+    public static void saveSessionValue(HttpServletRequest request, String key, Object value) {
+        HttpSession session = request.getSession();
+        session.setAttribute(key, value);
+    }
+
+    public static void clearSessionValue(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.invalidate();
+    }
+
+    public static String getSessionValueString(HttpServletRequest request, String key) {
+        Object obj = getSessionValue(request, key);
+        return StringUtils.isEmpty(obj) ? "" : obj.toString();
+    }
+
+    public static int getSessionValueInt(HttpServletRequest request, String key) {
+        Object obj = getSessionValue(request, key);
+        return StringUtils.isEmpty(obj) ? -1 : Integer.parseInt(obj.toString());
+    }
+
+    public static void removeSessionValue(HttpServletRequest request, String key[]) {
+        HttpSession session = request.getSession();
+        for (String obj : key) {
+            session.removeAttribute(obj);
+        }
+    }
+
+    public static String getUserId(HttpServletRequest request) {
+        HashMap<String, Object> gs_info = getUserDetial(request);
+        return (String) gs_info.get("userId");
+    }
+
+    public static UserFindParam getGsacSearchParam(HttpServletRequest request) {
+        Object obj = getSessionValue(request, GCConstGlobals.GSAA_PROP_GSACT010_KNSK_JUKN);
+        return StringUtils.isEmpty(obj) ? null : (UserFindParam) obj;
+    }
+
+    public static void setGsacSearchParam(HttpServletRequest request, UserFindParam ufp) {
+        saveSessionValue(request, GCConstGlobals.GSAA_PROP_GSACT010_KNSK_JUKN, ufp);
+    }
+
+    public static UserFindResult getGsacSearchResult(HttpServletRequest request) {
+        Object obj = getSessionValue(request, GCConstGlobals.GSAA_PROP_GSACT010_KNSK_KEKA);
+        return StringUtils.isEmpty(obj) ? null : (UserFindResult) obj;
+    }
+
+    public static void setGsacSearchResult(HttpServletRequest request, UserFindResult ufr) {
+        saveSessionValue(request, GCConstGlobals.GSAA_PROP_GSACT010_KNSK_KEKA, ufr);
+    }
+
+    public static List<UserDetialInfoList> getGsacUserDetialList(HttpServletRequest request) {
+        Object obj = getSessionValue(request, GCConstGlobals.GSAA_PROP_GSACT030_USER_KEKA);
+        return StringUtils.isEmpty(obj) ? null : (List<UserDetialInfoList>) obj;
+    }
+
+    public static void setGsacUserDetialList(HttpServletRequest request, List<UserDetialInfoList> udil) {
+        saveSessionValue(request, GCConstGlobals.GSAA_PROP_GSACT030_USER_KEKA, udil);
+    }
+
+    public static HashMap<String, Object> getUserDetial(HttpServletRequest request) {
+        Object obj = getSessionValue(request, GCConstGlobals.GS_PROP_USER_INFO);
+        if (StringUtils.isEmpty(obj)) {
+            throw new ErrorTimeOut();
+        }
+        HashMap<String, Object> gs_info = (HashMap<String, Object>) obj;
+        return gs_info;
+    }
+
+    public static void saveUserDetial(
+            HttpServletRequest request,
+            HashMap<String, Object> gs_info) {
+        saveSessionValue(request, GCConstGlobals.GS_PROP_USER_INFO, gs_info);
+    }
+
+    public static byte[] getUserImg(HttpServletRequest request) {
+        HashMap<String, Object> gs_info = getUserDetial(request);
+        return (byte[]) gs_info.get("userImg");
+    }
+}

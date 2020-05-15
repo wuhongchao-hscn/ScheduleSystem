@@ -1,0 +1,13 @@
+package com.hitachi.schedule.mybatis.pojo;
+
+import lombok.Data;
+
+@Data
+public class Shkin {
+    private String shkin_id;
+    private String ssk_id;
+    private String shkin_smi;
+    private String shkin_update_uid;
+    private String shkin_update_ymd;
+    private int shkin_ex_key;
+}

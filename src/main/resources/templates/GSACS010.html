@@ -1,0 +1,95 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{GSAXS020}">
+
+<section layout:fragment="onsubmit">
+    return isFirstTime()
+</section>
+
+<section layout:fragment="main">
+
+    <div class="card">
+        <!--表見出しエリア-->
+        <div class="card-header bg-info">
+            検索条件
+        </div>
+
+        <div class="card-body">
+            <div class="tab" id="tab1">
+                <ul class="nav nav-tabs nav-pills">
+                    <li class="nav-item">
+                        <span class="nav-link active">利用者IDで検索</span>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link" onclick="selectItem('tab2')">職員IDと職員氏名で検索</span>
+                    </li>
+                </ul>
+                <br/>
+                <!--単項目エリア-->
+                <div class="form-row">
+                    <div class="col-md-3 mb-3">
+                        <label>利用者ID<small>(半角英数字)&nbsp;完全一致</small></label>
+                        <input type="text" class="form-control" maxlength="8" id="strUserId"
+                               th:field="*{strUserId}"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab" id="tab2">
+                <ul class="nav nav-tabs nav-pills">
+                    <li class="nav-item">
+                        <span class="nav-link" onclick="selectItem('tab1')">利用者IDで検索</span>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link active">職員IDと職員氏名で検索</span>
+                    </li>
+                </ul>
+                <br/>
+                <!--単項目エリア-->
+                <div class="form-row">
+                    <div class="col-md-3 mb-3">
+                        <label>職員ID<small>(半角英数字)&nbsp;完全一致</small></label>
+                        <input type="text" class="form-control" maxlength="9" id="strShkinId"
+                               th:field="*{strShkinId}" error_class="txt-error"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-9 mb-3">
+                        <label>または 氏名</label>
+                        <input type="text" class="form-control" maxlength="60" id="strShkinSmi"
+                               th:field="*{strShkinSmi}" error_class="txt-error"/>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label>&nbsp;</label>
+                        <select class="custom-select" id="strKnskShbtCode" th:field="*{strKnskShbtCode}"
+                                error_class="select-error">
+                            <option th:each="itemopt : *{listKnskShbt}"
+                                    th:value="${itemopt.key}"
+                                    th:text="${itemopt.value}"
+                                    th:selected="${itemopt.key} eq *{strKnskShbtCode}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="strTabFlag" th:field="*{strTabFlag}"/>
+        </div>
+
+        <div class="card-footer">
+            <!--メインボタンエリア-->
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <button type="submit" class="btn btn-success"
+                            formaction="GSACS010Register" id="GSACS010Register">新規登録
+                    </button>
+                    <button type="submit" class="btn btn-primary"
+                            formaction="GSACS010Search" id="GSACS010Search">検索
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section layout:fragment="js">
+    <script th:src="'/js/' + *{screenId} + '.js'"></script>
+</section>

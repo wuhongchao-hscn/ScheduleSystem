@@ -1,0 +1,65 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{GSAXS020}">
+
+<section layout:fragment="onsubmit">
+    return isFirstTime()
+</section>
+
+<section layout:fragment="main">
+    <div class="card">
+        <!--表見出しエリア-->
+        <div class="card-header bg-info">
+            利用者情報
+        </div>
+
+        <!--単項目エリア-->
+        <div class="card-body" th:fragment="tbl-display">
+            <table class="table table-sm table-bordered" th:each="obj, stat : *{userDetialList}">
+                <tr>
+                    <th scope="row" class="bg-light w-25">利用者ID</th>
+                    <td th:text="${obj.userId}"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bg-light w-25">職員ID</th>
+                    <td th:text="${obj.strShkinId}"></td>
+                </tr>
+
+                <tr>
+                    <th scope="row" class="bg-light w-25">氏名</th>
+                    <td th:text="${obj.strShkinSmi}"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bg-light w-25">所属</th>
+                    <td th:text="${obj.strSsk}"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bg-light w-25">画像データ</th>
+                    <td>
+                        <img th:src="'/getImg?user_id=' + ${obj.userId}" width="200" height="200" alt="利用者画像"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bg-light w-25">利用者区分</th>
+                    <td th:text="${obj.strAllRlName}"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card-footer">
+            <!--メインボタンエリア-->
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <button type="submit" class="btn btn-primary" th:if="*{updateFlg}"
+                            formaction="GSACS030Update" id="GSACS030Update">更新
+                    </button>
+                    <button type="submit" class="btn btn-primary" th:unless="*{updateFlg}"
+                            formaction="GSACS030Delete" id="GSACS030Delete">削除実行
+                    </button>
+                    <button type="submit" class="btn btn-danger"
+                            formaction="GSACS030Back" id="GSACS030Back">戻る
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,114 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{GSAXS020}">
+
+<section layout:fragment="onsubmit">
+    return isFirstTime()
+</section>
+
+<section layout:fragment="main">
+    <div class="card">
+        <!--表見出しエリア-->
+        <div class="card-header bg-info">
+            検索条件
+        </div>
+        <div class="card-body">
+            <!--単項目エリア-->
+            <table class="table table-sm table-bordered">
+                <tr th:if="*{strUserId}">
+                    <th scope="row" class="bg-light w-25">利用者ID</th>
+                    <td>[[*{strUserId}]]</td>
+                </tr>
+                <tr th:unless="*{strUserId}">
+                    <th scope="row" class="bg-light w-25">職員ID</th>
+                    <td>[[*{strShkinId}]]</td>
+                </tr>
+                <tr th:unless="*{strUserId}">
+                    <th scope="row" class="bg-light w-25">氏名</th>
+                    <td>[[*{strShkinSmi}]]&nbsp;[[*{strKnskShbtCode}]]</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br/>
+
+    <div class="card">
+        <!--表見出しエリア-->
+        <div class="card-header bg-info">
+            利用者検索結果一覧&nbsp;&nbsp;&nbsp;[[*{hitRangeLabel}]]
+        </div>
+        <div class="card-body">
+            <nav aria-label="Page navigation" th:if="*{pageList}">
+                <ul class="pagination">
+                    <li th:class="'1' eq *{pageNow} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" href="GSACS020PageJump?param=first">最初へ</a>
+                    </li>
+                    <li th:class="'1' eq *{pageNow} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" href="GSACS020PageJump?param=pre">前へ</a>
+                    </li>
+
+                    <li th:class="${obj} eq *{pageNow} ? 'page-item disabled' : 'page-item'"
+                        th:each="obj, stat : *{pageList}">
+                        <a class="page-link" th:href="'/GSACS020PageJump?index=' + ${obj}">[[${obj}]]</a>
+                    </li>
+
+                    <li th:class="*{pageList.size()} eq *{pageNow} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" href="GSACS020PageJump?param=pro">次へ</a>
+                    </li>
+                    <li th:class="*{pageList.size()} eq *{pageNow} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" href="GSACS020PageJump?param=last">最後へ</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!--一覧エリア-->
+            <table class="table" summary="利用者検索結果一覧">
+                <tr class="table-primary">
+                    <th scope="col" id="deleteUserId">削除選択</th>
+                    <th scope="col">利用者ID</th>
+                    <th scope="col">職員ID</th>
+                    <th scope="col">氏名</th>
+                    <th scope="col">所属</th>
+                    <th scope="col">操作</th>
+                </tr>
+                <tr th:each="obj, stat : *{userList}" th:class="${stat.odd}?'table-warning':'table-success'">
+                    <td th:id="'deleteFlg' + ${stat.count}">
+                        <input type="checkbox" name="deleteFlg" th:value="${obj.deleteFlg}"/>
+                    </td>
+                    <td th:text="${obj.userId}"></td>
+                    <td th:text="${obj.strShkinId}"></td>
+                    <td th:text="${obj.strShkinSmi}"></td>
+                    <td th:text="${obj.strSsk}"></td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" role="button" aria-pressed="true"
+                           th:href="'/GSACS020Detail?userId=' + ${obj.userId}">参照</a>
+                        <a class="btn btn-danger btn-sm" role="button" aria-pressed="true"
+                           th:href="'/GSACS020Delete?userId=' + ${obj.userId}">削除</a></td>
+                </tr>
+            </table>
+            <input type="hidden" id="deleteUserIdHd" th:field="*{deleteUserId}"/>
+        </div>
+
+        <div class="card-footer">
+            <!--メインボタンエリア-->
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <button type="submit" class="btn btn-success"
+                            formaction="GSACS020Delete" id="GSACS020Delete"
+                            th:disabled="0 eq *{userList.size()}" onclick="getdeleteUserId()">一括削除
+                    </button>
+                    <button type="submit" class="btn btn-primary"
+                            formaction="GSACS020Download" id="GSACS020Download"
+                            th:disabled="0 eq *{userList.size()}">CSV出力
+                    </button>
+                    <button type="submit" class="btn btn-danger"
+                            formaction="GSACS020Back" id="GSACS020Back">戻る
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section layout:fragment="js">
+    <script th:src="'/js/' + *{screenId} + '.js'"></script>
+</section>

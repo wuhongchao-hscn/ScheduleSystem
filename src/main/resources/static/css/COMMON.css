@@ -1,0 +1,30 @@
+body {
+    font-size: .875rem;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+pre {
+    font-size: 100%;
+}
+
+.feather {
+    width: 16px;
+    height: 16px;
+    vertical-align: text-bottom;
+}
+
+.sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 182px);
+    padding-top: .5rem;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.pad-left-40 {
+    padding-left: 40px;
+}

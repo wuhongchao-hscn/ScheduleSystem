@@ -1,0 +1,22 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{GSAXS020}">
+
+<section layout:fragment="main">
+    <!--表見出しエリア-->
+
+    <div class="message-box">
+        <ul>
+            <li th:text="*{'エラー区分：' + errLevel}"></li>
+            <li th:text="*{errScreenId}"></li>
+            <li th:text="*{errScreenName}"></li>
+            <li th:text="'メッセージ：' + *{errMsg}"></li>
+            <li th:text="'発生日時：' + *{errorTimeDate}"></li>
+        </ul>
+        <p th:text="*{contMsg}"></p>
+        <p><a href="#" onclick="reloginlinkClick()">ログイン画面へ</a></p>
+
+        <div class="mainbtn">
+            <input type="buBtton" value="閉じる" class="m-btn" onclick="windows.close()"/>
+        </div>
+    </div>
+</section>

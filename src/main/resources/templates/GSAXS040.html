@@ -1,0 +1,16 @@
+<!--エラーメッセージエリア-->
+<div id="GSAXS040">
+    <div class="text-danger text-left" th:if="${error}" xmlns:th="http://www.thymeleaf.org">
+        <p th:each="obj : ${error}">[[${obj}]]
+        </p>
+    </div>
+    <div class="text-warning text-left" th:if="${warning}" th:each="obj : ${warning}"
+         xmlns:th="http://www.thymeleaf.org">
+        <p th:each="obj : ${warning}">[[${obj}]]
+        </p>
+    </div>
+    <div class="text-success text-left" th:if="${message}" xmlns:th="http://www.thymeleaf.org">
+        <p th:each="obj : ${message}">[[${obj}]]
+        </p>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+spring:
+  session:
+    store-type: redis #设置 Spring Session 使用 Redis 进行存储。默认配置就是 redis
+    timeout: 3s # 设置 Spring Session 的过期时间。如果不指定单位模式是 s
+    redis:
+      flush-mode: immediate # on_save:保存时刷新，即响应结束后刷新。默认是 on_save   immediate:实时刷新
+      namespace: redis:session #存储 Session的命名空间，默认是spring:session。
+
+  server:
+    tomcat:
+      uri-encoding: UTF-8
+
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器地址
+    host: 127.0.0.1
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: redis_password
+    # 链接超时时间 单位 ms（毫秒）
+    timeout: 5000
+    lettuce:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制） 默认 8
+        max-active: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
+        max-wait: -1
+        # 连接池中的最大空闲连接 默认 8
+        max-idle: 8
+        # 连接池中的最小空闲连接 默认 0
+        min-idle: 0
+
+  # 默认的数据源设置，mybatis+postgrel连接
+  #  datasource:
+  #    url: jdbc:postgresql://127.0.0.1:5432/postgres?useSSL=false?useAffectedRows=true
+  #    username: postgres
+  #    password: sysdba
+  #    driverClassName: org.postgresql.Driver
+  datasource:
+    jdbc-url: jdbc:postgresql://127.0.0.1:5432/postgres?useSSL=false?useAffectedRows=true
+    username: postgres
+    password: sysdba
+  #    driverClassName: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  thymeleaf:
+    cache: false
+
+  servlet:
+    multipart:
+      max-request-size: -1
+      max-file-size: -1
+
+  devtools:
+    restart:
+      log-condition-evaluation-delta: false
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+logging:
+  level:
+    root: error
+    com:
+      hitachi: info
+  file:
+    name: log/spring-boot.log
+    #pattern:
+    #console: "%d{yyyy-MM-dd HH:mm:ss.sss} {%thread} %-5level %logger{50} - %msg%n"
+    #file: "%d{yyyy-MM-dd HH:mm:ss.sss} {%thread} %-5level %logger{50} - %msg%n"
+mybatis:
+  type-aliases-package: com.hitachi.schedule.mybatis
+  mapper-locations: classpath:mapper/*Mapper.xml
+
+web:
+  default-image:
+    path: /static/images/default.jpg
+
+# 20200511改用双数据源 mybatis+postgrel spring-data-jpa+mysql 配置在最后
+jpa:
+  datasource:
+    jdbc-url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+#    driverClassName: com.mysql.cj.jdbc.Driver
+
+banner: classpath:banner.txt

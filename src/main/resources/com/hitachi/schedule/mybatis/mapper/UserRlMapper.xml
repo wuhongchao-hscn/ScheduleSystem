@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hitachi.schedule.mybatis.mapper.UserRlMapper">
+    <select id="getUserRlIdByUserId" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT userrl.rl_id FROM public.userrl WHERE user_id = #{user_id}
+    </select>
+
+    <update id="updateByUserId" parameterType="com.hitachi.schedule.mybatis.pojo.UserRl">
+        UPDATE public.userrl
+        SET
+        rl_id = #{rl_id} ,
+        user_rl_update_uid = #{user_rl_update_uid},
+        user_rl_update_ymd = #{user_rl_update_ymd}
+        WHERE user_id = #{user_id}
+    </update>
+
+    <insert id="insertUserRl" parameterType="com.hitachi.schedule.mybatis.pojo.UserRl">
+        INSERT INTO public.userrl (rl_id, user_id, user_rl_update_uid,
+        user_rl_update_ymd, user_rl_ex_key)
+        VALUES (#{rl_id}, #{user_id}, #{user_rl_update_uid},
+        #{user_rl_update_ymd}, #{user_rl_ex_key})
+        ON conflict(user_id)
+        DO UPDATE SET
+        rl_id = #{rl_id} ,
+        user_rl_update_uid = #{user_rl_update_uid},
+        user_rl_update_ymd = #{user_rl_update_ymd}
+    </insert>
+</mapper>

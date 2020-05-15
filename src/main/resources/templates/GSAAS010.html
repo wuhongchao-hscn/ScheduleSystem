@@ -1,0 +1,144 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{GSAXS020}">
+
+<section layout:fragment="onsubmit">
+    return isFirstTime()
+</section>
+
+<section layout:fragment="main">
+    <div class="card">
+        <!--表見出しエリア-->
+        <div class="card-header bg-info">
+            登録情報
+        </div>
+
+        <div class="card-body" th:fragment="card-body">
+            <!--単項目エリア-->
+            <div class="form-row">
+                <div class="col-md-2 mb-3">
+                    <label onclick="setSysDate()">年月日<small>(半角数字)</small></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">年</span>
+                        </div>
+                        <input type="text" class="form-control" maxlength="4" size="4"
+                               id="strScheduleYykYmdY"
+                               th:field="*{strScheduleYykYmdY}"/>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>&nbsp;</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">月</span>
+                        </div>
+                        <input type="text" class="form-control" maxlength="2" size="2"
+                               id="strScheduleYykYmdM"
+                               th:field="*{strScheduleYykYmdM}"/>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>&nbsp;</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">日</span>
+                        </div>
+                        <input type="text" class="form-control" maxlength="2" size="2"
+                               id="strScheduleYykYmdD"
+                               th:field="*{strScheduleYykYmdD}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-2 mb-3">
+                    <label onclick="setSysDate()">開始時刻<small>(半角数字)</small></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">時</span>
+                        </div>
+                        <input type="text" class="form-control" maxlength="2" size="2" id="strScheduleStartHmH"
+                               th:field="*{strScheduleStartHmH}" onchange="hCopy(this.form)"/>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>&nbsp;</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">分</span>
+                        </div>
+                        <input type="text" class="form-control" maxlength="2" size="2" id="strScheduleStartHmM"
+                               th:field="*{strScheduleStartHmM}" onchange="mCopy(this.form)"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-2 mb-3">
+                    <label onclick="setSysDate()">終了時刻<small>(半角数字)</small></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">時</span>
+                        </div>
+                        <input type="text" class="form-control" maxlength="2" size="2" id="strScheduleEndHmH"
+                               th:field="*{strScheduleEndHmH}" onchange="hCopy(this.form)"/>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>&nbsp;</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">分</span>
+                        </div>
+                        <input type="text" class="form-control" maxlength="2" size="2" id="strScheduleEndHmM"
+                               th:field="*{strScheduleEndHmM}" onchange="mCopy(this.form)"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-12 mb-3">
+                    <label onclick="setSysDate()">用件<small>(全角３２文字以内)</small></label>
+                    <input type="text" class="form-control" maxlength="64" size="78" id="strScheduleYukn"
+                           th:field="*{strScheduleYukn}"/>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-12 mb-3">
+                    <label onclick="setSysDate()">会議室</label>
+                    <select class="custom-select" id="strKigstName" th:field="*{strKigstName}"
+                            error_class="select-error">
+                        <option th:each="itemopt : *{listKigst}"
+                                th:value="${itemopt.key}"
+                                th:text="${itemopt.value}"
+                                th:selected="${itemopt.key} eq *{strKigstName}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-12 mb-3">
+                    <label onclick="setSysDate()">備考<small>(全角２００文字以内)</small></label>
+                    <textarea class="form-control" cols="78" rows="3" id="strScheduleBku"
+                              th:field="*{strScheduleBku}"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <!--メインボタンエリア-->
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <button type="submit" class="btn btn-primary"
+                            formaction="GSAAS010Register" id="GSAAS010Register"
+                            th:if="*{insertFlg}">登録実行
+                    </button>
+                    <button type="submit" class="btn btn-primary"
+                            formaction="GSAAS010Update" id="GSAAS010Update"
+                            th:unless="*{insertFlg}">更新実行
+                    </button>
+                    <button type="submit" class="btn btn-danger"
+                            formaction="GSAAS010Back" id="GSAAS010Back">戻る
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

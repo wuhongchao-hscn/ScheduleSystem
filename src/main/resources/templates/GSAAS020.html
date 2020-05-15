@@ -1,0 +1,67 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{GSAXS020}">
+
+<section layout:fragment="main">
+    <div class="card">
+        <!--表見出しエリア-->
+        <div class="card-header bg-info">
+            スケジュール一覧
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                表示日：[[*{strCurrentYmd}]]
+                &nbsp;&nbsp;
+                <small>全[[*{scheduleList.size()}]]件</small>
+            </h5>
+
+            <!--一覧エリア-->
+            <table class="table">
+                <tr class="table-primary">
+                    <th scope="col">#</th>
+                    <th scope="col">開始時刻</th>
+                    <th scope="col">終了時刻</th>
+                    <th scope="col">用件</th>
+                    <th scope="col">会議室</th>
+                    <th scope="col">操作</th>
+                </tr>
+                <tr th:each="obj, stat : *{scheduleList}" th:class="${stat.odd}?'table-warning':'table-success'">
+                    <td th:text="${stat.count}"></td>
+                    <td th:text="${obj.strScheduleStartHM}"></td>
+                    <td th:text="${obj.strScheduleEndHM}"></td>
+                    <td th:text="${obj.strScheduleYukn}"></td>
+                    <td th:text="${obj.strKigstName}"></td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" role="button" aria-pressed="true"
+                           th:href="'/GSAAS020Update?scheduleId=' + ${obj.checkRadio}">更新</a>
+                        <a class="btn btn-danger btn-sm" role="button" aria-pressed="true"
+                           th:href="'/GSAAS020Delete?scheduleId=' + ${obj.checkRadio}">削除</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card-footer">
+            <!--サブボタンエリア-->
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <button type="submit" class="btn btn-success"
+                            formaction="GSAAS020Register" id="GSAAS020Register">新規登録
+                    </button>
+                    <button type="submit" class="btn btn-secondary"
+                            formaction="GSAAS020PreviousDay" id="GSAAS020PreviousDay">前日
+                    </button>
+                    <button type="submit" class="btn btn-secondary"
+                            formaction="GSAAS020Today" id="GSAAS020Today">今日
+                    </button>
+                    <button type="submit" class="btn btn-secondary"
+                            formaction="GSAAS020NextDay" id="GSAAS020NextDay">翌日
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section layout:fragment="js">
+    <script th:src="'/js/' + *{screenId} + '.js'"></script>
+</section>

@@ -1,0 +1,132 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{GSAXS020}">
+
+<section layout:fragment="main">
+
+    <div class="card">
+        <!--表見出しエリア-->
+        <div class="card-header bg-white">
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <a class="btn btn-link active" href="/GSABS010Display">推荐</a>
+                    <a class="btn" href="/GSABS010Follow">关注</a>
+                    <a class="btn" href="/GSABS010Hot">热榜</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body overflow-auto" style="height: calc(100vh - 240px)"
+             th:fragment="articleList(titleHideFlg)">
+
+            <div th:each="obj, stat : *{articleList}">
+                <hr th:unless="1 eq ${stat.count}"/>
+                <b th:unless="${titleHideFlg}">
+                    <a class="btn text-left px-sm-0"
+                       th:href="'/GABSTitles/' + ${obj.titleId} + '/' + ${obj.articleId}">
+                        <b>[[${obj.articleTitle}]]</b>
+                    </a>
+                </b>
+                <div class="media w-75" th:id="'article' + ${obj.articleId}">
+                    <span th:utext="${obj.articleImg}" th:if="${obj.articleImg}"></span>
+                    <div class="media-body">
+                        <span th:utext="${obj.articleContent}" th:if="${obj.contentFlg}"></span>
+                        <pre th:utext="${obj.articleContent}" th:unless="${obj.contentFlg}"></pre>
+                        <a href="#" name="articleUp" th:value="${obj.articleId}" th:if="${obj.contentFlg}">
+                            阅读全文
+                            <svg class="bi bi-chevron-down" width="1em" height="1em" viewBox="0 0 16 16"
+                                 fill="currentColor"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M1.646 4.646a.5.5 0 01.708 0L8 10.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <a href="#" class="btn btn-sm btn-primary"
+                       th:id="'article' + ${obj.articleId} + 'Agree'"
+                       th:onclick="'articleAgree(' + ${obj.articleId} + ', true)'">
+                        <svg class="bi bi-caret-up-fill" width="1em" height="1em" viewBox="0 0 16 16"
+                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 00.753-1.659l-4.796-5.48a1 1 0 00-1.506 0z"/>
+                        </svg>
+                        赞同&nbsp;
+                        <span th:id="'article' + ${obj.articleId} + 'AgreeSpan'">[[${obj.articleAgree}]]</span>
+                    </a>
+
+                    <a href="#"
+                       th:id="'article' + ${obj.articleId} + 'DisAgree'"
+                       th:onclick="'articleAgree(' + ${obj.articleId} + ', false)'"
+                       class="btn btn-sm btn-primary">
+                        <svg class="bi bi-caret-down-fill" width="1em" height="1em" viewBox="0 0 16 16"
+                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"/>
+                        </svg>
+                    </a>
+                    <span class="text-secondary">
+                        <svg class="Zi Zi--Comment Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em"
+                             height="1.2em">
+                            <path d="M10.241 19.313a.97.97 0 0 0-.77.2 7.908 7.908 0 0 1-3.772 1.482.409.409 0 0 1-.38-.637 5.825 5.825 0 0 0 1.11-2.237.605.605 0 0 0-.227-.59A7.935 7.935 0 0 1 3 11.25C3 6.7 7.03 3 12 3s9 3.7 9 8.25-4.373 9.108-10.759 8.063z"
+                                  fill-rule="evenodd">
+                            </path>
+                        </svg>
+                        [[${obj.articleCount}]]
+                        条评论&nbsp;
+                    </span>
+                    <a class="text-secondary" th:href="'/GSABS010Article?articleId=' + ${obj.articleId}">
+                        <svg class="Zi Zi--Share Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em"
+                             height="1.2em">
+                            <path d="M2.931 7.89c-1.067.24-1.275 1.669-.318 2.207l5.277 2.908 8.168-4.776c.25-.127.477.198.273.39L9.05 14.66l.927 5.953c.18 1.084 1.593 1.376 2.182.456l9.644-15.242c.584-.892-.212-2.029-1.234-1.796L2.93 7.89z"
+                                  fill-rule="evenodd"></path>
+                        </svg>
+                        分享&nbsp;
+                    </a>
+                    <a class="text-secondary" th:href="'/GSABS010Article?articleId=' + ${obj.articleId}">
+                        <svg class="Zi Zi--Star Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em"
+                             height="1.2em">
+                            <path d="M5.515 19.64l.918-5.355-3.89-3.792c-.926-.902-.639-1.784.64-1.97L8.56 7.74l2.404-4.871c.572-1.16 1.5-1.16 2.072 0L15.44 7.74l5.377.782c1.28.186 1.566 1.068.64 1.97l-3.89 3.793.918 5.354c.219 1.274-.532 1.82-1.676 1.218L12 18.33l-4.808 2.528c-1.145.602-1.896.056-1.677-1.218z"
+                                  fill-rule="evenodd"></path>
+                        </svg>
+                        收藏&nbsp;
+                    </a>
+                    <a class="text-secondary" th:href="'/GSABS010Article?articleId=' + ${obj.articleId}">
+                        <svg class="Zi Zi--Heart Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em"
+                             height="1.2em">
+                            <path d="M2 8.437C2 5.505 4.294 3.094 7.207 3 9.243 3 11.092 4.19 12 6c.823-1.758 2.649-3 4.651-3C19.545 3 22 5.507 22 8.432 22 16.24 13.842 21 12 21 10.158 21 2 16.24 2 8.437z"
+                                  fill-rule="evenodd"></path>
+                        </svg>
+                        喜欢&nbsp;
+                    </a>
+                    <div class="dropdown d-inline">
+                        <button class="btn" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <svg class="Zi Zi--Dots Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em"
+                                 height="1.2em">
+                                <path d="M5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
+                                      fill-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <small>
+                                <a class="dropdown-item" href="#">没有帮助</a>
+                                <a class="dropdown-item" href="#">举报</a>
+                                <a class="dropdown-item" href="#">不感兴趣</a>
+                            </small>
+                        </div>
+                    </div>
+                    <a class="text-secondary d-none" name="articleList" th:id="'article' + ${obj.articleId} + 'List'"
+                       href="#">
+                        收起
+                        <svg class="bi bi-chevron-up" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M7.646 4.646a.5.5 0 01.708 0l6 6a.5.5 0 01-.708.708L8 5.707l-5.646 5.647a.5.5 0 01-.708-.708l6-6z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

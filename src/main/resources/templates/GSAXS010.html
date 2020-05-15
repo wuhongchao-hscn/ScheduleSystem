@@ -1,0 +1,21 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{GSAXS020}">
+
+<section layout:fragment="main">
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="利用者ID" required autofocus
+               maxlength="8" th:field="*{strUserId}"/>
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" placeholder="パスワード" required
+               maxlength="16" th:field="*{strUserPassword}"/>
+    </div>
+    <!--        <div class="form-group d-flex justify-content-between">-->
+    <!--            <div class="custom-control custom-checkbox">-->
+    <!--                <input type="checkbox" class="custom-control-input" checked="" id="customCheck1">-->
+    <!--                <label class="custom-control-label" for="customCheck1">ユーザーIDを記憶する</label>-->
+    <!--            </div>-->
+    <!--            <a href="recover-password.html">パスワード変更</a>-->
+    <!--        </div>-->
+    <button type="submit" class="btn btn-primary btn-block" formaction="GSAXS010Login">ログイン</button>
+</section>

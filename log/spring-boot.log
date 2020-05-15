@@ -1,0 +1,19 @@
+2020-05-15 09:58:20.074  INFO 15500 --- [main] c.hitachi.schedule.ScheduleApplication   : Starting ScheduleApplication on GUcnS2FBJWCX031 with PID 15500 (E:\Tools\IdeaProjects\schedule\target\classes started by HSCN in E:\Tools\IdeaProjects\schedule)
+2020-05-15 09:58:20.090  INFO 15500 --- [main] c.hitachi.schedule.ScheduleApplication   : No active profile set, falling back to default profiles: default
+2020-05-15 09:58:31.930  INFO 15500 --- [main] c.hitachi.schedule.ScheduleApplication   : Started ScheduleApplication in 12.677 seconds (JVM running for 16.432)
+2020-05-15 09:58:34.266  INFO 15500 --- [http-nio-8080-exec-1] c.h.s.c.handler.gsax.GSAXDisplayHandler  : ログイン画面を表示します。
+2020-05-15 09:58:40.997  INFO 15500 --- [http-nio-8080-exec-9] c.h.s.c.handler.gsax.GSAXDisplayHandler  : メニュー画面を表示します。
+2020-05-15 09:58:41.035  INFO 15500 --- [http-nio-8080-exec-3] c.h.s.controller.handler.CommonHandler   : IMG取得ボタンを押下しました。
+2020-05-15 09:58:45.293  INFO 15500 --- [http-nio-8080-exec-1] c.h.s.c.handler.gsax.GSAXS020Handler     : ブログボタンを押下しました。
+2020-05-15 09:58:45.652  INFO 15500 --- [http-nio-8080-exec-10] c.h.s.c.handler.gsab.GSABDisplayHandler  : ブログメイン画面を表示します。
+2020-05-15 09:58:45.708  INFO 15500 --- [http-nio-8080-exec-8] c.h.s.controller.handler.CommonHandler   : IMG取得ボタンを押下しました。
+2020-05-15 10:01:52.529  INFO 15500 --- [http-nio-8080-exec-4] c.h.s.c.handler.gsax.GSAXS020Handler     : 利用者管理ボタンを押下しました。
+2020-05-15 10:01:52.545  INFO 15500 --- [http-nio-8080-exec-1] c.h.s.c.handler.gsac.GSACDisplayHandler  : 利用者検索画面を表示します。
+2020-05-15 10:01:52.619  INFO 15500 --- [http-nio-8080-exec-7] c.h.s.controller.handler.CommonHandler   : IMG取得ボタンを押下しました。
+2020-05-15 10:01:54.812  INFO 15500 --- [http-nio-8080-exec-4] c.h.s.c.handler.gsax.GSAXS020Handler     : ブログボタンを押下しました。
+2020-05-15 10:01:54.848  INFO 15500 --- [http-nio-8080-exec-8] c.h.s.c.handler.gsab.GSABDisplayHandler  : ブログメイン画面を表示します。
+2020-05-15 10:01:54.872  INFO 15500 --- [http-nio-8080-exec-1] c.h.s.controller.handler.CommonHandler   : IMG取得ボタンを押下しました。
+2020-05-15 10:02:28.571  INFO 15500 --- [http-nio-8080-exec-7] c.h.s.controller.handler.CommonHandler   : IMG取得ボタンを押下しました。
+2020-05-15 10:02:35.682  INFO 15500 --- [http-nio-8080-exec-7] c.h.s.c.handler.gsax.GSAXS020Handler     : ブログボタンを押下しました。
+2020-05-15 10:02:35.714  INFO 15500 --- [http-nio-8080-exec-1] c.h.s.c.handler.gsab.GSABDisplayHandler  : ブログメイン画面を表示します。
+2020-05-15 10:02:35.747  INFO 15500 --- [http-nio-8080-exec-5] c.h.s.controller.handler.CommonHandler   : IMG取得ボタンを押下しました。

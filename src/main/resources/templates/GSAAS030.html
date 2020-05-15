@@ -1,0 +1,58 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{GSAXS020}">
+
+<section layout:fragment="main">
+
+    <div class="card">
+        <!--表見出しエリア-->
+        <div class="card-header bg-info">
+            削除内容確認
+        </div>
+
+        <div class="card-body">
+            <!--単項目エリア-->
+            <table class="table table-sm table-bordered">
+                <tr>
+                    <th scope="row" class="bg-light w-25">年月日(半角数字)</th>
+                    <td th:text="*{strScheduleYykYmd}"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bg-light w-25">開始時刻(半角数字)</th>
+                    <td th:text="*{strScheduleStartHm}"></td>
+                </tr>
+
+                <tr>
+                    <th scope="row" class="bg-light w-25">終了時刻(半角数字)</th>
+                    <td th:text="*{strScheduleEndHm}"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bg-light w-25">用件</th>
+                    <td th:text="*{strScheduleYukn}"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bg-light w-25">会議室</th>
+                    <td th:text="*{strKigstName}"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bg-light w-25">備考</th>
+                    <td th:text="*{strScheduleBku}"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card-footer">
+
+            <!--メインボタンエリア-->
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <button type="submit" class="btn btn-primary"
+                            formaction="GSAAS030Delete" id="GSAAS030Delete">削除実行
+                    </button>
+                    <button type="submit" class="btn btn-danger"
+                            formaction="GSAAS030Back" id="GSAAS030Back">戻る
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
