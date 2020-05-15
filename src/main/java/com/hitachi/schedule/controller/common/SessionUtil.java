@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SessionUtil {
     public static Object getSessionValue(HttpServletRequest request, String key) {
@@ -37,15 +38,15 @@ public class SessionUtil {
         return StringUtils.isEmpty(obj) ? -1 : Integer.parseInt(obj.toString());
     }
 
-    public static void removeSessionValue(HttpServletRequest request, String key[]) {
+    public static void removeSessionValue(HttpServletRequest request, List<String> keyList) {
         HttpSession session = request.getSession();
-        for (String obj : key) {
+        for (String obj : keyList) {
             session.removeAttribute(obj);
         }
     }
 
     public static String getUserId(HttpServletRequest request) {
-        HashMap<String, Object> gs_info = getUserDetial(request);
+        Map<String, Object> gs_info = getUserDetial(request);
         return (String) gs_info.get("userId");
     }
 
@@ -67,6 +68,7 @@ public class SessionUtil {
         saveSessionValue(request, GCConstGlobals.GSAA_PROP_GSACT010_KNSK_KEKA, ufr);
     }
 
+    @SuppressWarnings("unchecked")
     public static List<UserDetialInfoList> getGsacUserDetialList(HttpServletRequest request) {
         Object obj = getSessionValue(request, GCConstGlobals.GSAA_PROP_GSACT030_USER_KEKA);
         return (List<UserDetialInfoList>) obj;
@@ -76,13 +78,13 @@ public class SessionUtil {
         saveSessionValue(request, GCConstGlobals.GSAA_PROP_GSACT030_USER_KEKA, udil);
     }
 
-    public static HashMap<String, Object> getUserDetial(HttpServletRequest request) {
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> getUserDetial(HttpServletRequest request) {
         Object obj = getSessionValue(request, GCConstGlobals.GS_PROP_USER_INFO);
         if (StringUtils.isEmpty(obj)) {
             throw new ErrorTimeOut();
         }
-        HashMap<String, Object> gs_info = (HashMap<String, Object>) obj;
-        return gs_info;
+        return (Map<String, Object>) obj;
     }
 
     public static void saveUserDetial(
@@ -92,7 +94,7 @@ public class SessionUtil {
     }
 
     public static byte[] getUserImg(HttpServletRequest request) {
-        HashMap<String, Object> gs_info = getUserDetial(request);
+        Map<String, Object> gs_info = getUserDetial(request);
         return (byte[]) gs_info.get("userImg");
     }
 }
