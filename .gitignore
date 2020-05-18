@@ -31,4 +31,4 @@ build/
 .vscode/
 
 ### Now System ###
-/log/spring-boot.log
+/log/**

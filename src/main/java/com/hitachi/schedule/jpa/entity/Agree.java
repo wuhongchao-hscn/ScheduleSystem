@@ -11,7 +11,7 @@ public class Agree {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long agreeId;
+    private long id;
 
     @Column
     private String userId;
