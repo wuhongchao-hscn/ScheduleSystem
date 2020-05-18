@@ -1,6 +1,7 @@
 package com.hitachi.schedule.controller.handler.gsab;
 
 import com.hitachi.schedule.controller.actionform.GSABS010Form;
+import com.hitachi.schedule.controller.common.SessionUtil;
 import com.hitachi.schedule.controller.component.CommonUtil;
 import com.hitachi.schedule.controller.component.MessageReadUtil;
 import com.hitachi.schedule.service.GSABSScheduleF;
@@ -24,10 +25,13 @@ public class GSABDisplayHandler {
     private CommonUtil commonUtil;
 
     @GetMapping("/GSABS010Display")
-    public String GSABS010Display(Model model, HttpServletRequest request) {
+    public String GSABS010Display(
+            HttpServletRequest request,
+            Model model) {
         GSABS010Form outForm = new GSABS010Form();
+        String loginUserId = SessionUtil.getUserId(request);
 
-        outForm.setArticleList(gsabsService.getArticleList());
+        outForm.setArticleList(gsabsService.getArticleList(loginUserId));
 
         model.addAttribute("form", outForm);
 

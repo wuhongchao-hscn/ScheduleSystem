@@ -33,7 +33,7 @@ $(document).ready(function () {
         let articleItemId = 'article' + articleId;
         let fun = 'listArticleData';
 
-        return ajaxGet(url, articleItemId, fun);
+        return ajaxGet($(this), url, articleItemId, fun);
     });
     $("a[name='titleUp']").click(function () {
         let titleId = $(this).attr('value');
@@ -41,7 +41,7 @@ $(document).ready(function () {
         let titleItemId = 'title' + titleId;
         let fun = 'listArticleData';
 
-        return ajaxGet(url, articleItemId, fun);
+        return ajaxGet($(this), url, articleItemId, fun);
     });
 
     $("a[name='articleList']").click(function () {
@@ -51,6 +51,30 @@ $(document).ready(function () {
         $('#' + itemId + 'Display').remove();
         $(this).addClass('d-inline');
         return false;
+    });
+
+
+    $("a[name='articleAgree']").click(function () {
+        let articleId = $(this).attr('value');
+        let agreeSpanItemId = 'article' + articleId + 'AgreeSpan';
+        let agreeParam = getAgreeParam(articleId, true);
+
+        let url = "/GSABSArticleAgree/" + articleId + '?agreeParam=' + agreeParam;
+        let fun = "agreeUpdate";
+
+        return ajaxGet($(this), url, agreeSpanItemId, fun);
+
+    });
+
+    $("a[name='articleDisAgree']").click(function () {
+        let articleId = $(this).attr('value');
+        let agreeSpanItemId = 'article' + articleId + 'AgreeSpan';
+        let agreeParam = getAgreeParam(articleId, false);
+
+        let url = "/GSABSArticleAgree/" + articleId + '?agreeParam=' + agreeParam;
+        let fun = "agreeUpdate";
+
+        return ajaxGet($(this), url, agreeSpanItemId, fun);
     });
 });
 
@@ -172,60 +196,20 @@ function doClearForm(inputFlg, selectFlg) {
     }
 }
 
-function articleAgree(articleId, agreeFlg) {
-
-    let agreeItemId = 'article' + articleId + 'Agree';
-    let disAgreeItemId = 'article' + articleId + 'DisAgree';
-    let agreeSpanItemId = 'article' + articleId + 'AgreeSpan';
-
-    let agreeItem = $('#' + agreeItemId);
-    let disAgreeItem = $('#' + disAgreeItemId);
-    let agreeSpanItem = $('#' + agreeSpanItemId);
-
-    let className = "temrafafawfawfw";
-    let agreeParam = 0;
-
-    if (agreeFlg) {
-        let activeFlg = agreeItem.hasClass(className);
-        disAgreeItem.removeClass(className)
-        if (activeFlg) {
-            // agree cancel
-            agreeParam = 1;
-            agreeItem.removeClass(className);
-        } else {
-            // agree
-            agreeParam = 2;
-            agreeItem.addClass(className);
-        }
-    } else {
-        let activeFlg = disAgreeItem.hasClass(className);
-        agreeItem.removeClass(className);
-        if (activeFlg) {
-            // disAgree cancel
-            agreeParam = 3;
-            disAgreeItem.removeClass(className);
-        } else {
-            // disAgree
-            agreeParam = 4;
-            disAgreeItem.addClass(className);
-        }
-    }
-
-    let url = "/GSABSArticleAgree/" + articleId + '?agreeParam=' + agreeParam;
-
-    return ajaxGet(url, agreeSpanItem, fun);
-    return false;
-}
-
-function ajaxGet(url, itemId, fun) {
+function ajaxGet(clickItem, url, itemId, fun) {
     $.ajax({
         url: url,
         method: "GET",
+        beforeSend: function () {
+            clickItem.attr('onclick', 'javascript:void();');
+        },
         success: function (data) {
             eval(fun + "(data, itemId)");
+            clickItem.removeAttr('onclick');
         },
         error: function (e) {
-            console.log(e)
+            console.log(e);
+            clickItem.removeAttr('onclick');
         }
     });
     return false;
@@ -236,6 +220,52 @@ function listArticleData(data, itemId) {
     item.after('<pre id="' + itemId + 'Display">' + data + '</pre>');
     item.hide();
     $('#' + itemId + 'List').addClass('d-inline');
+}
+
+function getAgreeParam(articleId, agreeFlg) {
+    let agreeItemId = 'article' + articleId + 'Agree';
+    let disAgreeItemId = 'article' + articleId + 'DisAgree';
+
+    let agreeItem = $('#' + agreeItemId);
+    let disAgreeItem = $('#' + disAgreeItemId);
+
+    let className = "btn-info";
+    let agreeParam = 0;
+
+
+    if (agreeItem.hasClass(className)) {
+        agreeItem.removeClass(className);
+        if (agreeFlg) {
+            // ●〇⇒〇〇
+            agreeParam = 1;
+        } else {
+            // ●〇⇒〇●
+            agreeParam = 2;
+            disAgreeItem.addClass(className);
+        }
+    } else if (disAgreeItem.hasClass(className)) {
+        disAgreeItem.removeClass(className);
+        if (agreeFlg) {
+            // 〇●⇒●〇
+            agreeParam = 3;
+            agreeItem.addClass(className);
+        } else {
+            // 〇●⇒〇〇
+            agreeParam = 4;
+        }
+    } else {
+        if (agreeFlg) {
+            // 〇〇⇒●〇
+            agreeParam = 5;
+            agreeItem.addClass(className);
+        } else {
+            // 〇〇⇒〇●
+            agreeParam = 6;
+            disAgreeItem.addClass(className);
+        }
+
+    }
+    return agreeParam;
 }
 
 function agreeUpdate(data, itemId) {

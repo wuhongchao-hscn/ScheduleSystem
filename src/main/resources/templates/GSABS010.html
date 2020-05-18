@@ -44,9 +44,8 @@
                     </div>
                 </div>
                 <div>
-                    <a href="#" class="btn btn-sm btn-primary"
-                       th:id="'article' + ${obj.articleId} + 'Agree'"
-                       th:onclick="'articleAgree(' + ${obj.articleId} + ', true)'">
+                    <a href="#" class="btn btn-sm btn-primary" name="articleAgree"
+                       th:value="${obj.articleId}" th:id="'article' + ${obj.articleId} + 'Agree'">
                         <svg class="bi bi-caret-up-fill" width="1em" height="1em" viewBox="0 0 16 16"
                              fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 00.753-1.659l-4.796-5.48a1 1 0 00-1.506 0z"/>
@@ -55,10 +54,8 @@
                         <span th:id="'article' + ${obj.articleId} + 'AgreeSpan'">[[${obj.articleAgree}]]</span>
                     </a>
 
-                    <a href="#"
-                       th:id="'article' + ${obj.articleId} + 'DisAgree'"
-                       th:onclick="'articleAgree(' + ${obj.articleId} + ', false)'"
-                       class="btn btn-sm btn-primary">
+                    <a href="#" class="btn btn-sm btn-primary" name="articleDisAgree"
+                       th:value="${obj.articleId}" th:id="'article' + ${obj.articleId} + 'DisAgree'">
                         <svg class="bi bi-caret-down-fill" width="1em" height="1em" viewBox="0 0 16 16"
                              fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"/>

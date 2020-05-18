@@ -19,6 +19,8 @@ public class ArticleListInfo {
 
     private long articleAgree;
 
+    private Boolean articleAgreeFlg;
+
     private long articleCount;
 
 }

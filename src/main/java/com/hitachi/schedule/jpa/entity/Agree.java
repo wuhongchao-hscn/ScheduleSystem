@@ -2,10 +2,7 @@ package com.hitachi.schedule.jpa.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -13,11 +10,11 @@ import java.util.Date;
 public class Agree {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long agreeId;
 
     @Column
-    private long userId;
+    private String userId;
 
     @Column
     private long articleId;

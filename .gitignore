@@ -29,3 +29,5 @@ build/
 
 ### VS Code ###
 .vscode/
+/log/spring-boot.log
+/log/spring-boot.log
