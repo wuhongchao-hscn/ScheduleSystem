@@ -19,5 +19,5 @@ public interface GSABSScheduleF {
     @Transactional
     long updateArticleAgree(String userId, long articleId, int agreeFlg);
 
-    Map<String, Object> getCommentList(long articleId);
+    Map<String, Object> getCommentList(long articleId, Integer pageNow, Integer sortFlg);
 }

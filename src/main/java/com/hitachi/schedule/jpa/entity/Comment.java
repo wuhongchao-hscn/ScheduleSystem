@@ -23,10 +23,9 @@ public class Comment {
     private String comment;
 
     @Column
-    private String uId;
+    private String updateId;
 
-    @Column
-    private Date uDate;
+    private Date updateDate;
 
     @Column
     private long agree;

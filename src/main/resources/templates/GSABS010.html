@@ -69,8 +69,8 @@
                                   fill-rule="evenodd">
                             </path>
                         </svg>
-                        [[${obj.articleCount}]]
-                        条评论&nbsp;
+                        <span th:if="0 eq ${obj.articleCount}">添加评论&nbsp;</span>
+                        <span th:unless="0 eq ${obj.articleCount}">[[${obj.articleCount}]]条评论&nbsp;</span>
                     </a>
                     <a class="text-secondary d-none" name="articleCountList" th:value="${obj.articleId}">
                         <svg class="Zi Zi--Comment Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em"

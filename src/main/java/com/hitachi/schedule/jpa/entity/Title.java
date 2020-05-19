@@ -21,8 +21,8 @@ public class Title {
     private String titleContent;
 
     @Column
-    private String uId;
+    private String updateId;
 
     @Column
-    private Date uDate;
+    private Date updateDate;
 }

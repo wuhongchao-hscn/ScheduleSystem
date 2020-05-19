@@ -14,5 +14,7 @@ public class CommentDetialInfo {
 
     private String dateLong;
 
+    private long level;
+
     private String comment;
 }

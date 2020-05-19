@@ -19,7 +19,8 @@ public class GSABSCommentHandler {
     @GetMapping("/GSABSComments/{articleId}")
     @ResponseBody
     public Map<String, Object> GSABSComments(
-            @PathVariable("articleId") long articleId) {
-        return gsabsService.getCommentList(articleId);
+            @PathVariable("articleId") long articleId,
+            Integer sortParam) {
+        return gsabsService.getCommentList(articleId, null, sortParam);
     }
 }

@@ -23,8 +23,8 @@ public class Agree {
     private boolean agree;
 
     @Column
-    private String uId;
+    private String updateId;
 
     @Column
-    private Date uDate;
+    private Date updateDate;
 }

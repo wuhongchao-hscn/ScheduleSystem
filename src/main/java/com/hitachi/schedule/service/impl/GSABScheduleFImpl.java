@@ -1,6 +1,7 @@
 package com.hitachi.schedule.service.impl;
 
 import com.hitachi.schedule.controller.common.DateUtil;
+import com.hitachi.schedule.controller.common.GCConstGlobals;
 import com.hitachi.schedule.controller.param.ArticleDetialInfo;
 import com.hitachi.schedule.controller.param.CommentDetialInfo;
 import com.hitachi.schedule.controller.param.TitleInfo;
@@ -16,6 +17,8 @@ import com.hitachi.schedule.mybatis.mapper.ShkinMapper;
 import com.hitachi.schedule.service.GSABSScheduleF;
 import com.hitachi.schedule.service.param.TitleFindResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -97,8 +100,8 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
             agree.setUserId(userId);
             agree.setArticleId(articleId);
             agree.setAgree(Arrays.asList(3, 5).contains(agreeParam));
-            agree.setUId(userId);
-            agree.setUDate(uDate);
+            agree.setUserId(userId);
+            agree.setUpdateDate(uDate);
             agreeDao.save(agree);
         }
 
@@ -107,22 +110,37 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
     }
 
     @Override
-    public Map<String, Object> getCommentList(long articleId) {
+    public Map<String, Object> getCommentList(long articleId, Integer pageNow, Integer sortFlg) {
         Map<String, Object> result = new HashMap<>();
 
         long commentCount = commentDao.countByArticleId(articleId);
         result.put("commentCount", commentCount);
+
+        if (0 == commentCount) {
+            return result;
+        }
+
+        int pageCnt = (int) Math.ceil((double) commentCount / GCConstGlobals.GSAA_PROP_GSABT020_DISPLAY_SIZE);
+        if (1 < pageCnt) {
+            result.put("pageCnt", pageCnt);
+        }
+        if (null == pageNow) {
+            pageNow = 1;
+        }
+        result.put("pageCnt", pageCnt);
+        result.put("pageNow", pageNow);
+
+        PageRequest pageParam = PageRequest.of(pageNow - 1, GCConstGlobals.GSAA_PROP_GSABT020_DISPLAY_SIZE);
         LocalDateTime dateTimeNow = LocalDateTime.now();
 
-        List<Comment> level1List = commentDao.findByArticleIdAndLevel(articleId, 1);
-        if (!level1List.isEmpty()) {
-            result.put("level1List", getCommentDetialList(level1List, dateTimeNow));
+        Page<Comment> levelList = null;
+        if (null == sortFlg) {
+            result.put("levelFlg", true);
+            levelList = commentDao.findByArticleIdOrderByLevelDesc(articleId, pageParam);
+        } else {
+            levelList = commentDao.findByArticleIdOrderByUpdateDateDesc(articleId, pageParam);
         }
-
-        List<Comment> level0List = commentDao.findByArticleIdAndLevel(articleId, 0);
-        if (!level0List.isEmpty()) {
-            result.put("level0List", getCommentDetialList(level0List, dateTimeNow));
-        }
+        result.put("levelList", getCommentDetialList(levelList, dateTimeNow));
 
         return result;
     }
@@ -198,15 +216,16 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
         return articleList;
     }
 
-    private List<CommentDetialInfo> getCommentDetialList(List<Comment> levelList, LocalDateTime dateNow) {
+    private List<CommentDetialInfo> getCommentDetialList(Page<Comment> levelList, LocalDateTime dateNow) {
         List<CommentDetialInfo> commentDetialInfoList = new ArrayList<>();
         for (Comment comment : levelList) {
             CommentDetialInfo info = new CommentDetialInfo();
             info.setId(comment.getId());
-            String userId = comment.getUId();
+            String userId = comment.getUpdateId();
             info.setUserId(userId);
             info.setUserName(shkinMapper.findShkinName(userId));
-            Date uDate = comment.getUDate();
+            info.setLevel(comment.getLevel());
+            Date uDate = comment.getUpdateDate();
             info.setDateLong(DateUtil.getDayBetween(uDate, dateNow));
             info.setComment(comment.getComment());
             commentDetialInfoList.add(info);
