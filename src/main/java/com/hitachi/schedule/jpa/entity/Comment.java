@@ -17,7 +17,7 @@ public class Comment {
     private long articleId;
 
     @Column
-    private long parentId;
+    private Long parentId;
 
     @Column
     private String comment;

@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.actionform;
 
-import com.hitachi.schedule.controller.param.ArticleListInfo;
+import com.hitachi.schedule.controller.param.ArticleDetialInfo;
 import com.hitachi.schedule.controller.param.TitleInfo;
 import lombok.Data;
 
@@ -12,5 +12,5 @@ public class GSABS020Form extends BaseForm {
 
     private long articleAllSize;
 
-    private List<ArticleListInfo> articleList;
+    private List<ArticleDetialInfo> articleList;
 }

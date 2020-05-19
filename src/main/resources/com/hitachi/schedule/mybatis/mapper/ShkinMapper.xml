@@ -13,4 +13,10 @@
         #{shkin_update_ymd}, #{shkin_ex_key})
     </insert>
 
+    <select id="findShkinName" parameterType="String" resultType="String">
+        SELECT shkin_smi
+        FROM public.user a, public.shkin b
+        WHERE a.user_id = #{user_id} AND a.shkin_id = b.shkin_id
+    </select>
+
 </mapper>

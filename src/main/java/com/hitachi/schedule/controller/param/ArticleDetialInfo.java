@@ -3,7 +3,7 @@ package com.hitachi.schedule.controller.param;
 import lombok.Data;
 
 @Data
-public class ArticleListInfo {
+public class ArticleDetialInfo {
 
     private long articleId;
 
@@ -19,7 +19,7 @@ public class ArticleListInfo {
 
     private long articleAgree;
 
-    private Boolean articleAgreeFlg;
+    private int articleAgreeFlg;
 
     private long articleCount;
 

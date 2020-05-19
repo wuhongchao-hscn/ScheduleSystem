@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ShkinMapper {
     void insertShkin(Shkin shkin);
+
+    String findShkinName(String userId);
 }

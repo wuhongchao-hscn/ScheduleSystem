@@ -1,13 +1,14 @@
 package com.hitachi.schedule.service;
 
-import com.hitachi.schedule.controller.param.ArticleListInfo;
+import com.hitachi.schedule.controller.param.ArticleDetialInfo;
 import com.hitachi.schedule.service.param.TitleFindResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GSABSScheduleF {
-    List<ArticleListInfo> getArticleList(String userId);
+    List<ArticleDetialInfo> getArticleList(String userId);
 
     String getAllArticleContentById(long articleId);
 
@@ -17,4 +18,6 @@ public interface GSABSScheduleF {
 
     @Transactional
     long updateArticleAgree(String userId, long articleId, int agreeFlg);
+
+    Map<String, Object> getCommentList(long articleId);
 }

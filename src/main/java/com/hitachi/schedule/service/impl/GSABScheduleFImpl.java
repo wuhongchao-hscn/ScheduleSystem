@@ -1,6 +1,8 @@
 package com.hitachi.schedule.service.impl;
 
-import com.hitachi.schedule.controller.param.ArticleListInfo;
+import com.hitachi.schedule.controller.common.DateUtil;
+import com.hitachi.schedule.controller.param.ArticleDetialInfo;
+import com.hitachi.schedule.controller.param.CommentDetialInfo;
 import com.hitachi.schedule.controller.param.TitleInfo;
 import com.hitachi.schedule.jpa.dao.AgreeDao;
 import com.hitachi.schedule.jpa.dao.ArticleDao;
@@ -8,16 +10,16 @@ import com.hitachi.schedule.jpa.dao.CommentDao;
 import com.hitachi.schedule.jpa.dao.TitleDao;
 import com.hitachi.schedule.jpa.entity.Agree;
 import com.hitachi.schedule.jpa.entity.Article;
+import com.hitachi.schedule.jpa.entity.Comment;
 import com.hitachi.schedule.jpa.entity.Title;
+import com.hitachi.schedule.mybatis.mapper.ShkinMapper;
 import com.hitachi.schedule.service.GSABSScheduleF;
 import com.hitachi.schedule.service.param.TitleFindResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class GSABScheduleFImpl implements GSABSScheduleF {
@@ -30,9 +32,11 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
     private TitleDao titleDao;
     @Autowired
     private AgreeDao agreeDao;
+    @Autowired
+    private ShkinMapper shkinMapper;
 
     @Override
-    public List<ArticleListInfo> getArticleList(String userId) {
+    public List<ArticleDetialInfo> getArticleList(String userId) {
         List<Article> db_rtn = articleDao.findTop10ByOrderByArticleUpdateDateDesc();
         return doEditArticleListInfo(db_rtn, userId);
     }
@@ -102,6 +106,27 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
         return articleAgree;
     }
 
+    @Override
+    public Map<String, Object> getCommentList(long articleId) {
+        Map<String, Object> result = new HashMap<>();
+
+        long commentCount = commentDao.countByArticleId(articleId);
+        result.put("commentCount", commentCount);
+        LocalDateTime dateTimeNow = LocalDateTime.now();
+
+        List<Comment> level1List = commentDao.findByArticleIdAndLevel(articleId, 1);
+        if (!level1List.isEmpty()) {
+            result.put("level1List", getCommentDetialList(level1List, dateTimeNow));
+        }
+
+        List<Comment> level0List = commentDao.findByArticleIdAndLevel(articleId, 0);
+        if (!level0List.isEmpty()) {
+            result.put("level0List", getCommentDetialList(level0List, dateTimeNow));
+        }
+
+        return result;
+    }
+
     private TitleInfo getTitleByTitleId(long titleId) {
         TitleInfo info = new TitleInfo();
         Title title = titleDao.findByTitleId(titleId);
@@ -122,17 +147,17 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
         return articleDao.countByArticleTitleId(titleId);
     }
 
-    private List<ArticleListInfo> getArticleListByTitleId(String userId, long titleId, long articleId) {
+    private List<ArticleDetialInfo> getArticleListByTitleId(String userId, long titleId, long articleId) {
         Article article = articleDao.findByArticleId(articleId);
         List<Article> db_rtn = articleDao.findTop10ByArticleTitleIdAndArticleIdNotOrderByArticleAgreeDesc(titleId, articleId);
         db_rtn.add(0, article);
         return doEditArticleListInfo(db_rtn, userId);
     }
 
-    private List<ArticleListInfo> doEditArticleListInfo(List<Article> db_rtn, String userId) {
-        List<ArticleListInfo> articleList = new ArrayList<>();
+    private List<ArticleDetialInfo> doEditArticleListInfo(List<Article> db_rtn, String userId) {
+        List<ArticleDetialInfo> articleList = new ArrayList<>();
         for (Article obj : db_rtn) {
-            ArticleListInfo info = new ArticleListInfo();
+            ArticleDetialInfo info = new ArticleDetialInfo();
             long articleId = obj.getArticleId();
             info.setArticleId(articleId);
             long titleId = obj.getArticleTitleId();
@@ -141,7 +166,7 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
             info.setArticleTitle(title.getTitleName());
             info.setArticleAgree(obj.getArticleAgree());
             Agree agree = agreeDao.findByUserIdAndArticleId(userId, articleId);
-            info.setArticleAgreeFlg(null == agree ? null : agree.isAgree());
+            info.setArticleAgreeFlg(null == agree ? 0 : agree.isAgree() ? 1 : 2);
 
             String content = obj.getArticleContent();
             int startIndex = content.indexOf("<img src=");
@@ -171,5 +196,21 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
             articleList.add(info);
         }
         return articleList;
+    }
+
+    private List<CommentDetialInfo> getCommentDetialList(List<Comment> levelList, LocalDateTime dateNow) {
+        List<CommentDetialInfo> commentDetialInfoList = new ArrayList<>();
+        for (Comment comment : levelList) {
+            CommentDetialInfo info = new CommentDetialInfo();
+            info.setId(comment.getId());
+            String userId = comment.getUId();
+            info.setUserId(userId);
+            info.setUserName(shkinMapper.findShkinName(userId));
+            Date uDate = comment.getUDate();
+            info.setDateLong(DateUtil.getDayBetween(uDate, dateNow));
+            info.setComment(comment.getComment());
+            commentDetialInfoList.add(info);
+        }
+        return commentDetialInfoList;
     }
 }

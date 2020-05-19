@@ -40,16 +40,16 @@ function ajaxGet(clickItem, url, itemId, fun) {
     $.ajax({
         url: url,
         method: "GET",
-        beforeSend: function () {
-            clickItem.attr('onclick', 'javascript:void();');
+        beforeSend: function (clickItem) {
+            $(clickItem).attr("onclick", "javascript:void();");
         },
         success: function (data) {
             eval(fun + "(data, itemId)");
-            clickItem.removeAttr('onclick');
+            $(clickItem).removeAttr('onclick');
         },
         error: function (e) {
             console.log(e);
-            clickItem.removeAttr('onclick');
+            $(clickItem).removeAttr("onclick");
         }
     });
     return false;
