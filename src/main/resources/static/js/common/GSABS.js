@@ -244,33 +244,6 @@ function editBodyHtml(data) {
     options += '</div>';
 
     return options;
-    //
-    // let options = '<div class="card-body">';
-    // let level = '';
-    // for (let i = 0; i < objList.length; i++) {
-    //     let levelNow = objList[i].level;
-    //     if (levelFlg && level != levelNow) {
-    //         let levelName = 1 == levelNow ? "精选评论" : "评论";
-    //         options += '<p class="bg-light">' + levelName + '</p>';
-    //         level = levelNow;
-    //     }
-    //
-    //     if (0 < i) {
-    //         options += '<hr/>';
-    //     }
-    //     options +=
-    //         '<div class="row no-gutters">' +
-    //         ' <div class="col-sm-6 col-md-8">' +
-    //         '  <img src="/images/carousel3.jpg" width="20px" height="20px"/>' +
-    //         '  ' + objList[i].userName +
-    //         ' </div>' +
-    //         ' <div class="col-6 col-md-4 text-right">' + objList[i].dateLong + '</div>' +
-    //         '</div>' +
-    //         '<pre>' + objList[i].comment + '</pre>';
-    //     options += editBodyHtml(objList[i].childs);
-    // }
-    // options += '</div>';
-    // return options;
 }
 
 function makeCommentHtml(objList, levelFlg) {
