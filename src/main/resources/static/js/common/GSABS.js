@@ -254,19 +254,30 @@ function editFooterHtml(data) {
     let options = '<div class="card-footer bg-white">';
     if (data.pageCnt) {
         let pageCnt = data.pageCnt;
-        for (let index = 0; index < pageCnt; index++) {
-            if (index < 4) {
-                if (0 == index) {
-                    options += '<button type="button" class="btn btn-link" disabled>' + (index + 1) + '</button>';
-                } else {
-                    options += '<button type="button" class="btn btn-link">' + (index + 1) + '</button>';
-                }
-            } else {
-                options += '<button type="button" class="btn btn-link">...</button>';
-                options += '<button type="button" class="btn btn-link">' + pageCnt + '</button>';
-                options += '<button type="button" class="btn btn-link">下一页</button>';
-                return true;
+        let pageNow = data.pageNow
+
+        let prefixPageIndex = pageNow - 1;
+        let suffixpageIndex = pageCnt - pageNow - 1;
+
+        if (prefixPageIndex < 2) {
+            for (let index = 1; index <= prefixPageIndex; index++) {
+                options += getPageBtnItem(false, index);
             }
+        } else {
+            options += getPageBtnItem(false, 1);
+            options += getPageBtnItem(false, "...");
+            options += getPageBtnItem(false, prefixPageIndex);
+        }
+        options += getPageBtnItem(true, pageNow);
+
+        if (suffixpageIndex < 2) {
+            for (let index = 1; index <= prefixPageIndex; index++) {
+                options += getPageBtnItem(false, index);
+            }
+        } else {
+            options += getPageBtnItem(false, pageNow + 1);
+            options += getPageBtnItem(false, "...");
+            options += getPageBtnItem(false, pageCnt);
         }
     } else {
         options +=
@@ -286,4 +297,8 @@ function editFooterHtml(data) {
     options +=
         '</div>';
     return options;
+}
+
+function getPageBtnItem(ableFlg, comment) {
+    return '<button type="button" class="btn btn-link"' + (ableFlg ? ' disabled' : '') + '>' + comment + '</button>';
 }

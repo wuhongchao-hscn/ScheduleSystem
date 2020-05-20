@@ -2,20 +2,26 @@
       layout:decorate="~{GSAXS020}">
 
 <section layout:fragment="main">
-    <div class="form-group">
-        <input type="text" class="form-control" placeholder="利用者ID" required autofocus
-               maxlength="8" th:field="*{strUserId}"/>
+    <div class="form-row">
+        <div class="col-md-12 mb-3">
+            <label onclick="setSysDate()">利用者ID</small></label>
+            <input type="text" class="form-control" required autofocus
+                   maxlength="8" th:field="*{strUserId}"/>
+        </div>
     </div>
-    <div class="form-group">
-        <input type="password" class="form-control" placeholder="パスワード" required
-               maxlength="16" th:field="*{strUserPassword}"/>
+    <div class="form-row">
+        <div class="col-md-12 mb-3">
+            <label onclick="setSysDate()">パスワード</small></label>
+            <input type="password" class="form-control" required
+                   maxlength="16" th:field="*{strUserPassword}"/>
+        </div>
     </div>
-    <!--        <div class="form-group d-flex justify-content-between">-->
-    <!--            <div class="custom-control custom-checkbox">-->
-    <!--                <input type="checkbox" class="custom-control-input" checked="" id="customCheck1">-->
-    <!--                <label class="custom-control-label" for="customCheck1">ユーザーIDを記憶する</label>-->
-    <!--            </div>-->
-    <!--            <a href="recover-password.html">パスワード変更</a>-->
-    <!--        </div>-->
+    <div class="form-group d-flex justify-content-between">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" checked="" id="remember-me" name="remember-me">
+            <label class="custom-control-label" for="remember-me">ユーザーIDを記憶する</label>
+        </div>
+        <!--                <a href="recover-password.html">パスワード変更</a>-->
+    </div>
     <button type="submit" class="btn btn-primary btn-block" formaction="GSAXS010Login">ログイン</button>
 </section>

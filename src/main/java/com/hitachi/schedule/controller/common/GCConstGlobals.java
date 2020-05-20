@@ -33,7 +33,7 @@ public class GCConstGlobals {
     public static final String GSAA_PROP_GSACT010_CSV_NAME = "利用者検索結果一覧";
 
     public static final int GSAA_PROP_GSACT020_DISPLAY_SIZE = 5;
-    public static final int GSAA_PROP_GSABT020_DISPLAY_SIZE = 5;
+    public static final int GSAA_PROP_GSABT020_DISPLAY_SIZE = 1;
     public static final String GSAA_PROP_GSAAT050_SEARCH_FLG = "0";
     public static final String GSAA_PROP_GSAAT050_DELETE_FLG = "1";
 

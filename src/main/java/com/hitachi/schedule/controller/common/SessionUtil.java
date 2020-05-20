@@ -92,6 +92,10 @@ public class SessionUtil {
         saveSessionValue(request, GCConstGlobals.GS_PROP_USER_INFO, gs_info);
     }
 
+    public static boolean isUserDetialExist(HttpServletRequest request) {
+        return null != getSessionValue(request, GCConstGlobals.GS_PROP_USER_INFO);
+    }
+
     public static byte[] getUserImg(HttpServletRequest request) {
         Map<String, Object> gs_info = getUserDetial(request);
         return (byte[]) gs_info.get("userImg");

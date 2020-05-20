@@ -11,7 +11,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -20,8 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private GSAXSLoginService loginService;
 
-    //    @Autowired
-    //    private DataSource dataSource;
+    @Autowired
+    private DataSource dataSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -38,20 +41,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("strUserId")
                 .passwordParameter("strUserPassword")
                 .permitAll()   //登录页面每个人都可以访问
-                .successHandler(loginSuccessHandler())
+                .successHandler(loginSuccessHandler()) // 请求成功之后，存储session，并重定向到menu画面
 
                 .and().logout()
                 .logoutSuccessUrl("/commonLogoutSucess") //登出后的默认网址
                 .permitAll() //登出页面每个人都可以访问
                 .invalidateHttpSession(true) //销毁session
+                .deleteCookies() // 删除cookie
 
                 .and().csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // 以session方式管理csrf
-//                .and().csrf().disable() // csrf无效
-        //                .and().rememberMe() //登录后记住用户下次自动登录
-        //                .tokenValiditySeconds(1209600) //token有效时间
-        //                .tokenRepository(tokenRepository());//制定记住登录信息所使用的数据源
-        //                .deleteCookies()
+
+                .and().rememberMe() //登录后记住用户下次自动登录
+                .tokenValiditySeconds(1209600) //token有效时间
+                .tokenRepository(tokenRepository())//制定记住登录信息所使用的数据源
+                .userDetailsService(loginService);
         ;
     }
 
@@ -66,12 +70,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder(4);  //给密码加密
     }
 
-    //    @Bean
-    //    public JdbcTokenRepositoryImpl tokenRepository() {
-    //        JdbcTokenRepositoryImpl j = new JdbcTokenRepositoryImpl();
-    //        j.setDataSource(dataSource);
-    //        return j;
-    //    }
+    @Bean
+    public JdbcTokenRepositoryImpl tokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+        // 如果token表不存在，使用下面语句可以初始化该表；若存在，请注释掉这条语句，否则会报错。
+//        tokenRepository.setCreateTableOnStartup(true);
+        return tokenRepository;
+    }
 
     @Bean
     public GSAXS010Handler loginSuccessHandler() {

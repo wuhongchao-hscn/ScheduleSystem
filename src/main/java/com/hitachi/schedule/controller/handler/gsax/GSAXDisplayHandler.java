@@ -48,6 +48,7 @@ public class GSAXDisplayHandler {
                         GCConstGlobals.GSAA_PROP_GSAAT050_SCHEDULE_ID,
                         GCConstGlobals.GSAA_PROP_GSAAT050_EX_KEY
                 ));
+
         GSAXS020Form outForm = new GSAXS020Form();
 
         model.addAttribute("form", outForm);

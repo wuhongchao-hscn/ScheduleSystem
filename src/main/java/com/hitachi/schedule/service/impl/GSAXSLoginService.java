@@ -19,14 +19,14 @@ import java.util.Set;
 @Component
 public class GSAXSLoginService implements UserDetailsService {
     @Autowired
-    private GSAXScheduleF gsaxScheduleF;
+    private GSAXScheduleF gsaxService;
     @Autowired
     private CommonUtil commonUtil;
 
     @Override
     public UserDetails loadUserByUsername(String user_id) throws UsernameNotFoundException {
         // 根据user_id检索数据库
-        User user = gsaxScheduleF.findByUserId(user_id);
+        User user = gsaxService.findByUserId(user_id);
         if (user == null) {
             throw new UsernameNotFoundException("user_id " + user_id + " not found");
         }
@@ -35,7 +35,7 @@ public class GSAXSLoginService implements UserDetailsService {
         BeanUtils.copyProperties(user, user_rtn);
         user_rtn.setUser_password(new BCryptPasswordEncoder().encode(user_rtn.getUser_password()));
 
-        Set<String> userRoles = gsaxScheduleF.getUserRoles(user_id);
+        Set<String> userRoles = gsaxService.getUserRoles(user_id);
         user_rtn.setUserRoleList(commonUtil.getAuthoritySet(userRoles));
 
         return user_rtn;
