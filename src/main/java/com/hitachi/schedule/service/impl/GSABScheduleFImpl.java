@@ -129,8 +129,11 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
         if (null == pageNow) {
             pageNow = 1;
         }
-        result.put("pageCnt", pageCnt);
-        result.put("pageNow", pageNow);
+
+        if (pageCnt > 1) {
+            result.put("pageCnt", pageCnt);
+            result.put("pageNow", pageNow);
+        }
 
         PageRequest pageParam = PageRequest.of(pageNow - 1, GCConstGlobals.GSAA_PROP_GSABT020_DISPLAY_SIZE);
         LocalDateTime dateTimeNow = LocalDateTime.now();
@@ -142,7 +145,8 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
         } else {
             levelList = commentDao.findByArticleIdAndParentIdIsNullOrderByUpdateDateDesc(articleId, pageParam);
         }
-        result.put("levelList", getCommentDetialList(levelList, dateTimeNow));
+
+        result.put("levelList", getCommentDetialList(levelList.getContent(), dateTimeNow, articleId));
 
         return result;
     }
@@ -218,7 +222,7 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
         return articleList;
     }
 
-    private List<CommentDetialInfo> getCommentDetialList(Page<Comment> levelList, LocalDateTime dateNow) {
+    private List<CommentDetialInfo> getCommentDetialList(List<Comment> levelList, LocalDateTime dateNow, long articleId) {
         List<CommentDetialInfo> commentDetialInfoList = new ArrayList<>();
         for (Comment comment : levelList) {
             CommentDetialInfo info = new CommentDetialInfo();
@@ -230,6 +234,12 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
             Date uDate = comment.getUpdateDate();
             info.setDateLong(DateUtil.getDayBetween(uDate, dateNow));
             info.setComment(comment.getComment());
+
+            long parentId = comment.getId();
+            List<Comment> childList = commentDao.findTop10ByParentIdOrderByUpdateDateDesc(parentId);
+            List<CommentDetialInfo> childs = getCommentDetialList(childList, dateNow, articleId);
+            info.setChilds(childs);
+
             commentDetialInfoList.add(info);
         }
         return commentDetialInfoList;

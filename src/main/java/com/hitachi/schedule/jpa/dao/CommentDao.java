@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 
 public interface CommentDao extends JpaRepository<Comment, Long> {
 
@@ -17,4 +19,6 @@ public interface CommentDao extends JpaRepository<Comment, Long> {
     Page<Comment> findByArticleIdAndParentIdIsNullOrderByLevelDesc(long articleId, Pageable pageParam);
 
     Page<Comment> findByArticleIdAndParentIdIsNullOrderByUpdateDateDesc(long articleId, Pageable pageParam);
+
+    List<Comment> findTop10ByParentIdOrderByUpdateDateDesc(long parentId);
 }

@@ -138,9 +138,7 @@ function listCommentData(data, articleId) {
     }
     let options = editHeadHtml(data, itemId, articleId);
 
-    options += '<div class="card-body">';
     options += editBodyHtml(data);
-    options += '</div>';
 
     options +=
         editFooterHtml(data, articleId) +
@@ -238,25 +236,53 @@ function editHeadHtml(data, itemId, articleId) {
 }
 
 function editBodyHtml(data) {
-    if (!data.levelList) {
-        return;
-    }
-    let objList = data.levelList
-    let levelFlg = data.levelFlg
+    let objList = data.levelList;
+    let levelFlg = data.levelFlg;
+
+    let options = '<div class="card-body">';
+    options += makeCommentHtml(objList, levelFlg);
+    options += '</div>';
+
+    return options;
+    //
+    // let options = '<div class="card-body">';
+    // let level = '';
+    // for (let i = 0; i < objList.length; i++) {
+    //     let levelNow = objList[i].level;
+    //     if (levelFlg && level != levelNow) {
+    //         let levelName = 1 == levelNow ? "精选评论" : "评论";
+    //         options += '<p class="bg-light">' + levelName + '</p>';
+    //         level = levelNow;
+    //     }
+    //
+    //     if (0 < i) {
+    //         options += '<hr/>';
+    //     }
+    //     options +=
+    //         '<div class="row no-gutters">' +
+    //         ' <div class="col-sm-6 col-md-8">' +
+    //         '  <img src="/images/carousel3.jpg" width="20px" height="20px"/>' +
+    //         '  ' + objList[i].userName +
+    //         ' </div>' +
+    //         ' <div class="col-6 col-md-4 text-right">' + objList[i].dateLong + '</div>' +
+    //         '</div>' +
+    //         '<pre>' + objList[i].comment + '</pre>';
+    //     options += editBodyHtml(objList[i].childs);
+    // }
+    // options += '</div>';
+    // return options;
+}
+
+function makeCommentHtml(objList, levelFlg) {
     let options = '';
     let level = '';
-    for (let i = 0;
-         i < objList.length;
-         i++
-    ) {
+    for (let i = 0; i < objList.length; i++) {
         let levelNow = objList[i].level;
         if (levelFlg && level != levelNow) {
             let levelName = 1 == levelNow ? "精选评论" : "评论";
             options += '<p class="bg-light">' + levelName + '</p>';
             level = levelNow;
-        }
-
-        if (0 < i) {
+        } else if (0 < i) {
             options += '<hr/>';
         }
         options +=
@@ -268,6 +294,11 @@ function editBodyHtml(data) {
             ' <div class="col-6 col-md-4 text-right">' + objList[i].dateLong + '</div>' +
             '</div>' +
             '<pre>' + objList[i].comment + '</pre>';
+        if (0 < objList[i].childs.length) {
+            options += '<div class="pad-left-40"><hr/>';
+            options += makeCommentHtml(objList[i].childs, false);
+            options += '</div>';
+        }
     }
     return options;
 }
@@ -279,7 +310,7 @@ function editFooterHtml(data, articleId) {
         let pageCnt = data.pageCnt;
         let pageNow = data.pageNow
 
-        options += getPageBtnItemByPage(articleId, levelFlg, 1 == pageNow, pageNow - 1, "上一页");
+        options += getPageBtnItemByPage(articleId, levelFlg, 1 == pageNow, pageNow - 1, "<small>上一页</small>");
         if (pageNow <= 3) {
             for (let index = 1; index < pageNow; index++) {
                 options += getPageBtnItem(articleId, levelFlg, false, index);
@@ -300,7 +331,7 @@ function editFooterHtml(data, articleId) {
             options += getPageBtnItem(articleId, levelFlg, true, "...");
             options += getPageBtnItem(articleId, levelFlg, false, pageCnt);
         }
-        options += getPageBtnItemByPage(articleId, levelFlg, pageCnt == pageNow, pageNow + 1, "下一页");
+        options += getPageBtnItemByPage(articleId, levelFlg, pageCnt == pageNow, pageNow + 1, "<small>下一页</small>");
     } else {
         options +=
             ' <div class="input-group">' +

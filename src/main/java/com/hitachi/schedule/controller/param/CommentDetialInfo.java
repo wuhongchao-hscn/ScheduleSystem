@@ -2,6 +2,8 @@ package com.hitachi.schedule.controller.param;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class CommentDetialInfo {
     private long id;
@@ -17,4 +19,6 @@ public class CommentDetialInfo {
     private long level;
 
     private String comment;
+
+    private List<CommentDetialInfo> childs;
 }
