@@ -10,9 +10,11 @@ public interface CommentDao extends JpaRepository<Comment, Long> {
 
     long countByArticleId(long articleId);
 
+    long countByArticleIdAndParentIdIsNull(long articleId);
+
 //    List<Comment> findByArticleIdAndLevel(long articleId, long level, Pageable pageParam);
 
-    Page<Comment> findByArticleIdOrderByLevelDesc(long articleId, Pageable pageParam);
+    Page<Comment> findByArticleIdAndParentIdIsNullOrderByLevelDesc(long articleId, Pageable pageParam);
 
-    Page<Comment> findByArticleIdOrderByUpdateDateDesc(long articleId, Pageable pageParam);
+    Page<Comment> findByArticleIdAndParentIdIsNullOrderByUpdateDateDesc(long articleId, Pageable pageParam);
 }

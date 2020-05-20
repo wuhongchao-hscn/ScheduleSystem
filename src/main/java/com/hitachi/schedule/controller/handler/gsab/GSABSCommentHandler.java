@@ -20,7 +20,8 @@ public class GSABSCommentHandler {
     @ResponseBody
     public Map<String, Object> GSABSComments(
             @PathVariable("articleId") long articleId,
+            Integer pageNow,
             Integer sortParam) {
-        return gsabsService.getCommentList(articleId, null, sortParam);
+        return gsabsService.getCommentList(articleId, pageNow, sortParam);
     }
 }

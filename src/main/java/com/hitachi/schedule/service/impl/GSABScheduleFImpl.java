@@ -120,6 +120,8 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
             return result;
         }
 
+        commentCount = commentDao.countByArticleIdAndParentIdIsNull(articleId);
+
         int pageCnt = (int) Math.ceil((double) commentCount / GCConstGlobals.GSAA_PROP_GSABT020_DISPLAY_SIZE);
         if (1 < pageCnt) {
             result.put("pageCnt", pageCnt);
@@ -136,9 +138,9 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
         Page<Comment> levelList = null;
         if (null == sortFlg) {
             result.put("levelFlg", true);
-            levelList = commentDao.findByArticleIdOrderByLevelDesc(articleId, pageParam);
+            levelList = commentDao.findByArticleIdAndParentIdIsNullOrderByLevelDesc(articleId, pageParam);
         } else {
-            levelList = commentDao.findByArticleIdOrderByUpdateDateDesc(articleId, pageParam);
+            levelList = commentDao.findByArticleIdAndParentIdIsNullOrderByUpdateDateDesc(articleId, pageParam);
         }
         result.put("levelList", getCommentDetialList(levelList, dateTimeNow));
 

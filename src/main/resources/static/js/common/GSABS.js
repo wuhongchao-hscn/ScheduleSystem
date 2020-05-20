@@ -143,7 +143,7 @@ function listCommentData(data, articleId) {
     options += '</div>';
 
     options +=
-        editFooterHtml(data) +
+        editFooterHtml(data, articleId) +
         '</div>';
 
     item.after(options);
@@ -161,6 +161,28 @@ function listCommentData(data, articleId) {
     $("span[name='commentDefaultSort']").click(function () {
         let articleId = $(this).attr('value');
         let url = "/GSABSComments/" + articleId;
+        let fun = 'listCommentData';
+
+        $('#comment' + articleId + "Div").next().remove();
+
+        return ajaxGet($(this), url, articleId, fun);
+    });
+
+    $("button[name='pageLinkDefault']").click(function () {
+        let articleId = $(this).attr('value');
+        let pageNow = $(this).attr('page');
+        let url = "/GSABSComments/" + articleId + '?pageNow=' + pageNow;
+        let fun = 'listCommentData';
+
+        $('#comment' + articleId + "Div").next().remove();
+
+        return ajaxGet($(this), url, articleId, fun);
+    });
+
+    $("button[name='pageLinkTime']").click(function () {
+        let articleId = $(this).attr('value');
+        let pageNow = $(this).attr('page');
+        let url = "/GSABSComments/" + articleId + '?pageNow=' + pageNow + '&sortParam=0';
         let fun = 'listCommentData';
 
         $('#comment' + articleId + "Div").next().remove();
@@ -250,35 +272,35 @@ function editBodyHtml(data) {
     return options;
 }
 
-function editFooterHtml(data) {
+function editFooterHtml(data, articleId) {
+    let levelFlg = data.levelFlg
     let options = '<div class="card-footer bg-white">';
     if (data.pageCnt) {
         let pageCnt = data.pageCnt;
         let pageNow = data.pageNow
 
-        let prefixPageIndex = pageNow - 1;
-        let suffixpageIndex = pageCnt - pageNow - 1;
-
-        if (prefixPageIndex < 2) {
-            for (let index = 1; index <= prefixPageIndex; index++) {
-                options += getPageBtnItem(false, index);
+        options += getPageBtnItemByPage(articleId, levelFlg, 1 == pageNow, pageNow - 1, "上一页");
+        if (pageNow <= 3) {
+            for (let index = 1; index < pageNow; index++) {
+                options += getPageBtnItem(articleId, levelFlg, false, index);
             }
         } else {
-            options += getPageBtnItem(false, 1);
-            options += getPageBtnItem(false, "...");
-            options += getPageBtnItem(false, prefixPageIndex);
+            options += getPageBtnItem(articleId, levelFlg, false, 1);
+            options += getPageBtnItem(articleId, levelFlg, true, "...");
+            options += getPageBtnItem(articleId, levelFlg, false, pageNow - 1);
         }
-        options += getPageBtnItem(true, pageNow);
+        options += getPageBtnItem(articleId, levelFlg, true, pageNow);
 
-        if (suffixpageIndex < 2) {
-            for (let index = 1; index <= prefixPageIndex; index++) {
-                options += getPageBtnItem(false, index);
+        if (pageNow + 2 >= pageCnt) {
+            for (let index = pageNow + 1; index <= pageCnt; index++) {
+                options += getPageBtnItem(articleId, levelFlg, false, index);
             }
         } else {
-            options += getPageBtnItem(false, pageNow + 1);
-            options += getPageBtnItem(false, "...");
-            options += getPageBtnItem(false, pageCnt);
+            options += getPageBtnItem(articleId, levelFlg, false, pageNow + 1);
+            options += getPageBtnItem(articleId, levelFlg, true, "...");
+            options += getPageBtnItem(articleId, levelFlg, false, pageCnt);
         }
+        options += getPageBtnItemByPage(articleId, levelFlg, pageCnt == pageNow, pageNow + 1, "下一页");
     } else {
         options +=
             ' <div class="input-group">' +
@@ -299,6 +321,23 @@ function editFooterHtml(data) {
     return options;
 }
 
-function getPageBtnItem(ableFlg, comment) {
-    return '<button type="button" class="btn btn-link"' + (ableFlg ? ' disabled' : '') + '>' + comment + '</button>';
+function getPageBtnItem(articleId, levelFlg, disableFlg, comment) {
+    return getPageBtnItemByPage(articleId, levelFlg, disableFlg, comment, comment);
+}
+
+function getPageBtnItemByPage(articleId, levelFlg, disableFlg, page, comment) {
+    let options = '<button type="button" class="btn btn-link"';
+    if (levelFlg) {
+        options += ' name="pageLinkDefault"';
+    } else {
+        options += ' name="pageLinkTime"';
+    }
+
+    if (disableFlg) {
+        options += ' disabled';
+    }
+
+    options += ' value="' + articleId + '" page="' + page + '">' + comment + '</button>';
+
+    return options;
 }
