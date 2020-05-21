@@ -2,21 +2,36 @@
       layout:decorate="~{GSAXS020}">
 
 <section layout:fragment="main">
-    <!--表見出しエリア-->
-
-    <div class="message-box">
-        <ul>
-            <li th:text="*{'エラー区分：' + errLevel}"></li>
-            <li th:text="*{errScreenId}"></li>
-            <li th:text="*{errScreenName}"></li>
-            <li th:text="'メッセージ：' + *{errMsg}"></li>
-            <li th:text="'発生日時：' + *{errorTimeDate}"></li>
-        </ul>
-        <p th:text="*{contMsg}"></p>
-        <p><a href="#" onclick="reloginlinkClick()">ログイン画面へ</a></p>
-
-        <div class="mainbtn">
-            <input type="buBtton" value="閉じる" class="m-btn" onclick="windows.close()"/>
+    <div class="card">
+        <!--表見出しエリア-->
+        <div class="card-header bg-info">
+            <p th:text="*{contMsg}"></p>
         </div>
-    </div>
+
+        <div class="card-body">
+            <!--単項目エリア-->
+            <table class="table table-sm table-bordered">
+                <tr>
+                    <th scope="row" class="bg-light w-25">エラー区分</th>
+                    <td th:text="*{errLevel}"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bg-light w-25">[[*{errScreenIdLabel}]]</th>
+                    <td th:text="*{errScreenId}"></td>
+                </tr>
+
+                <tr>
+                    <th scope="row" class="bg-light w-25">[[*{errScreenNameLabel}]]</th>
+                    <td th:text="*{errScreenName}"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bg-light w-25">メッセージ</th>
+                    <td th:text="*{errMsg}"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bg-light w-25">発生日時</th>
+                    <td th:text="*{errorTimeDate}"></td>
+                </tr>
+            </table>
+        </div>
 </section>

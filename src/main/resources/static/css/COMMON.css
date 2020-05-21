@@ -28,3 +28,14 @@ pre {
 .pad-left-40 {
     padding-left: 40px;
 }
+
+
+.copyMsg {
+    position: absolute;
+    z-index: 1;
+    left: 400px;
+    top: 25px;
+    padding: 10px 150px;
+    text-align: center;
+    background-color: #f8f9fa;
+}

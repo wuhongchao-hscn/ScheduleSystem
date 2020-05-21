@@ -69,6 +69,24 @@
         $('#' + itemId).next().remove();
 
     });
+
+    $("a[name='shareLinkCopy']").click(function () {
+        let value = $(this).attr('value');
+        let hrefUrl = $(this).attr('href')
+        let copyValue = value + "\r\n" + hrefUrl;
+
+        let oInput = document.createElement('textarea');
+        oInput.value = copyValue;
+        document.body.appendChild(oInput);
+        oInput.select();
+        document.execCommand("Copy");
+        oInput.style.display = 'none';
+
+        $('#GSAXS040').after('<div class="copyMsg"><b>链接复制成功</b></div>');
+
+        setTimeout(removeCopyMsg, 500);
+        return false;
+    });
 });
 
 function listArticleData(data, itemId) {
@@ -194,8 +212,8 @@ function isNotExist(data, item) {
     if (commentCount == 0) {
         let options =
             '<div class="card w-75">' +
-            ' <div class="card-header bg-white">' +
-            '    还没有评论' +
+            ' <div class="card-header border-bottom-0 bg-white">' +
+            '    <b>还没有评论</b>' +
             ' </div>' +
             editFooterHtml(data) +
             '</div>';
@@ -344,4 +362,8 @@ function getPageBtnItemByPage(articleId, levelFlg, disableFlg, page, comment) {
     options += ' value="' + articleId + '" page="' + page + '">' + comment + '</button>';
 
     return options;
+}
+
+function removeCopyMsg() {
+    $('div.copyMsg').remove();
 }

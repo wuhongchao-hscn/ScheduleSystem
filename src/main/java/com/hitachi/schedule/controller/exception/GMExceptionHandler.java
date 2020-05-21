@@ -2,7 +2,6 @@ package com.hitachi.schedule.controller.exception;
 
 import com.hitachi.schedule.controller.actionform.GCAXS010Form;
 import com.hitachi.schedule.controller.common.GCConstGlobals;
-import com.hitachi.schedule.controller.common.SessionUtil;
 import com.hitachi.schedule.controller.component.MessageReadUtil;
 import com.hitachi.schedule.controller.configuration.GamenInfoConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -21,74 +20,47 @@ public class GMExceptionHandler {
     @Autowired
     MessageReadUtil messageUtil;
 
-    @ExceptionHandler({ErrorInfoGM.class})
+    @ExceptionHandler({ErrorInfoGM.class, ErrorDownload.class, ErrorTimeOut.class})
     public String handlerErrorInfoGM(HttpServletRequest request,
                                      Model model,
-                                     ErrorInfoGM e) {
-        log.info("業務エラーが発生しました。");
-        log.info("********************Throw Exception.url:{} ERROR:{}********************",
-                request.getRequestURL(), e.getMessage(), e);
-
+                                     RuntimeException e) {
         GCAXS010Form outForm = new GCAXS010Form();
-        outForm.setErrLevel("業務エラー");
-        String errScreenId = e.getErrScreenId();
-        outForm.setErrScreenId("発生画面ID：" + errScreenId);
-        outForm.setErrScreenName("発生画面名：" + GamenInfoConfig.getScreenNameById(errScreenId));
-        outForm.setErrMsg(e.getErrMsg());
-        outForm.setErrorTimeDate(LocalDate.now().toString());
-        outForm.setContMsg(messageUtil.getMessage(GCConstGlobals.GCXA_CONMSG));
-        model.addAttribute("form", outForm);
-        SessionUtil.clearSessionValue(request);
-        return "GCXAS010";
-    }
+        String errLevel = null;
+        String errMsg = null;
+        String errScreenId = null;
+        String errScreenName = null;
+        if (e instanceof ErrorInfoGM) {
+            errLevel = "業務エラー";
+            ErrorInfoGM eigm = (ErrorInfoGM) e;
+            errScreenId = eigm.getErrScreenId();
+            outForm.setErrScreenIdLabel("発生画面ID");
+            outForm.setErrScreenNameLabel("発生画面名");
+            errScreenName = GamenInfoConfig.getScreenNameById(errScreenId);
+            errMsg = eigm.getErrMsg();
+        } else if (e instanceof ErrorDownload) {
+            errLevel = "ダウンロードエラー";
+            errMsg = messageUtil.getMessage(GCConstGlobals.GSXA_DOWNLOAD_ERROR);
+            Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+            errScreenId = "506";
+            errScreenName = messageUtil.getMessage(errScreenId);
+        } else if (e instanceof ErrorTimeOut) {
+            errLevel = "タイムアウトエラー";
+            errMsg = messageUtil.getMessage(GCConstGlobals.GCXA_TIMEOUT_ERROR);
+            errScreenId = "504";
+            errScreenName = messageUtil.getMessage(errScreenId);
+        }
 
-    @ExceptionHandler({ErrorDownload.class})
-    public String handlerErrorDownload(HttpServletRequest request,
-                                       Model model,
-                                       ErrorDownload e) {
-        log.info("ファイルダウンロードエラーが発生しました。");
-        String errMsg = messageUtil.getMessage(GCConstGlobals.GSXA_DOWNLOAD_ERROR);
-        log.info("********************Throw Exception.url:{} ERROR:{}********************",
-                request.getRequestURL(), errMsg);
+        log.info("***{}が発生しました。URL:{} ERROR:{}****",
+                errLevel, request.getRequestURL(), errMsg);
 
-        Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        GCAXS010Form outForm = new GCAXS010Form();
-        outForm.setErrLevel("タイムアウトエラー");
-        String statusCode = "506";
-        outForm.setErrScreenId("エラーコード：" + statusCode);
-        outForm.setErrScreenName("エラー内容：" + messageUtil.getMessage(statusCode));
+        outForm.setErrLevel(errLevel);
         outForm.setErrMsg(errMsg);
+        outForm.setErrScreenId(errScreenId);
+        outForm.setErrScreenName(errScreenName);
         outForm.setErrorTimeDate(LocalDate.now().toString());
         outForm.setContMsg(messageUtil.getMessage(GCConstGlobals.GCXA_CONMSG));
         model.addAttribute("form", outForm);
-        model.addAttribute("error", "ファイルダウンロードエラー");
-        SessionUtil.clearSessionValue(request);
         return "GCXAS010";
-
     }
 
-    @ExceptionHandler({ErrorTimeOut.class})
-    public String handlerErrorTimeOut(HttpServletRequest request,
-                                      Model model,
-                                      ErrorTimeOut e) {
-        log.info("セッションタイムアウトエラーが発生しました。");
-        String errMsg = messageUtil.getMessage(GCConstGlobals.GCXA_TIMEOUT_ERROR);
-        log.info("********************Throw Exception.url:{} ERROR:{}********************",
-                request.getRequestURL(), errMsg);
-
-        Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        GCAXS010Form outForm = new GCAXS010Form();
-        outForm.setErrLevel("タイムアウトエラー");
-        String statusCode = "504";
-        outForm.setErrScreenId("エラーコード：" + statusCode);
-        outForm.setErrScreenName("エラー内容：" + messageUtil.getMessage(statusCode));
-        outForm.setErrMsg(errMsg);
-        outForm.setErrorTimeDate(LocalDate.now().toString());
-        outForm.setContMsg(messageUtil.getMessage(GCConstGlobals.GCXA_CONMSG));
-        model.addAttribute("form", outForm);
-        model.addAttribute("error", "タイムアウトエラー");
-        SessionUtil.clearSessionValue(request);
-        return "GCXAS010";
-
-    }
 }

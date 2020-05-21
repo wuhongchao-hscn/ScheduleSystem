@@ -43,13 +43,6 @@ public class CommonHandler {
         return "redirect:/GSAXS010Display";
     }
 
-    @RequestMapping("/commonReloginlink")
-    public String commonReloginlink() {
-        log.info("再ログインボタンを押下しました。");
-        return "redirect:/GSAXS010Display";
-    }
-
-
     @GetMapping("/commonUserDetail")
     public String commonUserDetail(HttpServletRequest request) {
         log.info("ユーザ情報リンクを押下しました。");
