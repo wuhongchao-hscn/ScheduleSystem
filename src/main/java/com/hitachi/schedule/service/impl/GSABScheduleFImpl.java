@@ -5,14 +5,8 @@ import com.hitachi.schedule.controller.common.GCConstGlobals;
 import com.hitachi.schedule.controller.param.ArticleDetialInfo;
 import com.hitachi.schedule.controller.param.CommentDetialInfo;
 import com.hitachi.schedule.controller.param.TitleInfo;
-import com.hitachi.schedule.jpa.dao.AgreeDao;
-import com.hitachi.schedule.jpa.dao.ArticleDao;
-import com.hitachi.schedule.jpa.dao.CommentDao;
-import com.hitachi.schedule.jpa.dao.TitleDao;
-import com.hitachi.schedule.jpa.entity.Agree;
-import com.hitachi.schedule.jpa.entity.Article;
-import com.hitachi.schedule.jpa.entity.Comment;
-import com.hitachi.schedule.jpa.entity.Title;
+import com.hitachi.schedule.jpa.dao.*;
+import com.hitachi.schedule.jpa.entity.*;
 import com.hitachi.schedule.mybatis.mapper.ShkinMapper;
 import com.hitachi.schedule.service.GSABSScheduleF;
 import com.hitachi.schedule.service.param.TitleFindResult;
@@ -37,6 +31,9 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
     private AgreeDao agreeDao;
     @Autowired
     private ShkinMapper shkinMapper;
+    @Autowired
+    private LikesDao likesDao;
+
 
     @Override
     public List<ArticleDetialInfo> getArticleList(String userId) {
@@ -87,7 +84,7 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
 
         if (Arrays.asList(1, 2, 3, 5).contains(agreeParam)) {
             article.setArticleAgree(2 >= agreeParam ? --articleAgree : ++articleAgree);
-            article.setArticleUpdateUid(userId);
+            article.setArticleUpdateId(userId);
             article.setArticleUpdateDate(uDate);
             articleDao.save(article);
         }
@@ -151,6 +148,23 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
         return result;
     }
 
+    @Override
+    public long getAndUpdateLikes(long articleId, String userId) {
+        Likes likes = likesDao.findByArticleIdAndUpdateId(articleId, userId);
+        if (null == likes) {
+            likes = new Likes();
+            likes.setArticleId(articleId);
+            likes.setUpdateId(userId);
+            Date uDate = new Date();
+            likes.setUpdateDate(uDate);
+            likesDao.save(likes);
+            return 1;
+        } else {
+            likesDao.delete(likes);
+            return 0;
+        }
+    }
+
     private TitleInfo getTitleByTitleId(long titleId) {
         TitleInfo info = new TitleInfo();
         Title title = titleDao.findByTitleId(titleId);
@@ -191,6 +205,8 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
             info.setArticleAgree(obj.getArticleAgree());
             Agree agree = agreeDao.findByUserIdAndArticleId(userId, articleId);
             info.setArticleAgreeFlg(null == agree ? 0 : agree.isAgree() ? 1 : 2);
+            info.setUserName(shkinMapper.findShkinName(userId));
+            info.setArticleLikeFlg(0 != likesDao.countByArticleIdAndUpdateId(articleId, userId));
 
             String content = obj.getArticleContent();
             int startIndex = content.indexOf("<img src=");

@@ -2,10 +2,7 @@ package com.hitachi.schedule.jpa.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -13,7 +10,7 @@ import java.util.Date;
 public class Article {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long articleId;
 
     @Column
@@ -26,13 +23,13 @@ public class Article {
     private Date articleCreateDate;
 
     @Column
-    private String articleCreateUid;
+    private String articleCreateId;
 
     @Column
     private Date articleUpdateDate;
 
     @Column
-    private String articleUpdateUid;
+    private String articleUpdateId;
 
     @Column
     private long articleAgree;

@@ -20,4 +20,6 @@ public interface GSABSScheduleF {
     long updateArticleAgree(String userId, long articleId, int agreeFlg);
 
     Map<String, Object> getCommentList(long articleId, Integer pageNow, Integer sortFlg);
+
+    long getAndUpdateLikes(long articleId, String userId);
 }

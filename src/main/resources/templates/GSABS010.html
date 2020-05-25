@@ -26,12 +26,12 @@
                         <b>[[${obj.articleTitle}]]</b>
                     </a>
                 </b>
-                <div class="media w-75" th:id="'article' + ${obj.articleId}">
+                <div class="media w-75" th:id="'article' + ${obj.articleId}" th:if="${obj.contentFlg}">
                     <span th:utext="${obj.articleImg}" th:if="${obj.articleImg}"></span>
                     <div class="media-body">
-                        <span th:utext="${obj.articleContent}" th:if="${obj.contentFlg}"></span>
-                        <pre th:utext="${obj.articleContent}" th:unless="${obj.contentFlg}"></pre>
-                        <a href="#" name="articleUp" th:value="${obj.articleId}" th:if="${obj.contentFlg}">
+                        <span th:text="${obj.userName} + '： '"></span>
+                        <span th:text="${obj.articleContent}"></span>
+                        <a href="#" name="articleUp" th:value="${obj.articleId}">
                             阅读全文
                             <svg class="bi bi-chevron-down" width="1em" height="1em" viewBox="0 0 16 16"
                                  fill="currentColor"
@@ -41,6 +41,16 @@
                                       clip-rule="evenodd"/>
                             </svg>
                         </a>
+                    </div>
+                </div>
+                <div class="media w-75" th:id="'article' + ${obj.articleId}" th:unless="${obj.contentFlg}">
+                    <div class="media-body">
+                        <img src="/images/carousel3.jpg" height="20px" width="20px"/>
+                        <span th:utext="${obj.userName}"></span>
+                        <br/>
+                        <span class="font-weight-light">[[${obj.articleAgree}]]人赞成了该回答</span>
+                        <br/>
+                        <pre th:utext="${obj.articleContent}"></pre>
                     </div>
                 </div>
                 <div th:id="'comment' + ${obj.articleId} + 'Div'">
@@ -99,13 +109,13 @@
                         </svg>
                         收藏&nbsp;
                     </a>
-                    <a class="text-secondary" th:href="'/GSABS010Article?articleId=' + ${obj.articleId}">
+                    <a class="text-secondary" name="articleLike" th:value="${obj.articleId}">
                         <svg class="Zi Zi--Heart Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em"
                              height="1.2em">
                             <path d="M2 8.437C2 5.505 4.294 3.094 7.207 3 9.243 3 11.092 4.19 12 6c.823-1.758 2.649-3 4.651-3C19.545 3 22 5.507 22 8.432 22 16.24 13.842 21 12 21 10.158 21 2 16.24 2 8.437z"
                                   fill-rule="evenodd"></path>
                         </svg>
-                        喜欢&nbsp;
+                        <span th:text="${obj.articleLikeFlg ? '取消喜欢' : '喜欢'}"></span>&nbsp;
                     </a>
                     <div class="dropdown d-inline">
                         <button class="btn" type="button"
@@ -124,10 +134,12 @@
                             </small>
                         </div>
                     </div>
-                    <a class="text-secondary d-none" name="articleList" th:id="'article' + ${obj.articleId} + 'List'"
+                    <a class="text-secondary d-none" name="articleList"
+                       th:id="'article' + ${obj.articleId} + 'List'"
                        href="#">
                         收起
-                        <svg class="bi bi-chevron-up" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                        <svg class="bi bi-chevron-up" width="1em" height="1em" viewBox="0 0 16 16"
+                             fill="currentColor"
                              xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                   d="M7.646 4.646a.5.5 0 01.708 0l6 6a.5.5 0 01-.708.708L8 5.707l-5.646 5.647a.5.5 0 01-.708-.708l6-6z"

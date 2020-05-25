@@ -13,6 +13,8 @@ public class ArticleDetialInfo {
 
     private String articleImg;
 
+    private String userName;
+
     private String articleContent;
 
     private boolean contentFlg = false;
@@ -20,6 +22,8 @@ public class ArticleDetialInfo {
     private long articleAgree;
 
     private int articleAgreeFlg;
+
+    private boolean articleLikeFlg = false;
 
     private long articleCount;
 

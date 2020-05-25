@@ -87,6 +87,14 @@
         setTimeout(removeCopyMsg, 500);
         return false;
     });
+
+    $("a[name='articleLike']").click(function () {
+        let articleId = $(this).attr('value');
+        let url = "/GSABSLikes/" + articleId;
+        let fun = 'updateLikesArea';
+
+        return ajaxGet($(this), url, this, fun);
+    });
 });
 
 function listArticleData(data, itemId) {
@@ -366,4 +374,12 @@ function getPageBtnItemByPage(articleId, levelFlg, disableFlg, page, comment) {
 
 function removeCopyMsg() {
     $('div.copyMsg').remove();
+}
+
+function updateLikesArea(data, item) {
+    if (0 == data) {
+        $(item).children("span").text("喜欢");
+    } else {
+        $(item).children("span").text("取消喜欢");
+    }
 }

@@ -2,9 +2,7 @@ package com.hitachi.schedule.jpa.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -12,6 +10,7 @@ import java.util.Date;
 public class Title {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long titleId;
 
     @Column
