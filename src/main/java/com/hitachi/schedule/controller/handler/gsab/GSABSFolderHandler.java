@@ -1,30 +1,40 @@
 package com.hitachi.schedule.controller.handler.gsab;
 
 import com.hitachi.schedule.controller.common.SessionUtil;
+import com.hitachi.schedule.jpa.entity.Folder;
 import com.hitachi.schedule.service.GSABSScheduleF;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 
 @Controller
 @Slf4j
-public class GSABSLikesHandler {
+public class GSABSFolderHandler {
     @Autowired
     private GSABSScheduleF gsabsService;
 
-    @GetMapping("/GSABSLikes/{articleId}")
+    @GetMapping("/GSABSFolder")
     @ResponseBody
-    public long GSABSLikes(
+    public Map<String, Object> GSABSFolder(
             HttpServletRequest request,
-            @PathVariable("articleId") long articleId) {
+            String title,
+            String content,
+            boolean level) {
         String loginUserId = SessionUtil.getUserId(request);
-        return gsabsService.getAndUpdateLikes(articleId, loginUserId);
+
+        Folder folder = new Folder();
+        folder.setTitle(title);
+        folder.setContent(content);
+        folder.setLevel(level);
+        folder.setUpdateId(loginUserId);
+
+        return gsabsService.insertFolder(folder);
     }
 
 

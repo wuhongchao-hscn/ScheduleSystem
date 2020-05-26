@@ -95,6 +95,49 @@
 
         return ajaxGet($(this), url, this, fun);
     });
+
+    $("a[name='articleCollect']").click(function () {
+        let articleId = $(this).attr('value');
+        let url = "/GSABSCollect/" + articleId;
+        let fun = 'listCollectModal';
+
+        return ajaxGet($(this), url, articleId, fun);
+    });
+
+    $(".modalCloseButton").click(function () {
+        $('#collectModal').modal('hide');
+        $('#createFolderModal').modal('hide');
+    });
+
+    $("#moveToFolder").click(function () {
+        $('#collectModal').modal('hide');
+        $('#createFolderModal').modal('show');
+    });
+
+    $("#collectTitle").change(function () {
+        if ($(this).val()) {
+            $('#createFolderBtn').removeAttr('disabled');
+        } else {
+            $('#createFolderBtn').attr('disabled', "");
+        }
+    });
+
+    $("#backToCollect").click(function () {
+        $('#createFolderModal').modal('hide');
+        $('#collectModal').modal('show');
+    });
+
+    $("#createFolderBtn").click(function () {
+        let title = $('#collectTitle').val();
+        let content = $('#collectContent').val();
+        let level = $('input:radio[name="collectLevel"]:checked').val();
+
+        let url = "/GSABSFolder?title=" + title + "&content=" + content + "&level=" + level;
+        url = encodeURI(url);// 进行utf-8编码
+        let fun = 'addCollectModal';
+
+        return ajaxGet($(this), url, null, fun);
+    });
 });
 
 function listArticleData(data, itemId) {
@@ -382,4 +425,59 @@ function updateLikesArea(data, item) {
     } else {
         $(item).children("span").text("取消喜欢");
     }
+}
+
+function listCollectModal(data, itemId) {
+    let modal = $('#collectModal');
+    let options = '<div class="container-fluid">';
+    let activeId = data.activeId;
+    let folders = data.folders;
+
+
+    for (let i = 0; i < folders.length; i++) {
+        let obj = folders[i];
+        options += editCollectHtml(obj, activeId)
+    }
+    options += '</div>';
+
+    modal.find('.modal-body').html(options);
+    $('#moveToFolder').val(itemId);
+    modal.modal('show');
+}
+
+function addCollectModal(data, itemId) {
+    let modal = $('#collectModal');
+    let options = editCollectHtml(data, itemId)
+    modal.find('.modal-body').prepend(options);
+
+    $('#collectTitle').val('');
+    $('#collectContent').val('');
+    $('#levelPublic').click();
+    $('#createFolderBtn').attr('disabled', 'disabled');
+    
+    $('#createFolderModal').modal('hide');
+    modal.modal('show');
+}
+
+function editCollectHtml(obj, activeId) {
+    let btnName = '';
+    let btnClass = 'btn btn-sm w-75 ';
+    if (obj.folderId == activeId) {
+        btnClass += 'btn-secondary';
+        btnName = "已收藏";
+    } else {
+        btnClass += 'btn-outline-primary';
+        btnName = "收藏";
+    }
+
+    return '<div class="row">' +
+        ' <div class="col-md-4">' +
+        '  <b>' + obj.title + '</b>' +
+        '  <br/><span class="text-secondary text-sm-left">' + obj.cnt + '&nbsp;条内容</span>' +
+        ' </div>' +
+        ' <div class="col-md-3 ml-auto text-right">' +
+        '  <button type="button" class="' + btnClass + '" value="' + obj.folderId + '">' + btnName + '</button>' +
+        ' </div>' +
+        '</div>' +
+        '<hr/>';
 }

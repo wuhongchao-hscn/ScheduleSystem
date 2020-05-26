@@ -10,21 +10,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 
 @Controller
 @Slf4j
-public class GSABSLikesHandler {
+public class GSABSCollectHandler {
     @Autowired
     private GSABSScheduleF gsabsService;
 
-    @GetMapping("/GSABSLikes/{articleId}")
+    @GetMapping("/GSABSCollect/{articleId}")
     @ResponseBody
-    public long GSABSLikes(
+    public Map<String, Object> GSABSCollect(
             HttpServletRequest request,
             @PathVariable("articleId") long articleId) {
         String loginUserId = SessionUtil.getUserId(request);
-        return gsabsService.getAndUpdateLikes(articleId, loginUserId);
+        return gsabsService.getCollects(articleId, loginUserId);
     }
 
 

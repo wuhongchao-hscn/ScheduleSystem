@@ -33,6 +33,10 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
     private ShkinMapper shkinMapper;
     @Autowired
     private LikesDao likesDao;
+    @Autowired
+    private FolderDao folderDao;
+    @Autowired
+    private CollectDao collectDao;
 
 
     @Override
@@ -163,6 +167,40 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
             likesDao.delete(likes);
             return 0;
         }
+    }
+
+    @Override
+    public Map<String, Object> getCollects(long articleId, String userId) {
+        Map<String, Object> result = new HashMap<>();
+
+        List<Folder> collectFolders = folderDao.findByUpdateId(userId);
+        List<Map<String, Object>> folders = new ArrayList<>();
+        for (Folder folder : collectFolders) {
+
+            Map<String, Object> obj = new HashMap<>();
+            obj.put("title", folder.getTitle());
+            long folderId = folder.getId();
+            obj.put("folderId", folderId);
+            obj.put("cnt", collectDao.countByFolderId(folderId));
+            folders.add(obj);
+        }
+        result.put("folders", folders);
+
+        Long id = collectDao.findIdByArticleIdAndUpdateId(articleId, userId);
+        result.put("activeId", id);
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> insertFolder(Folder folder) {
+        folder.setUpdateDate(new Date());
+        folder = folderDao.save(folder);
+        Map<String, Object> result = new HashMap<>();
+        result.put("title", folder.getTitle());
+        result.put("folderId", folder.getId());
+        result.put("cnt", 0);
+
+        return result;
     }
 
     private TitleInfo getTitleByTitleId(long titleId) {

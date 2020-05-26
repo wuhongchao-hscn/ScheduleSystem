@@ -101,7 +101,7 @@
                         </svg>
                         分享&nbsp;
                     </a>
-                    <a class="text-secondary">
+                    <a class="text-secondary" name="articleCollect" th:value="${obj.articleId}">
                         <svg class="Zi Zi--Star Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em"
                              height="1.2em">
                             <path d="M5.515 19.64l.918-5.355-3.89-3.792c-.926-.902-.639-1.784.64-1.97L8.56 7.74l2.404-4.871c.572-1.16 1.5-1.16 2.072 0L15.44 7.74l5.377.782c1.28.186 1.566 1.068.64 1.97l-3.89 3.793.918 5.354c.219 1.274-.532 1.82-1.676 1.218L12 18.33l-4.808 2.528c-1.145.602-1.896.056-1.677-1.218z"
@@ -147,52 +147,99 @@
                         </svg>
                     </a>
                 </div>
-                <!--                <div class="card w-75">-->
-                <!--                    <div class="card-header bg-white">-->
-                <!--                        <div class="row justify-content-between">-->
-                <!--                            <div class="col-4">-->
-                <!--                                5 条评论-->
-                <!--                            </div>-->
-                <!--                            <div class="col-4 text-right">-->
-                <!--                                <svg class="bi bi-arrow-left-right" width="1em" height="1em" viewBox="0 0 16 16"-->
-                <!--                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">-->
-                <!--                                    <path fill-rule="evenodd"-->
-                <!--                                          d="M10.146 7.646a.5.5 0 01.708 0l3 3a.5.5 0 010 .708l-3 3a.5.5 0 01-.708-.708L12.793 11l-2.647-2.646a.5.5 0 010-.708z"-->
-                <!--                                          clip-rule="evenodd"/>-->
-                <!--                                    <path fill-rule="evenodd"-->
-                <!--                                          d="M2 11a.5.5 0 01.5-.5H13a.5.5 0 010 1H2.5A.5.5 0 012 11zm3.854-9.354a.5.5 0 010 .708L3.207 5l2.647 2.646a.5.5 0 11-.708.708l-3-3a.5.5 0 010-.708l3-3a.5.5 0 01.708 0z"-->
-                <!--                                          clip-rule="evenodd"/>-->
-                <!--                                    <path fill-rule="evenodd"-->
-                <!--                                          d="M2.5 5a.5.5 0 01.5-.5h10.5a.5.5 0 010 1H3a.5.5 0 01-.5-.5z"-->
-                <!--                                          clip-rule="evenodd"/>-->
-                <!--                                </svg>-->
-                <!--                                时间排序-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                    <div class="card-body">-->
-                <!--                        <div class="row no-gutters">-->
-                <!--                            <div class="col-sm-6 col-md-8">-->
-                <!--                                <img src="/images/carousel3.jpg" width="20px" height="20px"/>-->
-                <!--                                作者名-->
-                <!--                            </div>-->
-                <!--                            <div class="col-6 col-md-4 text-right">1个月前</div>-->
-                <!--                        </div>-->
-                <!--                        <pre>dwaddddddddddddddddddddddddd-->
-                <!--                            ddddddddwaddddddddddddddddddddddddddd-->
-                <!--                            ddddddwadddddddddddddddddddd-->
-                <!--                            dddddddddddddwaddddddddddddddddd-->
-                <!--                            ddddddddddddddd-->
-                <!--                        </pre>-->
-                <!--                        <hr/>-->
-                <!--                        dd-->
-                <!--                        ee-->
-                <!--                    </div>-->
-                <!--                    <div class="card-footer bg-white">-->
-                <!--                        rrrr-->
-                <!--                    </div>-->
-                <!--                </div>-->
+            </div>
+            <div class="modal fade" id="collectModal" tabindex="-1" role="dialog" aria-labelledby="collectModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header d-inline-block text-center border-0">
+                            <h5 class="text-center">添加收藏</h5>
+                            <p class="text-sm-center text-secondary">选择你想添加的收藏夹</p>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer d-inline-block text-center border-0">
+                            <button type="button" class="btn btn-sm btn-primary w-50" id="moveToFolder">
+                                创建收藏夹
+                            </button>
+                            <button type="button" class="modalCloseButton">
+                                <svg class="Zi Zi--Close Modal-closeIcon" fill="white" viewBox="0 0 24 24"
+                                     width="24" height="24">
+                                    <path d="M13.486 12l5.208-5.207a1.048 1.048 0 0 0-.006-1.483 1.046 1.046 0 0 0-1.482-.005L12 10.514 6.793 5.305a1.048 1.048 0 0 0-1.483.005 1.046 1.046 0 0 0-.005 1.483L10.514 12l-5.208 5.207a1.048 1.048 0 0 0 .006 1.483 1.046 1.046 0 0 0 1.482.005L12 13.486l5.207 5.208a1.048 1.048 0 0 0 1.483-.006 1.046 1.046 0 0 0 .005-1.482L13.486 12z"
+                                          fill-rule="evenodd">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="createFolderModal" tabindex="-1" role="dialog"
+                 aria-labelledby="collectModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header d-inline-block text-center border-0">
+                            <h5 class="text-center">创建新收藏夹</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="collectTitle" placeholder="收藏标题">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" rows="10" cols="70"
+                                          id="collectContent" placeholder="收藏描述内容（可选）"></textarea>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="levelPublic" name="collectLevel" class="custom-control-input"
+                                       value="1" checked="checked">
+                                <label class="custom-control-label" for="levelPublic">
+                                    公开
+                                    <span class="text-secondary ml-1">
+                                        <small>有其他人关注此收藏夹时不可设置为私密</small>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="levelPrivate" name="collectLevel" class="custom-control-input"
+                                       value="0">
+                                <label class="custom-control-label" for="levelPrivate">
+                                    秘密
+                                    <span class="text-secondary ml-1">
+                                        <small>只有你自己可以查看这个收藏夹</small>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer d-inline-block text-center border-0">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-sm btn-light w-100" id="backToCollect">
+                                            返回
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-sm btn-primary w-100"
+                                                id="createFolderBtn" disabled>
+                                            确认创建
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="modalCloseButton">
+                                <svg class="Zi Zi--Close Modal-closeIcon" fill="white" viewBox="0 0 24 24"
+                                     width="24" height="24">
+                                    <path d="M13.486 12l5.208-5.207a1.048 1.048 0 0 0-.006-1.483 1.046 1.046 0 0 0-1.482-.005L12 10.514 6.793 5.305a1.048 1.048 0 0 0-1.483.005 1.046 1.046 0 0 0-.005 1.483L10.514 12l-5.208 5.207a1.048 1.048 0 0 0 .006 1.483 1.046 1.046 0 0 0 1.482.005L12 13.486l5.207 5.208a1.048 1.048 0 0 0 1.483-.006 1.046 1.046 0 0 0 .005-1.482L13.486 12z"
+                                          fill-rule="evenodd">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
 </section>
