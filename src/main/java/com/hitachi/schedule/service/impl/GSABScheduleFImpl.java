@@ -194,20 +194,13 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
     }
 
     @Override
-    public Map<String, Object> insertFolder(Folder folder) {
+    public void insertFolder(Folder folder) {
         folder.setUpdateDate(new Date());
-        folder = folderDao.save(folder);
-        Map<String, Object> result = new HashMap<>();
-        result.put("title", folder.getTitle());
-        result.put("folderId", folder.getId());
-        result.put("cnt", 0);
-
-        return result;
+        folderDao.save(folder);
     }
 
     @Override
-    public Map<String, Object> updateCollects(long articleId, String userId, long folderId) {
-        Map<String, Object> result = new HashMap<>();
+    public void updateCollects(long articleId, String userId, long folderId) {
         Collect collect = collectDao.findByArticleIdAndUpdateId(articleId, userId);
         if (null == collect) {
             collect = new Collect();
@@ -223,9 +216,6 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
             collect.setUpdateDate(new Date());
             collectDao.save(collect);
         }
-        result.put("activeId", collect.getFolderId());
-        result.put("cnt", collectDao.countByFolderId(folderId));
-        return result;
     }
 
     private TitleInfo getTitleByTitleId(long titleId) {

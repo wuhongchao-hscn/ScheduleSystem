@@ -30,12 +30,12 @@ public class GSABSCollectHandler {
 
     @GetMapping("/GSABSCollect/{articleId}/{folderId}")
     @ResponseBody
-    public Map<String, Object> GSABSCollect(
+    public void GSABSCollect(
             HttpServletRequest request,
             @PathVariable("articleId") long articleId,
             @PathVariable("folderId") long folderId) {
         String loginUserId = SessionUtil.getUserId(request);
-        return gsabsService.updateCollects(articleId, loginUserId, folderId);
+        gsabsService.updateCollects(articleId, loginUserId, folderId);
     }
 
 

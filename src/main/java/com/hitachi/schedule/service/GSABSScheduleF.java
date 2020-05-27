@@ -26,7 +26,7 @@ public interface GSABSScheduleF {
 
     Map<String, Object> getCollects(long articleId, String userId);
 
-    Map<String, Object> insertFolder(Folder folder);
+    void insertFolder(Folder folder);
 
-    Map<String, Object> updateCollects(long articleId, String userId, long folderId);
+    void updateCollects(long articleId, String userId, long folderId);
 }

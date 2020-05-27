@@ -98,10 +98,20 @@
 
     $("a[name='articleCollect']").click(function () {
         let articleId = $(this).attr('value');
-        let url = "/GSABSCollectList/" + articleId;
-        let fun = 'listCollectModal';
+        $('#createFolderBtn').val(articleId);
+        $('#collectModal').modal('show');
+        return false;
+    });
 
-        return ajaxGet($(this), url, articleId, fun);
+    $('#collectModal').on('show.bs.modal', function (event) {
+        showCollectModal();
+    });
+
+    $('#createFolderModal').on('hide.bs.modal', function (event) {
+        $('#collectTitle').val('');
+        $('#collectContent').val('');
+        $('#levelPublic').click();
+        $('#createFolderBtn').attr('disabled', 'disabled');
     });
 
     $(".modalCloseButton").click(function () {
@@ -134,7 +144,7 @@
 
         let url = "/GSABSFolder?title=" + title + "&content=" + content + "&level=" + level;
         url = encodeURI(url);// 进行utf-8编码
-        let fun = 'addCollectModal';
+        let fun = 'updateCollectModal';
 
         return ajaxGet($(this), url, null, fun);
     });
@@ -427,6 +437,14 @@ function updateLikesArea(data, item) {
     }
 }
 
+function showCollectModal() {
+    let articleId = $('#createFolderBtn').val();
+    let url = "/GSABSCollectList/" + articleId;
+    let fun = 'listCollectModal';
+
+    ajaxGet($(this), url, articleId, fun);
+}
+
 function listCollectModal(data, itemId) {
     let modal = $('#collectModal');
     let options = '<div class="container-fluid">';
@@ -449,25 +467,11 @@ function listCollectModal(data, itemId) {
         let folderId = $(this).val();
 
         let url = "/GSABSCollect/" + articleId + '/' + folderId;
-        let fun = 'updateCollectBtn';
+        let fun = 'updateCollectModal';
 
-        return ajaxGet($(this), url, this, fun);
+        ajaxGet($(this), url, this, fun);
     });
 
-}
-
-function addCollectModal(data, itemId) {
-    let modal = $('#collectModal');
-    let options = editCollectHtml(data, itemId)
-    modal.find('.row').prepend(options);
-
-    $('#collectTitle').val('');
-    $('#collectContent').val('');
-    $('#levelPublic').click();
-    $('#createFolderBtn').attr('disabled', 'disabled');
-
-    $('#createFolderModal').modal('hide');
-    modal.modal('show');
 }
 
 function editCollectHtml(obj, activeId) {
@@ -495,19 +499,8 @@ function editCollectHtml(obj, activeId) {
         '<hr/>';
 }
 
-function updateCollectBtn(data, itemId) {
-    let item = $(itemId);
-    let activeId = data.activeId;
-    let cnt = data.cnt;
-    if (collected) {
-        item.removeClass('btn-outline-primary');
-        item.addClass('btn-secondary');
-        item.text('已收藏')
-    } else {
-        item.removeClass('btn-secondary');
-        item.addClass('btn-outline-primary');
-        item.text('收藏')
-    }
-    item.parent().prev().find("span[name='collectedCnt']").text(cnt);
-
+function updateCollectModal(data, itemId) {
+    $('#createFolderModal').modal('hide');
+    $('#collectModal').modal('show');
+    showCollectModal();
 }

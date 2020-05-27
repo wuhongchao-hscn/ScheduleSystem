@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 
 @Controller
@@ -21,7 +20,7 @@ public class GSABSFolderHandler {
 
     @GetMapping("/GSABSFolder")
     @ResponseBody
-    public Map<String, Object> GSABSFolder(
+    public void GSABSFolder(
             HttpServletRequest request,
             String title,
             String content,
@@ -34,7 +33,7 @@ public class GSABSFolderHandler {
         folder.setLevel(level);
         folder.setUpdateId(loginUserId);
 
-        return gsabsService.insertFolder(folder);
+        gsabsService.insertFolder(folder);
     }
 
 
