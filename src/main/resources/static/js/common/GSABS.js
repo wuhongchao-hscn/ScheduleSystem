@@ -98,7 +98,7 @@
 
     $("a[name='articleCollect']").click(function () {
         let articleId = $(this).attr('value');
-        let url = "/GSABSCollect/" + articleId;
+        let url = "/GSABSCollectList/" + articleId;
         let fun = 'listCollectModal';
 
         return ajaxGet($(this), url, articleId, fun);
@@ -443,18 +443,29 @@ function listCollectModal(data, itemId) {
     modal.find('.modal-body').html(options);
     $('#moveToFolder').val(itemId);
     modal.modal('show');
+
+    $("button[name='collectArticle']").click(function () {
+        let articleId = $('#moveToFolder').val();
+        let folderId = $(this).val();
+
+        let url = "/GSABSCollect/" + articleId + '/' + folderId;
+        let fun = 'updateCollectBtn';
+
+        return ajaxGet($(this), url, this, fun);
+    });
+
 }
 
 function addCollectModal(data, itemId) {
     let modal = $('#collectModal');
     let options = editCollectHtml(data, itemId)
-    modal.find('.modal-body').prepend(options);
+    modal.find('.row').prepend(options);
 
     $('#collectTitle').val('');
     $('#collectContent').val('');
     $('#levelPublic').click();
     $('#createFolderBtn').attr('disabled', 'disabled');
-    
+
     $('#createFolderModal').modal('hide');
     modal.modal('show');
 }
@@ -473,11 +484,30 @@ function editCollectHtml(obj, activeId) {
     return '<div class="row">' +
         ' <div class="col-md-4">' +
         '  <b>' + obj.title + '</b>' +
-        '  <br/><span class="text-secondary text-sm-left">' + obj.cnt + '&nbsp;条内容</span>' +
+        '  <br/><span class="text-secondary text-sm-left"><span name="collectedCnt">' + obj.cnt + '</span>&nbsp;条内容</span>' +
         ' </div>' +
         ' <div class="col-md-3 ml-auto text-right">' +
-        '  <button type="button" class="' + btnClass + '" value="' + obj.folderId + '">' + btnName + '</button>' +
+        '  <button type="button" name="collectArticle" class="' + btnClass + '" value="' + obj.folderId + '">'
+        + btnName +
+        '  </button>' +
         ' </div>' +
         '</div>' +
         '<hr/>';
+}
+
+function updateCollectBtn(data, itemId) {
+    let item = $(itemId);
+    let activeId = data.activeId;
+    let cnt = data.cnt;
+    if (collected) {
+        item.removeClass('btn-outline-primary');
+        item.addClass('btn-secondary');
+        item.text('已收藏')
+    } else {
+        item.removeClass('btn-secondary');
+        item.addClass('btn-outline-primary');
+        item.text('收藏')
+    }
+    item.parent().prev().find("span[name='collectedCnt']").text(cnt);
+
 }

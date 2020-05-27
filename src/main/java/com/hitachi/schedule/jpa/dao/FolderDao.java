@@ -7,5 +7,5 @@ import java.util.List;
 
 
 public interface FolderDao extends JpaRepository<Folder, Long> {
-    List<Folder> findByUpdateId(String userId);
+    List<Folder> findByUpdateIdOrderByUpdateDateDesc(String userId);
 }

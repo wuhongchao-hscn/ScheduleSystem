@@ -173,7 +173,7 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
     public Map<String, Object> getCollects(long articleId, String userId) {
         Map<String, Object> result = new HashMap<>();
 
-        List<Folder> collectFolders = folderDao.findByUpdateId(userId);
+        List<Folder> collectFolders = folderDao.findByUpdateIdOrderByUpdateDateDesc(userId);
         List<Map<String, Object>> folders = new ArrayList<>();
         for (Folder folder : collectFolders) {
 
@@ -186,8 +186,10 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
         }
         result.put("folders", folders);
 
-        Long id = collectDao.findIdByArticleIdAndUpdateId(articleId, userId);
-        result.put("activeId", id);
+        Collect collect = collectDao.findByArticleIdAndUpdateId(articleId, userId);
+        if (null != collect) {
+            result.put("activeId", collect.getFolderId());
+        }
         return result;
     }
 
@@ -200,6 +202,29 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
         result.put("folderId", folder.getId());
         result.put("cnt", 0);
 
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> updateCollects(long articleId, String userId, long folderId) {
+        Map<String, Object> result = new HashMap<>();
+        Collect collect = collectDao.findByArticleIdAndUpdateId(articleId, userId);
+        if (null == collect) {
+            collect = new Collect();
+            collect.setFolderId(folderId);
+            collect.setArticleId(articleId);
+            collect.setUpdateId(userId);
+            collect.setUpdateDate(new Date());
+            collectDao.save(collect);
+        } else if (folderId == collect.getFolderId()) {
+            collectDao.delete(collect);
+        } else {
+            collect.setFolderId(folderId);
+            collect.setUpdateDate(new Date());
+            collectDao.save(collect);
+        }
+        result.put("activeId", collect.getFolderId());
+        result.put("cnt", collectDao.countByFolderId(folderId));
         return result;
     }
 
