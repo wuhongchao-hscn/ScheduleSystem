@@ -159,6 +159,7 @@ public class GSACScheduleFImpl implements GSACScheduleF {
 
     @Override
     public void updateUserAndRlInfo(User user, UserRl userRl) {
+
         String sysDate = DateUtil.getSysDateYmd();
         user.setUser_update_ymd(sysDate);
         userMapper.updateUser(user);
@@ -259,7 +260,7 @@ public class GSACScheduleFImpl implements GSACScheduleF {
         uil.setStrShkinSmi(shkin_name);
         uil.setStrSsk(gsaxService.join_ssk(ssk_id));
         uil.setUserId(user_id);
-        uil.setImageSrc(user.getUser_image());
+        uil.setUserImg(user.getUser_image());
         uil.setStrRlId(userRl);
         uil.setStrAllRlName(commonUtil.getStringFromListBySpace(allRlName));
         uil.setUser_ex_key(user.getUser_ex_key());

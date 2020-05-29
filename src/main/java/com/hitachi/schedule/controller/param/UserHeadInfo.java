@@ -9,5 +9,5 @@ public class UserHeadInfo {
     private String shjin_smi;
     private String roles;
     private String rolesName;
-    private byte[] userImg;
+    private String userImg;
 }

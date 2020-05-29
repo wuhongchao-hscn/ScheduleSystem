@@ -10,6 +10,8 @@ spring:
     tomcat:
       uri-encoding: UTF-8
 
+
+
   redis:
     # Redis数据库索引（默认为0）
     database: 0
@@ -66,6 +68,15 @@ spring:
       filter:
         enabled: true
 
+  # MongoDB配置
+  data:
+    mongodb:
+      # 使用全局最高权限连接
+      uri: mongodb://MongoDB:mongodb@localhost:27017
+      # 使用数据库权限连接
+      #uri: mongodb://root:123456@localhost:27017/fileManager
+      # 数据库名
+      database: fileManager
 logging:
   level:
     root: error

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.4.RELEASE</version>
+        <version>2.3.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.hitachi</groupId>
@@ -80,15 +80,49 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- redis -->
+        <!-- 引入redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
         </dependency>
+        <!-- 引入redis Lettuce连接池
+            https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+
+        <!-- 登录认证 spring validation-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-redis</artifactId>
-            <version>1.4.4.RELEASE</version>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- 引入MongoDB 用于存储文件 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
+        <!-- 引入hutool Java基础工具类，对文件、流、加密解密、转码、正则、线程、XML等JDK方法进行封装，组成各种Util工具类
+            布隆过滤、缓存、克隆接口、类型转换、日期处理、数据库ORM、基于DFA有限自动机的多个关键字查找、HTTP客户端、IO和文件、
+            有用的一些数据结构、日志、反射代理类的简化（AOP切面实现）、Setting（一种扩展Properties的配置文件）、
+            System（JVM和系统信息等）、WatchService的封装（文件变动监控）、XXXUtil各种有用的工具类
+            https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.3.5</version>
+        </dependency>
+
+        <!-- thumbnailator 图片处理的Google开源Java类库
+        　　　支持的处理操作：图片缩放，区域裁剪，水印，旋转，保持比例。
+            https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.11</version>
         </dependency>
 
         <!-- 引入jquery的webjar -->

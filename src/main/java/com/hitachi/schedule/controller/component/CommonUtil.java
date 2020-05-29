@@ -189,4 +189,15 @@ public class CommonUtil {
         }
         return false;
     }
+
+    public String getCollectionName(String param) {
+        switch (param) {
+            case GCConstGlobals.GSAB_MONGODB_PARAM_USER:
+                return GCConstGlobals.GSAB_MONGODB_COLLECTION_NAME_USER;
+            case GCConstGlobals.GSAB_MONGODB_PARAM_ARTICLE:
+                return GCConstGlobals.GSAB_MONGODB_COLLECTION_NAME_ARTICLE;
+            default:
+                return GCConstGlobals.GSAB_MONGODB_COLLECTION_NAME_DEFAULT;
+        }
+    }
 }

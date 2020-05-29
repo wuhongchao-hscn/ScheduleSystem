@@ -48,7 +48,7 @@ function doInsert(reInsertFlg) {
         contentType: false,   // 不设置内容类型
         success: function (data) {
             if (doErrorCommon(data)) {
-                return;
+                return false;
             }
             doSuccessCommon(data);
             doSuccessRtn(data, reInsertFlg);

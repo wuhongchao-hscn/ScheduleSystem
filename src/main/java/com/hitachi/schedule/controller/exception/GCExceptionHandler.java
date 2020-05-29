@@ -5,6 +5,7 @@ import com.hitachi.schedule.controller.common.GCConstGlobals;
 import com.hitachi.schedule.controller.component.MessageReadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +19,9 @@ import java.time.LocalDate;
 @Slf4j
 public class GCExceptionHandler implements ErrorController {
     @Autowired
-    MessageReadUtil messageUtil;
+    private MessageReadUtil messageUtil;
+    @Value("${server.error.path)")
+    private static String errorPath;
 
     @RequestMapping("/error")
     public String handleError(Model model,
@@ -37,13 +40,13 @@ public class GCExceptionHandler implements ErrorController {
             outForm.setErrMsg(errMsg);
         }
         outForm.setErrorTimeDate(LocalDate.now().toString());
-        outForm.setContMsg(messageUtil.getMessage(GCConstGlobals.GCXA_SYSTEM_CONMSG));
+        outForm.setContMsg(messageUtil.getMessage(GCConstGlobals.GCXA_CONMSG));
         model.addAttribute("form", outForm);
         return "GCXAS010";
     }
 
     @Override
     public String getErrorPath() {
-        return "/error";
+        return errorPath;
     }
 }

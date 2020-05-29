@@ -32,9 +32,8 @@
                         <ul class="nav flex-column pad-left-40">
                             <br/>
                             <li class="nav-item">
-                                <img th:src="'/commonGetImg?user_id=' + ${session.GS_USERINFO.userId}"
-                                     width="200" height="200" class="rounded-circle"
-                                     alt="利用者画像"/>
+                                <img th:src="'/commonGetImg/' + ${session.GS_USERINFO.userImg} + '?param=user&height=200&width=200'"
+                                     width="200px" height="200px" class="rounded-circle" alt="利用者画像"/>
                             </li>
                             <br/>
                             <li class="nav-item">
@@ -196,10 +195,10 @@
     <p th:insert="GSAXS030"></p>
 </div>
 </body>
-<section layout:fragment="js"></section>
 <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
 <script th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.bundle.js}"></script>
 <script th:src="@{/js/common.js}"></script>
 <script th:src="'/js/common/' + *{#strings.substring(screenId, 0, 5)} + '.js'"></script>
+<section layout:fragment="js"></section>
 </html>

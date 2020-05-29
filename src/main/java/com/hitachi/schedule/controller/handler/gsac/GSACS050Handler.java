@@ -6,12 +6,12 @@ import com.hitachi.schedule.controller.common.GCConstGlobals;
 import com.hitachi.schedule.controller.common.SessionUtil;
 import com.hitachi.schedule.controller.component.CommonUtil;
 import com.hitachi.schedule.controller.component.MessageReadUtil;
-import com.hitachi.schedule.controller.exception.ErrorDownload;
 import com.hitachi.schedule.controller.param.SelectInfo;
 import com.hitachi.schedule.mybatis.pojo.Shkin;
 import com.hitachi.schedule.mybatis.pojo.User;
 import com.hitachi.schedule.mybatis.pojo.UserRl;
 import com.hitachi.schedule.service.GSACScheduleF;
+import com.hitachi.schedule.service.GSAXScheduleFileF;
 import com.hitachi.schedule.service.param.UserFindParam;
 import com.hitachi.schedule.service.param.UserInsertResult;
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +22,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +40,8 @@ public class GSACS050Handler {
     private GSACS050Checker checker;
     @Autowired
     private CommonUtil commonUtil;
+    @Autowired
+    private GSAXScheduleFileF gsaxFileService;
 
     private static final String RTN_STR_OK = "redirect:/GSACS010Display";
 
@@ -117,20 +117,11 @@ public class GSACS050Handler {
         User user = new User();
         user.setUser_password(form.getStrUserPassword());
         user.setUser_delete_flag(GCConstGlobals.GSAA_PROP_GSACT040_SEARCH_FLG);
-        try {
-            MultipartFile imageFile = form.getImageFile();
-            String image_name = imageFile.getOriginalFilename();
-            while (image_name.contains(GCConstGlobals.GS_PROP_FILE_PATH_SPLIT_FUGO)) {
-                image_name = image_name.substring(image_name.indexOf(GCConstGlobals.GS_PROP_FILE_PATH_SPLIT_FUGO) + 1);
-            }
-            InputStream imageFileIs = imageFile.getInputStream();
-            byte[] imageFileData = new byte[(int) imageFile.getSize()];
-            imageFileIs.read(imageFileData);
-            user.setUser_image_name(image_name);
-            user.setUser_image(imageFileData);
-        } catch (Exception e) {
-            throw new ErrorDownload();
-        }
+        
+        String userImage = gsaxFileService.saveFile(
+                GCConstGlobals.GSAB_MONGODB_COLLECTION_NAME_USER,
+                form.getImageFile());
+        user.setUser_image(userImage);
 
         user.setUser_update_uid(loginUserId);
         user.setUser_ex_key(ex_key);

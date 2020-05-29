@@ -34,15 +34,6 @@ public class GSAXScheduleFImpl implements GSAXScheduleF {
     private CommonUtil commonUtil;
 
     @Override
-    public User do_login_check(String user_id, String strUserPassword) {
-        User user = findByUserId(user_id);
-        if (strUserPassword.equals(user.getUser_password())) {
-            return user;
-        }
-        return null;
-    }
-
-    @Override
     public User findByUserId(String user_id) {
         User user = userMapper.findUserById(user_id);
         return user;

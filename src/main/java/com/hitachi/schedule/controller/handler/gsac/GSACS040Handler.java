@@ -2,7 +2,6 @@ package com.hitachi.schedule.controller.handler.gsac;
 
 import com.hitachi.schedule.controller.actionform.GSACS040Form;
 import com.hitachi.schedule.controller.checker.GSACS040Checker;
-import com.hitachi.schedule.controller.common.FileReadUtil;
 import com.hitachi.schedule.controller.common.GCConstGlobals;
 import com.hitachi.schedule.controller.common.SessionUtil;
 import com.hitachi.schedule.controller.component.CommonUtil;
@@ -10,13 +9,13 @@ import com.hitachi.schedule.controller.component.MessageReadUtil;
 import com.hitachi.schedule.mybatis.pojo.User;
 import com.hitachi.schedule.mybatis.pojo.UserRl;
 import com.hitachi.schedule.service.GSACScheduleF;
+import com.hitachi.schedule.service.GSAXScheduleFileF;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +34,8 @@ public class GSACS040Handler {
     private CommonUtil commonUtil;
     @Autowired
     private GSACScheduleF gsacService;
+    @Autowired
+    private GSAXScheduleFileF gsaxFileService;
 
     private static final String RTN_STR_NG = "redirect:/GSACS040Display";
     private static final String RTN_STR_OK = "redirect:/GSACS040Display";
@@ -71,9 +72,7 @@ public class GSACS040Handler {
         }
 
         String loginUserId = SessionUtil.getUserId(request);
-        doUpdate(form, userId, loginUserId, user_ex_key_session);
-
-        return doUpdatePro(redirectModel, form, request, userId, loginUserId);
+        return doUpdate(redirectModel, form, request, userId, loginUserId, user_ex_key_session);
     }
 
     @PostMapping("/GSACS040Back")
@@ -103,23 +102,19 @@ public class GSACS040Handler {
         return false;
     }
 
-    private void doUpdate(GSACS040Form form, String userId, String loginUserId, int user_ex_key_session) {
+    private String doUpdate(
+            RedirectAttributes redirectModel,
+            GSACS040Form form,
+            HttpServletRequest request,
+            String userId,
+            String loginUserId,
+            int user_ex_key_session) {
         User user = new User();
         user.setUser_id(userId);
         user.setUser_password(form.getStrUserPassword());
         user.setUser_delete_flag(GCConstGlobals.GSAA_PROP_GSACT040_SEARCH_FLG);
         user.setUser_update_uid(loginUserId);
         user.setUser_ex_key(user_ex_key_session == 999 ? 0 : user_ex_key_session + 1);
-
-        String strImageRadio = form.getStrImageRadio();
-        if ("6".equals(strImageRadio)) {
-            MultipartFile imageFile = form.getImageFile();
-            user.setUser_image_name(FileReadUtil.readFileName(imageFile));
-            user.setUser_image(FileReadUtil.readFileData(imageFile));
-        } else if ("7".equals(strImageRadio)) {
-            user.setUser_image_name("");
-            user.setUser_image(null);
-        }
 
         List<String> rlIdList = form.getRlIdList();
         String rlId = commonUtil.getStringFromList(rlIdList);
@@ -129,28 +124,29 @@ public class GSACS040Handler {
         userRl.setUser_rl_update_uid(loginUserId);
         userRl.setUser_rl_ex_key(GCConstGlobals.GS_PROP_INIT_EX_KEY);
 
-        gsacService.updateUserAndRlInfo(user, userRl);
-    }
+        String strImageRadio = form.getStrImageRadio();
+        if ("6".equals(strImageRadio)) {
+            String userImage = gsaxFileService.saveFile(
+                    GCConstGlobals.GSAB_MONGODB_COLLECTION_NAME_USER,
+                    form.getImageFile());
+            user.setUser_image(userImage);
 
-    private String doUpdatePro(
-            RedirectAttributes redirectModel,
-            GSACS040Form form,
-            HttpServletRequest request,
-            String userId,
-            String loginUserId) {
-        List<String> rlIdList = form.getRlIdList();
+        } else if ("7".equals(strImageRadio)) {
+            user.setUser_image("");
+        }
+
+        gsacService.updateUserAndRlInfo(user, userRl);
+
         if (userId.equals(loginUserId)) {
             Map<String, Object> gs_info = SessionUtil.getUserDetial(request);
 
-            String strImageRadio = form.getStrImageRadio();
             if ("6".equals(strImageRadio)) {
-                MultipartFile imageFile = form.getImageFile();
-                gs_info.put("userImg", FileReadUtil.readFileData(imageFile));
+                gs_info.put("userImg", user.getUser_image());
             } else if ("7".equals(strImageRadio)) {
                 gs_info.put("userImg", null);
             }
 
-            gs_info.put("roles", commonUtil.getStringFromList(rlIdList));
+            gs_info.put("roles", rlId);
             gs_info.put("rolesName", gsacService.getAllRlName(userId));
 
             SessionUtil.saveUserDetial(request, gs_info);

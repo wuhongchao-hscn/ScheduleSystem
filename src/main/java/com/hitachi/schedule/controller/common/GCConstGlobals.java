@@ -41,4 +41,14 @@ public class GCConstGlobals {
     public static final String GSAA_PROP_GSACT040_DELETE_FLG = "1";
 
     public static final String GSAA_FUGO_SCHEDULE_LIST_DISPLAY = "...";
+
+
+    public static final String GSAB_MONGODB_PARAM_USER = "user";
+    public static final String GSAB_MONGODB_PARAM_ARTICLE = "article";
+    public static final String GSAB_MONGODB_COLLECTION_NAME_USER = "userImgDatas";
+    public static final String GSAB_MONGODB_COLLECTION_NAME_ARTICLE = "articleImgDatas";
+    public static final String GSAB_MONGODB_COLLECTION_NAME_DEFAULT = "otherImgDatas";
+    public static final String GSAB_THUMBNAIL_DEFAULT_SUFFIX = "jpg";
+
+
 }

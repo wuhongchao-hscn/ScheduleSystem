@@ -8,7 +8,6 @@
         <result column="shkin_id" property="shkin_id"/>
         <result column="user_password" property="user_password"/>
         <result column="user_image" property="user_image"/>
-        <result column="user_image_name" property="user_image_name"/>
         <result column="user_delete_flag" property="user_delete_flag"/>
         <result column="user_update_uid" property="user_update_uid"/>
         <result column="user_update_ymd" property="user_update_ymd"/>
@@ -90,8 +89,7 @@
     </select>
 
     <sql id="updateUserSql">
-        <if test="user_image_name!=null">
-            user_image_name = #{user_image_name},
+        <if test="user_image!=null">
             user_image = #{user_image},
         </if>
         user_password = #{user_password} ,
@@ -137,10 +135,10 @@
             SELECT nextval('user_id_seq'::regclass) as user_id
         </selectKey>
         INSERT INTO public.user (user_id, shkin_id, user_password, user_image,
-        user_image_name, user_delete_flag, user_update_uid, user_update_ymd,
+        user_delete_flag, user_update_uid, user_update_ymd,
         user_ex_key)
         VALUES (#{user_id}, #{shkin_id}, #{user_password}, #{user_image},
-        #{user_image_name}, #{user_delete_flag}, #{user_update_uid}, #{user_update_ymd},
+        #{user_delete_flag}, #{user_update_uid}, #{user_update_ymd},
         #{user_ex_key})
     </insert>
 
