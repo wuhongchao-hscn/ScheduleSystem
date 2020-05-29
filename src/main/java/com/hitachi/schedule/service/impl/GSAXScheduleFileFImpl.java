@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +37,7 @@ public class GSAXScheduleFileFImpl implements GSAXScheduleFileF {
     @Autowired
     private GridFsTemplate gridFsTemplate;
     @Autowired
-    private GridFSBucket gridFSBucket;
+    private GridFSBucket gridFsBucket;
 
     @Override
     public String saveFile(String collectionName, MultipartFile imageFile) {
@@ -97,38 +96,42 @@ public class GSAXScheduleFileFImpl implements GSAXScheduleFileF {
 
     @Override
     public Optional<FileDocument> getFileById(String id, String collectionName, Integer width, Integer height) {
-        FileDocument fileDocument = mongoTemplate.findById(id, FileDocument.class, collectionName);
-        if (fileDocument != null) {
-            Query gridQuery = new Query().addCriteria(Criteria.where("filename").is(fileDocument.getGridfsId()));
-            try {
-                GridFSFile fsFile = gridFsTemplate.findOne(gridQuery);
-                GridFSDownloadStream in = gridFSBucket.openDownloadStream(fsFile.getObjectId());
-                if (in.getGridFSFile().getLength() > 0) {
-                    GridFsResource resource = new GridFsResource(fsFile, in);
-                    InputStream is = resource.getInputStream();
-                    Thumbnails.Builder<? extends InputStream> builder = Thumbnails.of(is);
-
-                    if (null != width) {
-                        builder = builder.width(width);
-                    }
-                    if (null != height) {
-                        builder = builder.height(height);
-                    }
-
-                    BufferedImage bufferedImage = builder.asBufferedImage();
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    ImageIO.write(bufferedImage, GCConstGlobals.GSAB_THUMBNAIL_DEFAULT_SUFFIX, baos);
-                    fileDocument.setContent(baos.toByteArray());
-
-                    return Optional.of(fileDocument);
-                } else {
-                    return Optional.empty();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
+        try {
+            FileDocument fileDocument = mongoTemplate.findById(id, FileDocument.class, collectionName);
+            if (null == fileDocument) {
+                return Optional.empty();
             }
+
+            Query gridQuery = new Query().addCriteria(Criteria.where("filename").is(fileDocument.getGridfsId()));
+            GridFSFile fsFile = gridFsTemplate.findOne(gridQuery);
+            if (null == fsFile) {
+                return Optional.empty();
+            }
+            
+            GridFSDownloadStream in = gridFsBucket.openDownloadStream(fsFile.getObjectId());
+            if (in.getGridFSFile().getLength() <= 0) {
+                return Optional.empty();
+            }
+            GridFsResource resource = new GridFsResource(fsFile, in);
+            InputStream is = resource.getInputStream();
+            Thumbnails.Builder<? extends InputStream> builder = Thumbnails.of(is);
+
+            if (null != width) {
+                builder = builder.width(width);
+            }
+            if (null != height) {
+                builder = builder.height(height);
+            }
+
+            BufferedImage bufferedImage = builder.asBufferedImage();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, GCConstGlobals.GSAB_THUMBNAIL_DEFAULT_SUFFIX, baos);
+            fileDocument.setContent(baos.toByteArray());
+
+            return Optional.of(fileDocument);
+        } catch (Exception ex) {
+            return Optional.empty();
         }
-        return Optional.empty();
     }
 
     @Override

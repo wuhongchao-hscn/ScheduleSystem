@@ -14,10 +14,11 @@ public class GridFSBucketConfig {
     @Value("${spring.data.mongodb.database}")
     private String db;
 
-    //GridFSBucket用于打开下载流
+    // GridFSBucket用于打开下载流
     @Bean
-    public GridFSBucket gridFSBucket(MongoClient mongoClient) {
+    public GridFSBucket gridFsBucket(MongoClient mongoClient) {
         MongoDatabase database = mongoClient.getDatabase(db);
+        // 构造函数，默认的存储桶名称：fs
         GridFSBucket gridFSBucket = GridFSBuckets.create(database);
         return gridFSBucket;
     }
