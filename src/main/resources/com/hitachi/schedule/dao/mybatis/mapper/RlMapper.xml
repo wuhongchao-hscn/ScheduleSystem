@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hitachi.schedule.dao.mybatis.mapper.RlMapper">
+    <select id="getAllRlNameByUserId" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT rl_name FROM public.rl WHERE
+        rl_id IN (
+        select regexp_split_to_table from regexp_split_to_table (
+        (SELECT rl_id FROM public.userrl WHERE user_id = #{user_id}),
+         ','
+        )
+        )
+        ORDER BY rl.rl_id DESC
+    </select>
+
+    <select id="getUserRolesByUserId" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT rl_roles FROM public.rl WHERE
+        rl_id IN (
+        select regexp_split_to_table from regexp_split_to_table (
+        (SELECT rl_id FROM public.userrl WHERE user_id = #{user_id}),
+         ','
+        )
+        )
+        ORDER BY rl.rl_id DESC
+    </select>
+
+    <select id="listAllRl" resultType="com.hitachi.schedule.dao.mybatis.pojo.Rl">
+        SELECT rl.rl_id, rl.rl_name FROM public.rl ORDER BY rl.rl_id DESC
+    </select>
+</mapper>

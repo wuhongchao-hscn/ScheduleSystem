@@ -1,13 +1,13 @@
 package com.hitachi.schedule.controller.handler.gsac;
 
+import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.SessionUtil;
+import com.hitachi.schedule.config.component.CommonUtil;
+import com.hitachi.schedule.config.component.MessageReadUtil;
 import com.hitachi.schedule.controller.actionform.GSACS040Form;
 import com.hitachi.schedule.controller.checker.GSACS040Checker;
-import com.hitachi.schedule.controller.common.GCConstGlobals;
-import com.hitachi.schedule.controller.common.SessionUtil;
-import com.hitachi.schedule.controller.component.CommonUtil;
-import com.hitachi.schedule.controller.component.MessageReadUtil;
-import com.hitachi.schedule.mybatis.pojo.User;
-import com.hitachi.schedule.mybatis.pojo.UserRl;
+import com.hitachi.schedule.dao.mybatis.pojo.User;
+import com.hitachi.schedule.dao.mybatis.pojo.UserRl;
 import com.hitachi.schedule.service.GSACScheduleF;
 import com.hitachi.schedule.service.GSAXScheduleFileF;
 import lombok.extern.slf4j.Slf4j;

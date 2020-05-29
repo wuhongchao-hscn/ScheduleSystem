@@ -2,7 +2,7 @@ package com.hitachi.schedule.service;
 
 import com.hitachi.schedule.controller.param.MenuInfo;
 import com.hitachi.schedule.controller.param.UserHeadInfo;
-import com.hitachi.schedule.mybatis.pojo.User;
+import com.hitachi.schedule.dao.mybatis.pojo.User;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;

@@ -1,10 +1,10 @@
 package com.hitachi.schedule.controller.handler.gsaa;
 
+import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.SessionUtil;
+import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.controller.actionform.GSAAS030Form;
-import com.hitachi.schedule.controller.common.GCConstGlobals;
-import com.hitachi.schedule.controller.common.SessionUtil;
-import com.hitachi.schedule.controller.component.CommonUtil;
-import com.hitachi.schedule.mybatis.pojo.Schedule;
+import com.hitachi.schedule.dao.mybatis.pojo.Schedule;
 import com.hitachi.schedule.service.GSAAScheduleF;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.actionform;
 
-import com.hitachi.schedule.controller.constraints.NoSpace;
+import com.hitachi.schedule.config.constraints.NoSpace;
 import com.hitachi.schedule.controller.param.SelectInfo;
 import lombok.Data;
 

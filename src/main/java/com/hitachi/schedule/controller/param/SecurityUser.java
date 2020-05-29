@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.param;
 
-import com.hitachi.schedule.mybatis.pojo.User;
+import com.hitachi.schedule.dao.mybatis.pojo.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

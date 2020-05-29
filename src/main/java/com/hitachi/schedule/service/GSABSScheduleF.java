@@ -1,7 +1,7 @@
 package com.hitachi.schedule.service;
 
 import com.hitachi.schedule.controller.param.ArticleDetialInfo;
-import com.hitachi.schedule.jpa.entity.Folder;
+import com.hitachi.schedule.dao.jpa.entity.Folder;
 import com.hitachi.schedule.service.param.TitleFindResult;
 import org.springframework.transaction.annotation.Transactional;
 

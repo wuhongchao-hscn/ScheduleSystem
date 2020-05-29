@@ -1,9 +1,9 @@
 package com.hitachi.schedule.controller.handler;
 
-import com.hitachi.schedule.controller.common.ImgGetUtil;
-import com.hitachi.schedule.controller.component.CommonUtil;
-import com.hitachi.schedule.controller.exception.ErrorDownload;
-import com.hitachi.schedule.mongodb.FileDocument;
+import com.hitachi.schedule.config.common.ImgGetUtil;
+import com.hitachi.schedule.config.component.CommonUtil;
+import com.hitachi.schedule.config.exception.ErrorDownload;
+import com.hitachi.schedule.dao.mongodb.FileDocument;
 import com.hitachi.schedule.service.GSAXScheduleFileF;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

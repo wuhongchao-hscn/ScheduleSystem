@@ -2,9 +2,9 @@ package com.hitachi.schedule.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.SecureUtil;
-import com.hitachi.schedule.controller.common.GCConstGlobals;
-import com.hitachi.schedule.controller.exception.ErrorDownload;
-import com.hitachi.schedule.mongodb.FileDocument;
+import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.exception.ErrorDownload;
+import com.hitachi.schedule.dao.mongodb.FileDocument;
 import com.hitachi.schedule.service.GSAXScheduleFileF;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSDownloadStream;
@@ -70,6 +70,8 @@ public class GSAXScheduleFileFImpl implements GSAXScheduleFileF {
             // 文件，存储在GridFS中
             gridFsTemplate.store(is, gridfsId, contentType);
             fileDocument.setGridfsId(gridfsId);
+
+            // 文件信息，存储在集合中
             fileDocument = mongoTemplate.save(fileDocument, collectionName);
             userImage = fileDocument.getId();
         } catch (Exception ex) {

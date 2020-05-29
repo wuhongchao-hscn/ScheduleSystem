@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.handler.gsab;
 
-import com.hitachi.schedule.controller.common.SessionUtil;
+import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.service.GSABSScheduleF;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

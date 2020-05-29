@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hitachi.schedule.dao.mybatis.mapper.ShkinMapper">
+    <insert id="insertShkin" parameterType="com.hitachi.schedule.dao.mybatis.pojo.Shkin">
+        <selectKey keyProperty="shkin_id" order="BEFORE" resultType="java.lang.String">
+            SELECT nextval('shkin_id_seq'::regclass) as shkin_id
+        </selectKey>
+        INSERT INTO public.shkin (shkin_id, ssk_id, shkin_smi, shkin_update_uid,
+        shkin_update_ymd, shkin_ex_key)
+        VALUES (#{shkin_id}, #{ssk_id}, #{shkin_smi}, #{shkin_update_uid},
+        #{shkin_update_ymd}, #{shkin_ex_key})
+    </insert>
+
+    <select id="findShkinName" parameterType="String" resultType="String">
+        SELECT shkin_smi
+        FROM public.user a, public.shkin b
+        WHERE a.user_id = #{user_id} AND a.shkin_id = b.shkin_id
+    </select>
+
+</mapper>

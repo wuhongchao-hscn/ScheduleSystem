@@ -1,8 +1,8 @@
 package com.hitachi.schedule.controller.checker;
 
+import com.hitachi.schedule.config.component.CommonUtil;
+import com.hitachi.schedule.config.exception.ErrorInfoGM;
 import com.hitachi.schedule.controller.actionform.GSACS040Form;
-import com.hitachi.schedule.controller.component.CommonUtil;
-import com.hitachi.schedule.controller.exception.ErrorInfoGM;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

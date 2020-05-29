@@ -1,9 +1,9 @@
 package com.hitachi.schedule.service.impl;
 
 
-import com.hitachi.schedule.controller.component.CommonUtil;
+import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.controller.param.SecurityUser;
-import com.hitachi.schedule.mybatis.pojo.User;
+import com.hitachi.schedule.dao.mybatis.pojo.User;
 import com.hitachi.schedule.service.GSAXScheduleF;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

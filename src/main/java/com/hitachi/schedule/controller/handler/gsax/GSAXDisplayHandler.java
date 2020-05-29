@@ -1,9 +1,9 @@
 package com.hitachi.schedule.controller.handler.gsax;
 
+import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.controller.actionform.GSAXS010Form;
 import com.hitachi.schedule.controller.actionform.GSAXS020Form;
-import com.hitachi.schedule.controller.common.GCConstGlobals;
-import com.hitachi.schedule.controller.common.SessionUtil;
 import com.hitachi.schedule.service.GSAXScheduleF;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

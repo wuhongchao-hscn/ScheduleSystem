@@ -2,7 +2,7 @@ package com.hitachi.schedule.service;
 
 import com.hitachi.schedule.controller.param.ScheduleInfoList;
 import com.hitachi.schedule.controller.param.SelectInfo;
-import com.hitachi.schedule.mybatis.pojo.Schedule;
+import com.hitachi.schedule.dao.mybatis.pojo.Schedule;
 
 import java.util.List;
 

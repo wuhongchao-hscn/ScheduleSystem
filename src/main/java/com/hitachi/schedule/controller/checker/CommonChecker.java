@@ -1,8 +1,8 @@
 package com.hitachi.schedule.controller.checker;
 
+import com.hitachi.schedule.config.component.CommonUtil;
+import com.hitachi.schedule.config.component.MessageReadUtil;
 import com.hitachi.schedule.controller.actionform.BaseForm;
-import com.hitachi.schedule.controller.component.CommonUtil;
-import com.hitachi.schedule.controller.component.MessageReadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

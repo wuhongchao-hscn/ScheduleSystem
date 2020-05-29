@@ -1,6 +1,6 @@
 package com.hitachi.schedule.service;
 
-import com.hitachi.schedule.mongodb.FileDocument;
+import com.hitachi.schedule.dao.mongodb.FileDocument;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 

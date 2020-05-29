@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.actionform;
 
-import com.hitachi.schedule.controller.configuration.GamenInfoConfig;
+import com.hitachi.schedule.config.configuration.GamenInfoConfig;
 import com.hitachi.schedule.controller.param.NavInfo;
 import lombok.Data;
 

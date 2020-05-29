@@ -2,9 +2,9 @@ package com.hitachi.schedule.service;
 
 import com.hitachi.schedule.controller.param.SelectInfo;
 import com.hitachi.schedule.controller.param.UserDetialInfoList;
-import com.hitachi.schedule.mybatis.pojo.Shkin;
-import com.hitachi.schedule.mybatis.pojo.User;
-import com.hitachi.schedule.mybatis.pojo.UserRl;
+import com.hitachi.schedule.dao.mybatis.pojo.Shkin;
+import com.hitachi.schedule.dao.mybatis.pojo.User;
+import com.hitachi.schedule.dao.mybatis.pojo.UserRl;
 import com.hitachi.schedule.service.param.UserDeleteParam;
 import com.hitachi.schedule.service.param.UserFindParam;
 import com.hitachi.schedule.service.param.UserFindResult;

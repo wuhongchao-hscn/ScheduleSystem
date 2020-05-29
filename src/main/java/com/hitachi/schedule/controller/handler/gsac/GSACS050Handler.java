@@ -1,15 +1,15 @@
 package com.hitachi.schedule.controller.handler.gsac;
 
+import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.SessionUtil;
+import com.hitachi.schedule.config.component.CommonUtil;
+import com.hitachi.schedule.config.component.MessageReadUtil;
 import com.hitachi.schedule.controller.actionform.GSACS050Form;
 import com.hitachi.schedule.controller.checker.GSACS050Checker;
-import com.hitachi.schedule.controller.common.GCConstGlobals;
-import com.hitachi.schedule.controller.common.SessionUtil;
-import com.hitachi.schedule.controller.component.CommonUtil;
-import com.hitachi.schedule.controller.component.MessageReadUtil;
 import com.hitachi.schedule.controller.param.SelectInfo;
-import com.hitachi.schedule.mybatis.pojo.Shkin;
-import com.hitachi.schedule.mybatis.pojo.User;
-import com.hitachi.schedule.mybatis.pojo.UserRl;
+import com.hitachi.schedule.dao.mybatis.pojo.Shkin;
+import com.hitachi.schedule.dao.mybatis.pojo.User;
+import com.hitachi.schedule.dao.mybatis.pojo.UserRl;
 import com.hitachi.schedule.service.GSACScheduleF;
 import com.hitachi.schedule.service.GSAXScheduleFileF;
 import com.hitachi.schedule.service.param.UserFindParam;
@@ -117,7 +117,7 @@ public class GSACS050Handler {
         User user = new User();
         user.setUser_password(form.getStrUserPassword());
         user.setUser_delete_flag(GCConstGlobals.GSAA_PROP_GSACT040_SEARCH_FLG);
-        
+
         String userImage = gsaxFileService.saveFile(
                 GCConstGlobals.GSAB_MONGODB_COLLECTION_NAME_USER,
                 form.getImageFile());

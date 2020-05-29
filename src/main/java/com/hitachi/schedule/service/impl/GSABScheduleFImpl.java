@@ -1,13 +1,13 @@
 package com.hitachi.schedule.service.impl;
 
-import com.hitachi.schedule.controller.common.DateUtil;
-import com.hitachi.schedule.controller.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.DateUtil;
+import com.hitachi.schedule.config.common.GCConstGlobals;
 import com.hitachi.schedule.controller.param.ArticleDetialInfo;
 import com.hitachi.schedule.controller.param.CommentDetialInfo;
 import com.hitachi.schedule.controller.param.TitleInfo;
-import com.hitachi.schedule.jpa.dao.*;
-import com.hitachi.schedule.jpa.entity.*;
-import com.hitachi.schedule.mybatis.mapper.ShkinMapper;
+import com.hitachi.schedule.dao.jpa.dao.*;
+import com.hitachi.schedule.dao.jpa.entity.*;
+import com.hitachi.schedule.dao.mybatis.mapper.ShkinMapper;
 import com.hitachi.schedule.service.GSABSScheduleF;
 import com.hitachi.schedule.service.param.TitleFindResult;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.hitachi.schedule.controller.handler;
 
-import com.hitachi.schedule.controller.common.SessionUtil;
-import com.hitachi.schedule.controller.component.MessageReadUtil;
+import com.hitachi.schedule.config.common.SessionUtil;
+import com.hitachi.schedule.config.component.MessageReadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hitachi.schedule.dao.mybatis.mapper.CodeMapper">
+    <select id="getCodeInfoByBnri" parameterType="java.lang.String"
+            resultType="com.hitachi.schedule.dao.mybatis.pojo.Code">
+        SELECT id, code_value FROM public.code WHERE code_bnri = #{code_bnri}
+    </select>
+    <select id="getCodeNameById" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT code_value FROM public.code WHERE id = #{code_id}
+    </select>
+
+</mapper>

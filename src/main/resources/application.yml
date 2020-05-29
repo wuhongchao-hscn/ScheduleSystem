@@ -88,7 +88,7 @@ logging:
     #console: "%d{yyyy-MM-dd HH:mm:ss.sss} {%thread} %-5level %logger{50} - %msg%n"
     #file: "%d{yyyy-MM-dd HH:mm:ss.sss} {%thread} %-5level %logger{50} - %msg%n"
 mybatis:
-  type-aliases-package: com.hitachi.schedule.mybatis
+  type-aliases-package: com.hitachi.schedule.dao.mybatis
   mapper-locations: classpath:mapper/*Mapper.xml
 
 web:

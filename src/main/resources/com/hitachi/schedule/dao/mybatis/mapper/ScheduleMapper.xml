@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hitachi.schedule.dao.mybatis.mapper.ScheduleMapper">
+    <select id="findScheduleListByDate" parameterType="java.lang.String"
+            resultType="com.hitachi.schedule.dao.mybatis.pojo.Schedule">
+        SELECT * FROM public.schedule WHERE schedule_yyk_ymd = #{schedule_yyk_ymd} AND schedule_delete_flag = '0' ORDER
+        BY schedule_id
+    </select>
+
+    <select id="findScheduleById" parameterType="java.lang.String"
+            resultType="com.hitachi.schedule.dao.mybatis.pojo.Schedule">
+        SELECT * FROM public.schedule WHERE schedule_id = #{schedule_id} AND schedule_delete_flag = '0'
+    </select>
+
+    <select id="findScheduleCount" parameterType="java.lang.String"
+            resultType="int">
+        SELECT count(*) FROM public.schedule WHERE schedule_id = #{schedule_id} AND schedule_delete_flag = '0'
+    </select>
+
+    <select id="getScheduleExKeyById" parameterType="java.lang.String"
+            resultType="int">
+        SELECT schedule_ex_key FROM public.schedule WHERE schedule_id = #{schedule_id} AND schedule_delete_flag = '0'
+    </select>
+
+    <sql id="updateCol">
+        <if test="schedule_yyk_ymd!=null">
+            schedule_yyk_ymd = #{schedule_yyk_ymd},
+        </if>
+        <if test="schedule_start_hm!=null">
+            schedule_start_hm = #{schedule_start_hm},
+        </if>
+        <if test="schedule_end_hm!=null">
+            schedule_end_hm = #{schedule_end_hm},
+        </if>
+        <if test="schedule_yukn!=null">
+            schedule_yukn = #{schedule_yukn},
+        </if>
+        <if test="kigst_id!=null">
+            kigst_id = #{kigst_id},
+        </if>
+        <if test="schedule_bku!=null">
+            schedule_bku = #{schedule_bku},
+        </if>
+    </sql>
+
+    <update id="updateSchedule" parameterType="com.hitachi.schedule.dao.mybatis.pojo.Schedule">
+        UPDATE public.schedule
+        SET
+        <include refid="updateCol"></include>
+        schedule_ex_key = #{schedule_ex_key},
+        user_id = #{user_id},
+        schedule_update_uid = #{schedule_update_uid},
+        schedule_update_ymd = #{schedule_update_ymd},
+        schedule_delete_flag = #{schedule_delete_flag}
+        WHERE schedule_id = #{schedule_id}
+    </update>
+
+    <insert id="insertSchedule" parameterType="com.hitachi.schedule.dao.mybatis.pojo.Schedule">
+        <selectKey keyProperty="schedule_id" order="BEFORE" resultType="java.lang.String">
+            SELECT nextval('scheduleid_seq'::regclass) as schedule_id
+        </selectKey>
+        INSERT INTO public.schedule (schedule_id, kigst_id, user_id, schedule_yyk_ymd,
+        schedule_start_hm, schedule_end_hm, schedule_yukn, schedule_bku,
+        schedule_delete_flag, schedule_update_uid, schedule_update_ymd, schedule_ex_key)
+        VALUES (#{schedule_id}, #{kigst_id}, #{user_id}, #{schedule_yyk_ymd},
+        #{schedule_start_hm}, #{schedule_end_hm}, #{schedule_yukn}, #{schedule_bku},
+        #{schedule_delete_flag}, #{schedule_update_uid}, #{schedule_update_ymd}, #{schedule_ex_key})
+    </insert>
+
+    <!--
+    删除序列 sequence
+    drop sequence scheduleid_seq
+
+    创建序列 sequence
+    CREATE SEQUENCE scheduleid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+
+    表id设置，自增主键
+    ALTER TABLE "public"."schedule"
+      ALTER COLUMN "schedule_id" SET DEFAULT nextval('scheduleid_seq'::regclass)
+
+
+    <selectKey keyProperty="schedule_id" order="BEFORE" resultType="java.lang.String">
+        SELECT nextval('scheduleid_seq'::regclass) as schedule_id
+    </selectKey>
+    获取的id，可以在param中自动设定，默认没有返回值键
+
+    db执行前，schedule中scheduleid为空
+    scheduleMapper.insertSchedule(schedule);
+    db执行后，schedule中scheduleid为selectKey的执行结果
+    return schedule.getSchedule_id();
+    -->
+
+
+</mapper>

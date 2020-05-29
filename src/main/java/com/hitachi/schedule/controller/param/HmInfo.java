@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.param;
 
-import com.hitachi.schedule.controller.common.StringUtil;
+import com.hitachi.schedule.config.common.StringUtil;
 import lombok.Data;
 
 @Data

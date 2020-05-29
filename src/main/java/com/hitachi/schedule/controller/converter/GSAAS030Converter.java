@@ -1,7 +1,7 @@
 package com.hitachi.schedule.controller.converter;
 
+import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.controller.actionform.GSAAS030Form;
-import com.hitachi.schedule.controller.component.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
