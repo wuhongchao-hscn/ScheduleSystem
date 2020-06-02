@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div class="card-body overflow-auto" style="height: calc(100vh - 240px)"
+        <div id="articleScrollDiv" class="card-body overflow-auto" style="height: calc(100vh - 240px)"
              th:fragment="articleList(titleHideFlg)">
 
             <div th:each="obj, stat : *{articleList}">
@@ -29,7 +29,7 @@
                 <div class="media w-75" th:id="'article' + ${obj.articleId}" th:if="${obj.contentFlg}">
                     <span th:utext="${obj.articleImg}" th:if="${obj.articleImg}"></span>
                     <div class="media-body">
-                        <span th:text="${obj.userName} + '： '"></span>
+                        <span th:text="${obj.userName} + '： '" th:if="${obj.userName}"></span>
                         <span th:text="${obj.articleContent}"></span>
                         <a href="#" name="articleUp" th:value="${obj.articleId}">
                             阅读全文
@@ -45,7 +45,7 @@
                 </div>
                 <div class="media w-75" th:id="'article' + ${obj.articleId}" th:unless="${obj.contentFlg}">
                     <div class="media-body">
-                        <img th:src="'/commonGetImg/' + ${obj.userName} + '?param=user&height=20&width=20'"
+                        <img th:src="'/commonGetImg/' + ${obj.userImg} + '?param=user&height=20&width=20'"
                              th:if="${obj.userName}"
                              width="20x" height="20px" class="rounded-circle" alt="利用者画像"/>
                         <span th:utext="${obj.userName}" th:if="${obj.userName}"></span>

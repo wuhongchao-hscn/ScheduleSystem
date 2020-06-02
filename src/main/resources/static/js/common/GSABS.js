@@ -53,7 +53,10 @@
     $("a[name='articleList']").click(function () {
         let itemId = $(this).attr('id');
         itemId = itemId.substr(0, itemId.length - 4);
-        $('#' + itemId).show();
+        let item = $('#' + itemId)
+        item.show();
+        // 让滚动条回到打开之前的状态
+        $("#articleScrollDiv").scrollTop(item.offset().top);
         $('#' + itemId + 'Display').remove();
         $(this).addClass('d-inline');
         return false;
