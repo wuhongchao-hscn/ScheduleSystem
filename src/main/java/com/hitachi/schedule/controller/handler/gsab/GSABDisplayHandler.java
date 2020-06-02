@@ -29,8 +29,8 @@ public class GSABDisplayHandler {
             HttpServletRequest request,
             Model model) {
         GSABS010Form outForm = new GSABS010Form();
-        String loginUserId = SessionUtil.getUserId(request);
 
+        String loginUserId = SessionUtil.getUserId(request);
         outForm.setArticleList(gsabsService.getArticleList(loginUserId));
 
         model.addAttribute("form", outForm);

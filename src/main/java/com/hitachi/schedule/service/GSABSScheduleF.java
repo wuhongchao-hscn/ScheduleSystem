@@ -11,7 +11,7 @@ import java.util.Map;
 public interface GSABSScheduleF {
     List<ArticleDetialInfo> getArticleList(String userId);
 
-    String getAllArticleContentById(long articleId);
+    Map<String, Object> getAllArticleContentById(long articleId);
 
     String getAllTileContentById(long titleId);
 

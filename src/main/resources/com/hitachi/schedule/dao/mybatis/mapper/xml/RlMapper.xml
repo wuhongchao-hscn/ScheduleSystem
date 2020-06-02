@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hitachi.schedule.dao.mybatis.mapper.RlMapper">
+<mapper namespace="com.hitachi.schedule.dao.mybatis.mapper.xml.RlMapper">
     <select id="getAllRlNameByUserId" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT rl_name FROM public.rl WHERE
         rl_id IN (

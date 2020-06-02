@@ -21,7 +21,7 @@ public class DataSourceConfigMybatis {
 
     // 精确到 mybatis 目录，以便跟其他数据源隔离
     static final String PACKAGE = "com.hitachi.schedule.dao.mybatis.mapper";
-    static final String MAPPER_LOCATION = "classpath:com/hitachi/schedule/dao/mybatis/mapper/*.xml";
+    static final String MAPPER_LOCATION = "classpath:com/hitachi/schedule/dao/mybatis/mapper/xml/*.xml";
 
     @Bean(name = "mybatisDataSource")
     @ConfigurationProperties(prefix = "spring.datasource")

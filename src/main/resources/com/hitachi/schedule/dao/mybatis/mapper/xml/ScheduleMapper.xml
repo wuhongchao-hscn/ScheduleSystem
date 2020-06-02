@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hitachi.schedule.dao.mybatis.mapper.ScheduleMapper">
+<mapper namespace="com.hitachi.schedule.dao.mybatis.mapper.xml.ScheduleMapper">
     <select id="findScheduleListByDate" parameterType="java.lang.String"
             resultType="com.hitachi.schedule.dao.mybatis.pojo.Schedule">
         SELECT * FROM public.schedule WHERE schedule_yyk_ymd = #{schedule_yyk_ymd} AND schedule_delete_flag = '0' ORDER

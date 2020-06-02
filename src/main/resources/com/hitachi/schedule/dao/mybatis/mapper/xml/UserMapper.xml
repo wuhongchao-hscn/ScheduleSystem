@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hitachi.schedule.dao.mybatis.mapper.UserMapper">
+<mapper namespace="com.hitachi.schedule.dao.mybatis.mapper.xml.UserMapper">
     <resultMap type="com.hitachi.schedule.dao.mybatis.pojo.User" id="UserShkinInfo">
         <id column="user_id" property="user_id"/>
         <result column="shkin_id" property="shkin_id"/>

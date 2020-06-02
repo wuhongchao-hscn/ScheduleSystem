@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hitachi.schedule.dao.mybatis.mapper.SskMapper">
+<mapper namespace="com.hitachi.schedule.dao.mybatis.mapper.xml.SskMapper">
 
     <select id="findSskById" parameterType="java.lang.String" resultType="com.hitachi.schedule.dao.mybatis.pojo.Ssk">
         SELECT * FROM public.ssk WHERE ssk_id = #{ssk_id}

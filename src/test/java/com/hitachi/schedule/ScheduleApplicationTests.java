@@ -1,7 +1,7 @@
 package com.hitachi.schedule;
 
 import com.hitachi.schedule.dao.jpa.dao.ArticleDao;
-import com.hitachi.schedule.dao.mybatis.mapper.UserMapper;
+import com.hitachi.schedule.dao.mybatis.mapper.xml.UserMapper;
 import com.hitachi.schedule.dao.mybatis.pojo.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package com.hitachi.schedule.dao.mybatis.mapper;
+package com.hitachi.schedule.dao.mybatis.mapper.xml;
 
 
 import com.hitachi.schedule.dao.mybatis.pojo.Ssk;

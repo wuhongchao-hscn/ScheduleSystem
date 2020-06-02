@@ -13,6 +13,8 @@ public class ArticleDetialInfo {
 
     private String articleImg;
 
+    private String userImg;
+
     private String userName;
 
     private String articleContent;

@@ -152,7 +152,37 @@
 
 function listArticleData(data, itemId) {
     let item = $('#' + itemId);
-    item.after('<pre id="' + itemId + 'Display">' + data + '</pre>');
+
+    let content = data.content;
+    let options = '';
+    if (content) {
+        // Article
+        options +=
+            '<div class="media w-75" id="' + itemId + 'Display">' +
+            ' <div class="media-body">';
+
+        let userInfo = data.userInfo;
+        if (userInfo) {
+            let agree = item.next().find('span[name="agree"]').text();
+            options +=
+                '<img src="/commonGetImg/' + userInfo.user_image + '?param=user&height=20&width=20"' +
+                '     width="20x" height="20px" class="rounded-circle" alt="利用者画像"/>' +
+                '<span>' + userInfo.shkin_smi + '</span>' +
+                '<br/>' +
+                '<span class="font-weight-light">' + agree + '人赞成了该回答</span>' +
+                '<br/>';
+        }
+
+        options +=
+            '  <pre>' + content + '</pre>' +
+            ' </div>' +
+            '</div>';
+    } else {
+        // Title
+        options += '<pre>' + data + '</pre>';
+    }
+
+    item.after(options);
     item.hide();
     $('#' + itemId + 'List').addClass('d-inline');
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hitachi.schedule.dao.mybatis.mapper.CodeMapper">
+<mapper namespace="com.hitachi.schedule.dao.mybatis.mapper.xml.CodeMapper">
     <select id="getCodeInfoByBnri" parameterType="java.lang.String"
             resultType="com.hitachi.schedule.dao.mybatis.pojo.Code">
         SELECT id, code_value FROM public.code WHERE code_bnri = #{code_bnri}

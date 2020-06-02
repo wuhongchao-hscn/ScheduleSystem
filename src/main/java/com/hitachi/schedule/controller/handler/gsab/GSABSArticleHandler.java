@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 
 @Controller
@@ -20,7 +21,7 @@ public class GSABSArticleHandler {
 
     @GetMapping("/GSABSArticle/{articleId}")
     @ResponseBody
-    public String GSABSArticle(
+    public Map<String, Object> GSABSArticle(
             @PathVariable("articleId") long articleId) {
         return gsabsService.getAllArticleContentById(articleId);
     }

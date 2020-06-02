@@ -3,7 +3,7 @@ package com.hitachi.schedule.service.impl;
 import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.controller.param.MenuInfo;
 import com.hitachi.schedule.controller.param.UserHeadInfo;
-import com.hitachi.schedule.dao.mybatis.mapper.*;
+import com.hitachi.schedule.dao.mybatis.mapper.xml.*;
 import com.hitachi.schedule.dao.mybatis.pojo.Menu;
 import com.hitachi.schedule.dao.mybatis.pojo.Shkin;
 import com.hitachi.schedule.dao.mybatis.pojo.Ssk;

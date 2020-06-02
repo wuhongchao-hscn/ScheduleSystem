@@ -6,7 +6,7 @@ import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.controller.param.SelectInfo;
 import com.hitachi.schedule.controller.param.UserDetialInfoList;
 import com.hitachi.schedule.controller.param.UserInfoList;
-import com.hitachi.schedule.dao.mybatis.mapper.*;
+import com.hitachi.schedule.dao.mybatis.mapper.xml.*;
 import com.hitachi.schedule.dao.mybatis.param.UserNameForSearch;
 import com.hitachi.schedule.dao.mybatis.pojo.*;
 import com.hitachi.schedule.service.GSACScheduleF;

@@ -7,7 +7,8 @@ import com.hitachi.schedule.controller.param.CommentDetialInfo;
 import com.hitachi.schedule.controller.param.TitleInfo;
 import com.hitachi.schedule.dao.jpa.dao.*;
 import com.hitachi.schedule.dao.jpa.entity.*;
-import com.hitachi.schedule.dao.mybatis.mapper.ShkinMapper;
+import com.hitachi.schedule.dao.mybatis.mapper.annotations.ArticleUserDao;
+import com.hitachi.schedule.dao.mybatis.param.ArticeleUserInfo;
 import com.hitachi.schedule.service.GSABSScheduleF;
 import com.hitachi.schedule.service.param.TitleFindResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,25 +31,35 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
     @Autowired
     private AgreeDao agreeDao;
     @Autowired
-    private ShkinMapper shkinMapper;
-    @Autowired
     private LikesDao likesDao;
     @Autowired
     private FolderDao folderDao;
     @Autowired
     private CollectDao collectDao;
+    @Autowired
+    private ArticleUserDao articleUserDao;
 
 
     @Override
     public List<ArticleDetialInfo> getArticleList(String userId) {
         List<Article> db_rtn = articleDao.findTop10ByOrderByArticleUpdateDateDesc();
-        return doEditArticleListInfo(db_rtn, userId);
+        return doEditArticleInfoList(db_rtn, userId);
     }
 
     @Override
-    public String getAllArticleContentById(long articleId) {
+    public Map<String, Object> getAllArticleContentById(long articleId) {
         Article article = articleDao.findByArticleId(articleId);
-        return article.getArticleContent();
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("content", article.getArticleContent());
+
+        Optional<ArticeleUserInfo> infoOptional = articleUserDao.findArticleUserInfo(article.getArticleCreateId());
+        if (infoOptional.isPresent()) {
+            ArticeleUserInfo articeleUserInfo = infoOptional.get();
+            result.put("userInfo", articeleUserInfo);
+        }
+
+        return result;
     }
 
     @Override
@@ -242,10 +253,10 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
         Article article = articleDao.findByArticleId(articleId);
         List<Article> db_rtn = articleDao.findTop10ByArticleTitleIdAndArticleIdNotOrderByArticleAgreeDesc(titleId, articleId);
         db_rtn.add(0, article);
-        return doEditArticleListInfo(db_rtn, userId);
+        return doEditArticleInfoList(db_rtn, userId);
     }
 
-    private List<ArticleDetialInfo> doEditArticleListInfo(List<Article> db_rtn, String userId) {
+    private List<ArticleDetialInfo> doEditArticleInfoList(List<Article> db_rtn, String userId) {
         List<ArticleDetialInfo> articleList = new ArrayList<>();
         for (Article obj : db_rtn) {
             ArticleDetialInfo info = new ArticleDetialInfo();
@@ -258,10 +269,18 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
             info.setArticleAgree(obj.getArticleAgree());
             Agree agree = agreeDao.findByUserIdAndArticleId(userId, articleId);
             info.setArticleAgreeFlg(null == agree ? 0 : agree.isAgree() ? 1 : 2);
-            info.setUserName(shkinMapper.findShkinName(userId));
+
+            Optional<ArticeleUserInfo> infoOptional = articleUserDao.findArticleUserInfo(obj.getArticleCreateId());
+            if (infoOptional.isPresent()) {
+                ArticeleUserInfo articeleUserInfo = infoOptional.get();
+                info.setUserName(articeleUserInfo.getShkin_smi());
+                info.setUserImg(articeleUserInfo.getUser_image());
+            }
+
             info.setArticleLikeFlg(0 != likesDao.countByArticleIdAndUpdateId(articleId, userId));
 
             String content = obj.getArticleContent();
+            info.setArticleContent(content);
             int startIndex = content.indexOf("<img src=");
             int endIndex = 0;
             if (startIndex >= 0) {
@@ -298,7 +317,14 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
             info.setId(comment.getId());
             String userId = comment.getUpdateId();
             info.setUserId(userId);
-            info.setUserName(shkinMapper.findShkinName(userId));
+
+            Optional<ArticeleUserInfo> infoOptional = articleUserDao.findArticleUserInfo(comment.getUpdateId());
+            if (infoOptional.isPresent()) {
+                ArticeleUserInfo articeleUserInfo = infoOptional.get();
+                info.setUserName(articeleUserInfo.getShkin_smi());
+                info.setUserImg(articeleUserInfo.getUser_image());
+            }
+
             info.setLevel(comment.getLevel());
             Date uDate = comment.getUpdateDate();
             info.setDateLong(DateUtil.getDayBetween(uDate, dateNow));

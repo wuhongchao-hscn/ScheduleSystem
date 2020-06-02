@@ -12,6 +12,8 @@ public class CommentDetialInfo {
 
     private String userId;
 
+    private String userImg;
+
     private String userName;
 
     private String dateLong;
