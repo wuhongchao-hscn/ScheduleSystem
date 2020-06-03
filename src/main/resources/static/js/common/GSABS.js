@@ -348,9 +348,11 @@ function isCommentExist(data, item, articleId) {
     let commentCount = data.commentCount;
     if (commentCount == 0) {
         let options =
-            '<div class="card w-75">' +
+            '<div class="card w-75" id="comment' + articleId + 'DivDisplay">' +
             ' <div class="card-header border-bottom-0 bg-white">' +
-            '    <b>还没有评论</b>' +
+            '    <span name="commentCountHeader"><b>还没有评论</b></span>' +
+            ' </div>' +
+            ' <div class="card-body d-none" name="comment' + articleId + 'Body">' +
             ' </div>' +
             editFooterHtml(data, articleId) +
             '</div>';
@@ -372,7 +374,7 @@ function editHeadHtml(data, itemId, articleId) {
         ' <div class="card-header bg-white">' +
         '  <div class="row justify-content-between">' +
         '   <div class="col-4">' +
-        '    ' + commentCount + ' 条评论' +
+        '    <span name="commentCountHeader">' + commentCount + '</span> 条评论' +
         '   </div>' +
         '   <div class="col-4 text-right">' +
         '    <span name="' + spanName + '" value="' + articleId + '">' +
@@ -394,7 +396,7 @@ function editBodyHtml(data, articleId) {
     let objList = data.levelList;
     let levelFlg = data.levelFlg;
 
-    let options = '<div class="card-body">';
+    let options = '<div class="card-body" name="comment' + articleId + 'Body">';
     options += makeCommentHtml(objList, levelFlg, articleId);
     options += '</div>';
 
@@ -428,26 +430,28 @@ function makeCommentHtml(objList, levelFlg, articleId) {
 
 function editLineHtml(obj, articleId) {
     let options =
-        '<div class="row no-gutters">' +
-        ' <div class="col-md-8">' +
-        '  <img src="/images/carousel3.jpg" width="20px" height="20px"/>' +
-        '  ' + obj.userName +
+        '<div name="line' + obj.id + 'Div">' +
+        ' <div class="row no-gutters">' +
+        '  <div class="col-md-8">' +
+        '   <img src="/images/carousel3.jpg" width="20px" height="20px"/>' +
+        '   ' + obj.userName +
+        '  </div>' +
+        '  <div class="col-md-4 text-right text-secondary">' + obj.dateLong + '</div>' +
         ' </div>' +
-        ' <div class="col-md-4 text-right text-secondary">' + obj.dateLong + '</div>' +
-        '</div>' +
-        '<div class="row no-gutters">' +
-        ' <div class="col-md-8">' +
-        '  <pre>' + obj.comment + '</pre>' +
-        ' </div>' +
-        ' <div class="col-md-4 text-right text-secondary">' +
-        '  <a class="text-secondary" name="commentReply"' +
-        '     value="' + articleId + '" parentId="' + obj.id + '" username="' + obj.userName + '">' +
-        '   <svg fill="currentColor" viewBox="0 0 24 24" width="16" height="16" style="margin-right: 5px;">' +
-        '    <path d="M22.959 17.22c-1.686-3.552-5.128-8.062-11.636-8.65-.539-.053-1.376-.436-1.376-1.561V4.678c0-.521-.635-.915-1.116-.521L1.469 10.67a1.506 1.506 0 0 0-.1 2.08s6.99 6.818 7.443 7.114c.453.295 1.136.124 1.135-.501V17a1.525 1.525 0 0 1 1.532-1.466c1.186-.139 7.597-.077 10.33 2.396 0 0 .396.257.536.257.892 0 .614-.967.614-.967z" fill-rule="evenodd">' +
-        '    </path>' +
-        '   </svg>' +
-        '   <span>回复</span>' +
-        '  </a>' +
+        ' <div class="row no-gutters">' +
+        '  <div class="col-md-8">' +
+        '   <pre>' + obj.comment + '</pre>' +
+        '  </div>' +
+        '  <div class="col-md-4 text-right text-secondary">' +
+        '   <a class="text-secondary" name="commentReply"' +
+        '      value="' + articleId + '" parentId="' + obj.id + '" username="' + obj.userName + '">' +
+        '    <svg fill="currentColor" viewBox="0 0 24 24" width="16" height="16" style="margin-right: 5px;">' +
+        '     <path d="M22.959 17.22c-1.686-3.552-5.128-8.062-11.636-8.65-.539-.053-1.376-.436-1.376-1.561V4.678c0-.521-.635-.915-1.116-.521L1.469 10.67a1.506 1.506 0 0 0-.1 2.08s6.99 6.818 7.443 7.114c.453.295 1.136.124 1.135-.501V17a1.525 1.525 0 0 1 1.532-1.466c1.186-.139 7.597-.077 10.33 2.396 0 0 .396.257.536.257.892 0 .614-.967.614-.967z" fill-rule="evenodd">' +
+        '     </path>' +
+        '    </svg>' +
+        '    <span>回复</span>' +
+        '   </a>' +
+        '  </div>' +
         ' </div>' +
         '</div>';
     return options;
@@ -607,8 +611,19 @@ function updateCollectModal(data, itemId) {
 function addCommentData(data, item) {
     let articleId = $(item).attr('value');
     let parentId = $(item).attr('parentid');
+    let diplayItem = $("#comment" + articleId + "DivDisplay");
+
+    let commentCountHeader = diplayItem.find("span[name='commentCountHeader']")
+    let cnt = commentCountHeader.text();
+    if ($.isNumeric(cnt)) {
+        commentCountHeader.text(parseInt(cnt) + 1);
+    } else {
+        commentCountHeader.html('1');
+        commentCountHeader.append('条评论');
+    }
+
     if (parentId) {
-        let parentItem = $(item).parent().parent().parent();
+        let parentItem = diplayItem.find("div[name='line" + parentId + "Div']");
         let options = '<hr/>' + editLineHtml(data, articleId);
 
         if (parentItem.next().hasClass("pad-left-40")) {
@@ -618,10 +633,19 @@ function addCommentData(data, item) {
             parentItem.after(options);
         }
 
-        $(item).parent().parent().prev().find("a[name='commentReply']").click();
+        parentItem.find("a[name='commentReply']:first").click();
     } else {
-        let options = '<hr/>';
-        options += editLineHtml(data, articleId);
-        $(item).parent().parent().parent().prev().append(options);
+        let toItem = diplayItem.find("div[name='comment" + articleId + "Body']");
+        toItem.next().find("input[name='commentInput']").val('');
+
+        if ($.isNumeric(cnt)) {
+            let options = '<hr/>' + editLineHtml(data, articleId);
+            toItem.append(options);
+        } else {
+            toItem.prev().removeClass('border-bottom-0')
+            toItem.removeClass('d-none');
+            let options = editLineHtml(data, articleId);
+            toItem.append(options);
+        }
     }
 }
