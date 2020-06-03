@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
-    $("a[name='articleUp']").click(function () {
+    let parentItem = $("div.card-body.overflow-auto");
+    parentItem.delegate("a[name='articleUp']", "click", function () {
         let articleId = $(this).attr('value');
         let url = "/GSABSArticle/" + articleId;
         let articleItemId = 'article' + articleId;
@@ -7,7 +8,7 @@
 
         return ajaxGet($(this), url, articleItemId, fun);
     });
-    $("a[name='titleUp']").click(function () {
+    parentItem.delegate("a[name='titleUp']", "click", function () {
         let titleId = $(this).attr('value');
         let url = "/GSABSTitle/" + titleId;
         let titleItemId = 'title' + titleId;
@@ -16,7 +17,7 @@
         return ajaxGet($(this), url, titleItemId, fun);
     });
 
-    $("a[name='articleAgree']").click(function () {
+    parentItem.delegate("a[name='articleAgree']", "click", function () {
         let articleId = $(this).attr('value');
         let agreeSpanItemId = 'article' + articleId + 'AgreeSpan';
         let agreeParam = getAgreeParam(articleId, true);
@@ -28,7 +29,7 @@
 
     });
 
-    $("a[name='articleDisAgree']").click(function () {
+    parentItem.delegate("a[name='articleDisAgree']", "click", function () {
         let articleId = $(this).attr('value');
         let agreeSpanItemId = 'article' + articleId + 'AgreeSpan';
         let agreeParam = getAgreeParam(articleId, false);
@@ -39,7 +40,7 @@
         return ajaxGet($(this), url, agreeSpanItemId, fun);
     });
 
-    $("a[name='articleCountUp']").click(function () {
+    parentItem.delegate("a[name='articleCountUp']", "click", function () {
         let articleId = $(this).attr('value');
         let url = "/GSABSComments/" + articleId;
         let fun = 'listCommentData';
@@ -50,19 +51,19 @@
         return ajaxGet($(this), url, articleId, fun);
     });
 
-    $("a[name='articleList']").click(function () {
+    parentItem.delegate("a[name='articleList']", "click", function () {
         let itemId = $(this).attr('id');
         itemId = itemId.substr(0, itemId.length - 4);
         let item = $('#' + itemId)
         item.show();
         // 让滚动条回到打开之前的状态
-        $("#articleScrollDiv").scrollTop(item.offset().top);
+        parentItem.delegate("#articleScrollDiv").scrollTop(item.offset().top);
         $('#' + itemId + 'Display').remove();
         $(this).addClass('d-inline');
         return false;
     });
 
-    $("a[name='articleCountList']").click(function () {
+    parentItem.delegate("a[name='articleCountList']", "click", function () {
         let articleId = $(this).attr('value');
         let itemId = "comment" + articleId + "Div";
 
@@ -73,7 +74,7 @@
 
     });
 
-    $("a[name='shareLinkCopy']").click(function () {
+    parentItem.delegate("a[name='shareLinkCopy']", "click", function () {
         let value = $(this).attr('value');
         let hrefUrl = $(this).attr('href')
         let copyValue = value + "\r\n" + hrefUrl;
@@ -91,7 +92,7 @@
         return false;
     });
 
-    $("a[name='articleLike']").click(function () {
+    parentItem.delegate("a[name='articleLike']", "click", function () {
         let articleId = $(this).attr('value');
         let url = "/GSABSLikes/" + articleId;
         let fun = 'updateLikesArea';
@@ -99,7 +100,7 @@
         return ajaxGet($(this), url, this, fun);
     });
 
-    $("a[name='articleCollect']").click(function () {
+    parentItem.delegate("a[name='articleCollect']", "click", function () {
         let articleId = $(this).attr('value');
         $('#createFolderBtn').val(articleId);
         $('#collectModal').modal('show');
@@ -117,17 +118,17 @@
         $('#createFolderBtn').attr('disabled', 'disabled');
     });
 
-    $(".modalCloseButton").click(function () {
+    parentItem.delegate(".modalCloseButton", "click", function () {
         $('#collectModal').modal('hide');
         $('#createFolderModal').modal('hide');
     });
 
-    $("#moveToFolder").click(function () {
+    parentItem.delegate("#moveToFolder", "click", function () {
         $('#collectModal').modal('hide');
         $('#createFolderModal').modal('show');
     });
 
-    $("#collectTitle").change(function () {
+    parentItem.delegate("#collectTitle").change(function () {
         if ($(this).val()) {
             $('#createFolderBtn').removeAttr('disabled');
         } else {
@@ -135,12 +136,12 @@
         }
     });
 
-    $("#backToCollect").click(function () {
+    parentItem.delegate("#backToCollect", "click", function () {
         $('#createFolderModal').modal('hide');
         $('#collectModal').modal('show');
     });
 
-    $("#createFolderBtn").click(function () {
+    parentItem.delegate("#createFolderBtn", "click", function () {
         let title = $('#collectTitle').val();
         let content = $('#collectContent').val();
         let level = $('input:radio[name="collectLevel"]:checked').val();
@@ -150,6 +151,91 @@
         let fun = 'updateCollectModal';
 
         return ajaxGet($(this), url, null, fun);
+    });
+
+
+    parentItem.delegate("span[name='commentTimeSort']", "click", function () {
+        let articleId = $(this).attr('value');
+        let url = "/GSABSComments/" + articleId + '?sortParam=0';
+        let fun = 'listCommentData';
+
+        $('#comment' + articleId + "Div").next().remove();
+
+        return ajaxGet($(this), url, articleId, fun);
+    });
+
+    parentItem.delegate("span[name='commentDefaultSort']", "click", function () {
+        let articleId = $(this).attr('value');
+        let url = "/GSABSComments/" + articleId;
+        let fun = 'listCommentData';
+
+        $('#comment' + articleId + "Div").next().remove();
+
+        return ajaxGet($(this), url, articleId, fun);
+    });
+
+    parentItem.delegate("button[name='pageLinkDefault']", "click", function () {
+        let articleId = $(this).attr('value');
+        let pageNow = $(this).attr('page');
+        let url = "/GSABSComments/" + articleId + '?pageNow=' + pageNow;
+        let fun = 'listCommentData';
+
+        $('#comment' + articleId + "Div").next().remove();
+
+        return ajaxGet($(this), url, articleId, fun);
+    });
+
+    ////////////////////// listCommentData //////////////////////
+    parentItem.delegate("button[name='pageLinkTime']", "click", function () {
+        let articleId = $(this).attr('value');
+        let pageNow = $(this).attr('page');
+        let url = "/GSABSComments/" + articleId + '?pageNow=' + pageNow + '&sortParam=0';
+        let fun = 'listCommentData';
+
+        $('#comment' + articleId + "Div").next().remove();
+
+        return ajaxGet($(this), url, articleId, fun);
+    });
+
+    parentItem.delegate("a[name='commentReply']", "click", function () {
+        let spantext = $(this).find("span");
+        if ("回复" == spantext.text()) {
+            let articleId = $(this).attr('value');
+            let parentId = $(this).attr('parentid');
+            let placeholder = "回复 " + $(this).attr('username');
+            $(this).parent().after(commentAddItem(articleId, parentId, placeholder));
+            spantext.text('取消回复');
+        } else {
+            $(this).parent().next().remove();
+            spantext.text('回复');
+        }
+
+        return false;
+    });
+
+    parentItem.delegate("button[name='commentAdd']", "click", function () {
+        let articleId = $(this).attr('value');
+        let parentId = $(this).attr('parentid');
+        let content = $(this).parent().parent().find("input[name='commentInput']").val();
+        let url = "/GSABSComment/" + articleId + '?content=' + content;
+        if (parentId) {
+            url += "&parentId=" + parentId;
+        }
+        url = encodeURI(url);// 进行utf-8编码
+        let fun = 'addCommentData';
+
+        return ajaxGet($(this), url, this, fun);
+    });
+
+    ////////////////////// listCollectModal //////////////////////
+    parentItem.delegate("button[name='collectArticle']", "click", function () {
+        let articleId = $('#moveToFolder').val();
+        let folderId = $(this).val();
+
+        let url = "/GSABSCollect/" + articleId + '/' + folderId;
+        let fun = 'updateCollectModal';
+
+        ajaxGet($(this), url, this, fun);
     });
 });
 
@@ -245,63 +331,20 @@ function listCommentData(data, articleId) {
     let itemId = "comment" + articleId + "Div";
     let item = $('#' + itemId);
 
-    if (isNotExist(data, item)) {
-        return;
+    if (isCommentExist(data, item, articleId)) {
+        let options = editHeadHtml(data, itemId, articleId);
+
+        options += editBodyHtml(data, articleId);
+
+        options +=
+            editFooterHtml(data, articleId) +
+            '</div>';
+
+        item.after(options);
     }
-    let options = editHeadHtml(data, itemId, articleId);
-
-    options += editBodyHtml(data);
-
-    options +=
-        editFooterHtml(data, articleId) +
-        '</div>';
-
-    item.after(options);
-
-    $("span[name='commentTimeSort']").click(function () {
-        let articleId = $(this).attr('value');
-        let url = "/GSABSComments/" + articleId + '?sortParam=0';
-        let fun = 'listCommentData';
-
-        $('#comment' + articleId + "Div").next().remove();
-
-        return ajaxGet($(this), url, articleId, fun);
-    });
-
-    $("span[name='commentDefaultSort']").click(function () {
-        let articleId = $(this).attr('value');
-        let url = "/GSABSComments/" + articleId;
-        let fun = 'listCommentData';
-
-        $('#comment' + articleId + "Div").next().remove();
-
-        return ajaxGet($(this), url, articleId, fun);
-    });
-
-    $("button[name='pageLinkDefault']").click(function () {
-        let articleId = $(this).attr('value');
-        let pageNow = $(this).attr('page');
-        let url = "/GSABSComments/" + articleId + '?pageNow=' + pageNow;
-        let fun = 'listCommentData';
-
-        $('#comment' + articleId + "Div").next().remove();
-
-        return ajaxGet($(this), url, articleId, fun);
-    });
-
-    $("button[name='pageLinkTime']").click(function () {
-        let articleId = $(this).attr('value');
-        let pageNow = $(this).attr('page');
-        let url = "/GSABSComments/" + articleId + '?pageNow=' + pageNow + '&sortParam=0';
-        let fun = 'listCommentData';
-
-        $('#comment' + articleId + "Div").next().remove();
-
-        return ajaxGet($(this), url, articleId, fun);
-    });
 }
 
-function isNotExist(data, item) {
+function isCommentExist(data, item, articleId) {
     let commentCount = data.commentCount;
     if (commentCount == 0) {
         let options =
@@ -309,13 +352,13 @@ function isNotExist(data, item) {
             ' <div class="card-header border-bottom-0 bg-white">' +
             '    <b>还没有评论</b>' +
             ' </div>' +
-            editFooterHtml(data) +
+            editFooterHtml(data, articleId) +
             '</div>';
 
         item.after(options);
-        return true;
+        return false;
     }
-    return false;
+    return true;
 }
 
 function editHeadHtml(data, itemId, articleId) {
@@ -347,21 +390,22 @@ function editHeadHtml(data, itemId, articleId) {
     return options;
 }
 
-function editBodyHtml(data) {
+function editBodyHtml(data, articleId) {
     let objList = data.levelList;
     let levelFlg = data.levelFlg;
 
     let options = '<div class="card-body">';
-    options += makeCommentHtml(objList, levelFlg);
+    options += makeCommentHtml(objList, levelFlg, articleId);
     options += '</div>';
 
     return options;
 }
 
-function makeCommentHtml(objList, levelFlg) {
+function makeCommentHtml(objList, levelFlg, articleId) {
     let options = '';
     let level = '';
     for (let i = 0; i < objList.length; i++) {
+        let obj = objList[i];
         let levelNow = objList[i].level;
         if (levelFlg && level != levelNow) {
             let levelName = 1 == levelNow ? "精选评论" : "评论";
@@ -370,21 +414,42 @@ function makeCommentHtml(objList, levelFlg) {
         } else if (0 < i) {
             options += '<hr/>';
         }
-        options +=
-            '<div class="row no-gutters">' +
-            ' <div class="col-sm-6 col-md-8">' +
-            '  <img src="/images/carousel3.jpg" width="20px" height="20px"/>' +
-            '  ' + objList[i].userName +
-            ' </div>' +
-            ' <div class="col-6 col-md-4 text-right">' + objList[i].dateLong + '</div>' +
-            '</div>' +
-            '<pre>' + objList[i].comment + '</pre>';
+
+        options += editLineHtml(obj, articleId);
+
         if (0 < objList[i].childs.length) {
             options += '<div class="pad-left-40"><hr/>';
-            options += makeCommentHtml(objList[i].childs, false);
+            options += makeCommentHtml(objList[i].childs, false, articleId);
             options += '</div>';
         }
     }
+    return options;
+}
+
+function editLineHtml(obj, articleId) {
+    let options =
+        '<div class="row no-gutters">' +
+        ' <div class="col-md-8">' +
+        '  <img src="/images/carousel3.jpg" width="20px" height="20px"/>' +
+        '  ' + obj.userName +
+        ' </div>' +
+        ' <div class="col-md-4 text-right text-secondary">' + obj.dateLong + '</div>' +
+        '</div>' +
+        '<div class="row no-gutters">' +
+        ' <div class="col-md-8">' +
+        '  <pre>' + obj.comment + '</pre>' +
+        ' </div>' +
+        ' <div class="col-md-4 text-right text-secondary">' +
+        '  <a class="text-secondary" name="commentReply"' +
+        '     value="' + articleId + '" parentId="' + obj.id + '" username="' + obj.userName + '">' +
+        '   <svg fill="currentColor" viewBox="0 0 24 24" width="16" height="16" style="margin-right: 5px;">' +
+        '    <path d="M22.959 17.22c-1.686-3.552-5.128-8.062-11.636-8.65-.539-.053-1.376-.436-1.376-1.561V4.678c0-.521-.635-.915-1.116-.521L1.469 10.67a1.506 1.506 0 0 0-.1 2.08s6.99 6.818 7.443 7.114c.453.295 1.136.124 1.135-.501V17a1.525 1.525 0 0 1 1.532-1.466c1.186-.139 7.597-.077 10.33 2.396 0 0 .396.257.536.257.892 0 .614-.967.614-.967z" fill-rule="evenodd">' +
+        '    </path>' +
+        '   </svg>' +
+        '   <span>回复</span>' +
+        '  </a>' +
+        ' </div>' +
+        '</div>';
     return options;
 }
 
@@ -418,21 +483,32 @@ function editFooterHtml(data, articleId) {
         }
         options += getPageBtnItemByPage(articleId, levelFlg, pageCnt == pageNow, pageNow + 1, "<small>下一页</small>");
     } else {
-        options +=
-            ' <div class="input-group">' +
-            '  <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">' +
-            '  <div class="input-group-append">' +
-            '   <span class="input-group-text">' +
-            '    <svg class="Zi Zi--Emotion" fill="currentColor" viewBox="0 0 24 24" width="24" height="24">' +
-            '     <path d="M7.523 13.5h8.954c-.228 2.47-2.145 4-4.477 4-2.332 0-4.25-1.53-4.477-4zM12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18zm0-1.5a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15zm-3-8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>' +
-            '    </svg>' +
-            '   </span>' +
-            '   <button type="button" class="btn btn-sm btn-primary">发布</button>' +
-            '  </div>' +
-            ' </div>';
+        options += commentAddItem(articleId, null, "写下你的评论");
     }
 
     options +=
+        '</div>';
+    return options;
+}
+
+function commentAddItem(articleId, parentId, placeholder) {
+    let btnHtml = '<button type="button" class="btn btn-sm btn-primary" name="commentAdd" value="' + articleId + '"';
+    if (parentId) {
+        btnHtml += 'parentid="' + parentId + '"';
+    }
+    btnHtml += '>发布</button>';
+
+    let options =
+        '<div class="input-group">' +
+        ' <input type="text" class="form-control" name="commentInput" placeholder="' + placeholder + '">' +
+        ' <div class="input-group-append">' +
+        '  <span class="input-group-text">' +
+        '   <svg class="Zi Zi--Emotion" fill="currentColor" viewBox="0 0 24 24" width="24" height="24">' +
+        '    <path d="M7.523 13.5h8.954c-.228 2.47-2.145 4-4.477 4-2.332 0-4.25-1.53-4.477-4zM12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18zm0-1.5a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15zm-3-8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>' +
+        '   </svg>' +
+        '  </span>' +
+        '  ' + btnHtml +
+        ' </div>' +
         '</div>';
     return options;
 }
@@ -495,16 +571,6 @@ function listCollectModal(data, itemId) {
     $('#moveToFolder').val(itemId);
     modal.modal('show');
 
-    $("button[name='collectArticle']").click(function () {
-        let articleId = $('#moveToFolder').val();
-        let folderId = $(this).val();
-
-        let url = "/GSABSCollect/" + articleId + '/' + folderId;
-        let fun = 'updateCollectModal';
-
-        ajaxGet($(this), url, this, fun);
-    });
-
 }
 
 function editCollectHtml(obj, activeId) {
@@ -536,4 +602,26 @@ function updateCollectModal(data, itemId) {
     $('#createFolderModal').modal('hide');
     $('#collectModal').modal('show');
     showCollectModal();
+}
+
+function addCommentData(data, item) {
+    let articleId = $(item).attr('value');
+    let parentId = $(item).attr('parentid');
+    if (parentId) {
+        let parentItem = $(item).parent().parent().parent();
+        let options = '<hr/>' + editLineHtml(data, articleId);
+
+        if (parentItem.next().hasClass("pad-left-40")) {
+            parentItem.next().append(options);
+        } else {
+            options = '<div class="pad-left-40">' + options + '</div>';
+            parentItem.after(options);
+        }
+
+        $(item).parent().parent().prev().find("a[name='commentReply']").click();
+    } else {
+        let options = '<hr/>';
+        options += editLineHtml(data, articleId);
+        $(item).parent().parent().parent().prev().append(options);
+    }
 }

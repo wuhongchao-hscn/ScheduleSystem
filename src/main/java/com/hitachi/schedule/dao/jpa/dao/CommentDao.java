@@ -20,5 +20,5 @@ public interface CommentDao extends JpaRepository<Comment, Long> {
 
     Page<Comment> findByArticleIdAndParentIdIsNullOrderByUpdateDateDesc(long articleId, Pageable pageParam);
 
-    List<Comment> findTop10ByParentIdOrderByUpdateDateDesc(long parentId);
+    List<Comment> findTop10ByParentIdOrderByUpdateDateAsc(long parentId);
 }

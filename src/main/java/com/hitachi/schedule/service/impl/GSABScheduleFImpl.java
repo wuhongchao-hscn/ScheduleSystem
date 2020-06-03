@@ -229,6 +229,17 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
         }
     }
 
+    @Override
+    public CommentDetialInfo insertComment(Comment comment) {
+        comment = commentDao.save(comment);
+
+        List<Comment> list = Arrays.asList(comment);
+        LocalDateTime dateTimeNow = LocalDateTime.now();
+        long articleId = comment.getArticleId();
+
+        return getCommentDetialList(list, dateTimeNow, articleId).get(0);
+    }
+
     private TitleInfo getTitleByTitleId(long titleId) {
         TitleInfo info = new TitleInfo();
         Title title = titleDao.findByTitleId(titleId);
@@ -326,12 +337,13 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
             }
 
             info.setLevel(comment.getLevel());
+            info.setAgree(comment.getAgree());
             Date uDate = comment.getUpdateDate();
             info.setDateLong(DateUtil.getDayBetween(uDate, dateNow));
             info.setComment(comment.getComment());
 
             long parentId = comment.getId();
-            List<Comment> childList = commentDao.findTop10ByParentIdOrderByUpdateDateDesc(parentId);
+            List<Comment> childList = commentDao.findTop10ByParentIdOrderByUpdateDateAsc(parentId);
             List<CommentDetialInfo> childs = getCommentDetialList(childList, dateNow, articleId);
             info.setChilds(childs);
 

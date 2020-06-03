@@ -20,6 +20,8 @@ public class CommentDetialInfo {
 
     private long level;
 
+    private long agree;
+
     private String comment;
 
     private List<CommentDetialInfo> childs;

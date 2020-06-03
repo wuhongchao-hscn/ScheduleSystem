@@ -1,6 +1,8 @@
 package com.hitachi.schedule.service;
 
 import com.hitachi.schedule.controller.param.ArticleDetialInfo;
+import com.hitachi.schedule.controller.param.CommentDetialInfo;
+import com.hitachi.schedule.dao.jpa.entity.Comment;
 import com.hitachi.schedule.dao.jpa.entity.Folder;
 import com.hitachi.schedule.service.param.TitleFindResult;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,4 +31,6 @@ public interface GSABSScheduleF {
     void insertFolder(Folder folder);
 
     void updateCollects(long articleId, String userId, long folderId);
+
+    CommentDetialInfo insertComment(Comment comment);
 }
