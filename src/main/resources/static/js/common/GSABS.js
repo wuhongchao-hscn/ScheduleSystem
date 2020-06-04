@@ -1,5 +1,8 @@
 ﻿$(document).ready(function () {
     let parentItem = $("div.card-body.overflow-auto");
+
+    ////////////////////// 文章列表区域 //////////////////////
+    // 阅读全文-文章
     parentItem.delegate("a[name='articleUp']", "click", function () {
         let articleId = $(this).attr('value');
         let url = "/GSABSArticle/" + articleId;
@@ -8,6 +11,8 @@
 
         return ajaxGet($(this), url, articleItemId, fun);
     });
+
+    // 阅读全文-标题
     parentItem.delegate("a[name='titleUp']", "click", function () {
         let titleId = $(this).attr('value');
         let url = "/GSABSTitle/" + titleId;
@@ -17,6 +22,7 @@
         return ajaxGet($(this), url, titleItemId, fun);
     });
 
+    // 文章赞同
     parentItem.delegate("a[name='articleAgree']", "click", function () {
         let articleId = $(this).attr('value');
         let agreeSpanItemId = 'article' + articleId + 'AgreeSpan';
@@ -29,6 +35,7 @@
 
     });
 
+    // 文章反对
     parentItem.delegate("a[name='articleDisAgree']", "click", function () {
         let articleId = $(this).attr('value');
         let agreeSpanItemId = 'article' + articleId + 'AgreeSpan';
@@ -40,6 +47,7 @@
         return ajaxGet($(this), url, agreeSpanItemId, fun);
     });
 
+    // 文章反对
     parentItem.delegate("a[name='articleCountUp']", "click", function () {
         let articleId = $(this).attr('value');
         let url = "/GSABSComments/" + articleId;
@@ -51,6 +59,7 @@
         return ajaxGet($(this), url, articleId, fun);
     });
 
+    // 文章评论展开
     parentItem.delegate("a[name='articleList']", "click", function () {
         let itemId = $(this).attr('id');
         itemId = itemId.substr(0, itemId.length - 4);
@@ -63,6 +72,7 @@
         return false;
     });
 
+    // 文章评论收起
     parentItem.delegate("a[name='articleCountList']", "click", function () {
         let articleId = $(this).attr('value');
         let itemId = "comment" + articleId + "Div";
@@ -74,6 +84,7 @@
 
     });
 
+    // 文章分享
     parentItem.delegate("a[name='shareLinkCopy']", "click", function () {
         let value = $(this).attr('value');
         let hrefUrl = $(this).attr('href')
@@ -92,6 +103,15 @@
         return false;
     });
 
+    // 文章收藏
+    parentItem.delegate("a[name='articleCollect']", "click", function () {
+        let articleId = $(this).attr('value');
+        $('#createFolderBtn').val(articleId);
+        $('#collectModal').modal('show');
+        return false;
+    });
+
+    // 文章喜欢、取消喜欢
     parentItem.delegate("a[name='articleLike']", "click", function () {
         let articleId = $(this).attr('value');
         let url = "/GSABSLikes/" + articleId;
@@ -100,17 +120,13 @@
         return ajaxGet($(this), url, this, fun);
     });
 
-    parentItem.delegate("a[name='articleCollect']", "click", function () {
-        let articleId = $(this).attr('value');
-        $('#createFolderBtn').val(articleId);
-        $('#collectModal').modal('show');
-        return false;
-    });
-
+    ////////////////////// 收藏夹一览页面 //////////////////////
+    // 收藏夹一览页面表示事件
     $('#collectModal').on('show.bs.modal', function (event) {
         showCollectModal();
     });
 
+    // 收藏夹一览页面关闭事件
     $('#createFolderModal').on('hide.bs.modal', function (event) {
         $('#collectTitle').val('');
         $('#collectContent').val('');
@@ -118,16 +134,31 @@
         $('#createFolderBtn').attr('disabled', 'disabled');
     });
 
+    // 收藏夹一览页面关闭按钮
     parentItem.delegate(".modalCloseButton", "click", function () {
         $('#collectModal').modal('hide');
         $('#createFolderModal').modal('hide');
     });
 
+    // 收藏夹一览页面创建收藏夹按钮
     parentItem.delegate("#moveToFolder", "click", function () {
         $('#collectModal').modal('hide');
         $('#createFolderModal').modal('show');
     });
 
+    // 收藏、取消收藏
+    parentItem.delegate("button[name='collectArticle']", "click", function () {
+        let articleId = $('#moveToFolder').val();
+        let folderId = $(this).val();
+
+        let url = "/GSABSCollect/" + articleId + '/' + folderId;
+        let fun = 'updateCollectModal';
+
+        ajaxGet($(this), url, this, fun);
+    });
+
+    ////////////////////// 收藏夹创建页面 //////////////////////
+    // 收藏夹标题事件
     parentItem.delegate("#collectTitle").change(function () {
         if ($(this).val()) {
             $('#createFolderBtn').removeAttr('disabled');
@@ -136,11 +167,13 @@
         }
     });
 
+    // 收藏夹创建页面返回按钮
     parentItem.delegate("#backToCollect", "click", function () {
         $('#createFolderModal').modal('hide');
         $('#collectModal').modal('show');
     });
 
+    // 收藏夹创建页面确认创建按钮
     parentItem.delegate("#createFolderBtn", "click", function () {
         let title = $('#collectTitle').val();
         let content = $('#collectContent').val();
@@ -153,7 +186,8 @@
         return ajaxGet($(this), url, null, fun);
     });
 
-
+    ////////////////////// 评论一览区域 //////////////////////
+    // 按时间排序
     parentItem.delegate("span[name='commentTimeSort']", "click", function () {
         let articleId = $(this).attr('value');
         let url = "/GSABSComments/" + articleId + '?sortParam=0';
@@ -164,6 +198,7 @@
         return ajaxGet($(this), url, articleId, fun);
     });
 
+    // 默认排序
     parentItem.delegate("span[name='commentDefaultSort']", "click", function () {
         let articleId = $(this).attr('value');
         let url = "/GSABSComments/" + articleId;
@@ -174,6 +209,7 @@
         return ajaxGet($(this), url, articleId, fun);
     });
 
+    // 分页跳转
     parentItem.delegate("button[name='pageLinkDefault']", "click", function () {
         let articleId = $(this).attr('value');
         let pageNow = $(this).attr('page');
@@ -185,7 +221,7 @@
         return ajaxGet($(this), url, articleId, fun);
     });
 
-    ////////////////////// listCommentData //////////////////////
+    // 按时间排序-分页
     parentItem.delegate("button[name='pageLinkTime']", "click", function () {
         let articleId = $(this).attr('value');
         let pageNow = $(this).attr('page');
@@ -197,6 +233,7 @@
         return ajaxGet($(this), url, articleId, fun);
     });
 
+    // 评论回复
     parentItem.delegate("a[name='commentReply']", "click", function () {
         let spantext = $(this).find("span");
         if ("回复" == spantext.text()) {
@@ -213,6 +250,7 @@
         return false;
     });
 
+    // 评论发布
     parentItem.delegate("button[name='commentAdd']", "click", function () {
         let articleId = $(this).attr('value');
         let parentId = $(this).attr('parentid');
@@ -227,15 +265,31 @@
         return ajaxGet($(this), url, this, fun);
     });
 
-    ////////////////////// listCollectModal //////////////////////
-    parentItem.delegate("button[name='collectArticle']", "click", function () {
-        let articleId = $('#moveToFolder').val();
-        let folderId = $(this).val();
+    // 表情表示
+    parentItem.delegate('[data-toggle="popover"]', "click", function () {
+        let gifArr = ['欢呼', '干杯', '熬夜', '超得意', '吃瓜', '吃惊', '哈哈', '爱心', '摊手',
+            '机智', '害羞', '棒', '安慰', '超开心', '不抬杠', '赞同', '冷静一下',
+            '疑惑', '思考', '呼叫管家', '小建议', '是不是', '哼'];
 
-        let url = "/GSABSCollect/" + articleId + '/' + folderId;
-        let fun = 'updateCollectModal';
+        let options = '';
+        for (let e in gifArr) {
+            let item = gifArr[e];
+            options +=
+                ' <div class="text-center float-left">' +
+                '  <img width="45px" height="45px" src="/images/gif/' + item + '.gif"/>' +
+                '  <p class="text-secondary font-weight-light"><small>' + item + '</small></p>' +
+                '</div>';
+        }
 
-        ajaxGet($(this), url, this, fun);
+        $(this).popover({
+            animation: true, // 淡入淡出
+            content: options,// 内容
+            html: true, // 允许html
+            template: '<div class="popover h-25" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body overflow-auto h-100"></div></div>',
+            trigger: 'click' // click触发
+        })
+        ;
+        $(this).popover('show')
     });
 });
 
@@ -500,17 +554,18 @@ function commentAddItem(articleId, parentId, placeholder) {
     if (parentId) {
         btnHtml += 'parentid="' + parentId + '"';
     }
+
     btnHtml += '>发布</button>';
 
     let options =
         '<div class="input-group">' +
         ' <input type="text" class="form-control" name="commentInput" placeholder="' + placeholder + '">' +
         ' <div class="input-group-append">' +
-        '  <span class="input-group-text">' +
+        '  <button class="input-group-text" type="button" data-toggle="popover" data-placement="bottom">' +
         '   <svg class="Zi Zi--Emotion" fill="currentColor" viewBox="0 0 24 24" width="24" height="24">' +
         '    <path d="M7.523 13.5h8.954c-.228 2.47-2.145 4-4.477 4-2.332 0-4.25-1.53-4.477-4zM12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18zm0-1.5a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15zm-3-8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>' +
         '   </svg>' +
-        '  </span>' +
+        '  </button>' +
         '  ' + btnHtml +
         ' </div>' +
         '</div>';
