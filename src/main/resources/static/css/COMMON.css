@@ -47,3 +47,12 @@ pre {
     border: none;
     background-color: rgba(0, 0, 0, 0);
 }
+
+.popoverCloseButton {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 5px;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}

@@ -1,5 +1,23 @@
-﻿$(document).ready(function () {
+﻿const gifArr = ['欢呼', '干杯', '熬夜', '超得意', '吃瓜', '吃惊', '哈哈', '爱心', '摊手',
+    '机智', '害羞', '棒', '安慰', '超开心', '不抬杠', '赞同', '冷静一下',
+    '疑惑', '思考', '呼叫管家', '小建议', '是不是', '哼'];
+
+$(document).ready(function () {
     let parentItem = $("div.card-body.overflow-auto");
+
+    $('#articleScrollDiv').scroll(function () {
+        let popover = $('.popover');
+
+        if (popover.length > 0) {
+
+            let location = popover.css('transform').replace(/[^0-9\-,]/g, '').split(',')[13];
+            if (location < 70) {
+                popover.addClass('d-none');
+            } else {
+                popover.removeClass('d-none');
+            }
+        }
+    });
 
     ////////////////////// 文章列表区域 //////////////////////
     // 阅读全文-文章
@@ -233,6 +251,16 @@
         return ajaxGet($(this), url, articleId, fun);
     });
 
+    // 评论发布按钮活性控制
+    parentItem.delegate("input[name='commentInput']", "change", function () {
+        let btn = $(this).next().find("button[name='commentAdd']");
+        if ($(this).val()) {
+            btn.removeAttr('disabled');
+        } else {
+            btn.attr('disabled', "");
+        }
+    });
+
     // 评论回复
     parentItem.delegate("a[name='commentReply']", "click", function () {
         let spantext = $(this).find("span");
@@ -265,31 +293,75 @@
         return ajaxGet($(this), url, this, fun);
     });
 
-    // 表情表示
+    // 表情列表展开
     parentItem.delegate('[data-toggle="popover"]', "click", function () {
-        let gifArr = ['欢呼', '干杯', '熬夜', '超得意', '吃瓜', '吃惊', '哈哈', '爱心', '摊手',
-            '机智', '害羞', '棒', '安慰', '超开心', '不抬杠', '赞同', '冷静一下',
-            '疑惑', '思考', '呼叫管家', '小建议', '是不是', '哼'];
+        let describedby = $(this).attr('aria-describedby');
 
-        let options = '';
+        if (describedby) {
+            popoverDispose($(this));
+            return;
+        }
+
+        $(this).find("svg:first").attr('fill', 'blue');
+
+        let content = '';
         for (let e in gifArr) {
             let item = gifArr[e];
-            options +=
-                ' <div class="text-center float-left">' +
-                '  <img width="45px" height="45px" src="/images/gif/' + item + '.gif"/>' +
+            content +=
+                ' <div class="text-center float-left p-1">' +
+                '  <img width="45px" height="45px" src="/images/gif/' + item + '.gif" alt="' + item + '"/>' +
                 '  <p class="text-secondary font-weight-light"><small>' + item + '</small></p>' +
                 '</div>';
         }
 
+        let template =
+            '<div class="popover h-25" role="tooltip">' +
+            ' <div class="arrow"></div>' +
+            ' <div class="popover-body overflow-auto h-100" name="gifItem"></div>' +
+            '</div>';
+
         $(this).popover({
             animation: true, // 淡入淡出
-            content: options,// 内容
+            content: content,// 内容
             html: true, // 允许html
-            template: '<div class="popover h-25" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body overflow-auto h-100"></div></div>',
-            trigger: 'click' // click触发
-        })
-        ;
-        $(this).popover('show')
+            template: template,
+            container: '#articleScrollDiv',
+            // trigger: 'focus',
+        });
+
+        $(this).popover('show');
+    });
+
+    // 表情选择
+    parentItem.delegate('div.float-left', "click", function () {
+        let img = $(this).find('img');
+        let imgSrc = img.attr('src');
+        let imgAlt = img.attr('alt');
+        let popoverDiv = $(this).parent().parent();
+        let emotionBtn = $('button[aria-describedby="' + popoverDiv.attr('id') + '"]');
+        let articleId = emotionBtn.attr('value');
+        emotionBtn.attr("disabled", "");
+
+
+        let content =
+            '<img width="140px" height="140px" src="' + imgSrc + '" alt="' + imgAlt + '"/>' +
+            '<p class="text-secondary text-center">' + imgAlt + '</p>' +
+            '<button class="popoverCloseButton" type="button" value="' + articleId + '">' +
+            ' <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" width="20" height="20">' +
+            '  <path fill-rule="evenodd" d="M 13.486 12 l 5.208 -5.207 a 1.048 1.048 0 0 0 -0.006 -1.483 a 1.046 1.046 0 0 0 -1.482 -0.005 L 12 10.514 L 6.793 5.305 a 1.048 1.048 0 0 0 -1.483 0.005 a 1.046 1.046 0 0 0 -0.005 1.483 L 10.514 12 l -5.208 5.207 a 1.048 1.048 0 0 0 0.006 1.483 a 1.046 1.046 0 0 0 1.482 0.005 L 12 13.486 l 5.207 5.208 a 1.048 1.048 0 0 0 1.483 -0.006 a 1.046 1.046 0 0 0 0.005 -1.482 L 13.486 12 Z">' +
+            '  </path>' +
+            ' </svg>' +
+            '</button>';
+
+        popoverDiv.find('.popover-body').html(content);
+    });
+
+    // 表情移除
+    parentItem.delegate('button.popoverCloseButton', "click", function () {
+        let articleId = $(this).attr('value');
+        let btnItem = $('button[data-toggle="popover"][value="' + articleId + '"]');
+
+        popoverDispose(btnItem);
     });
 });
 
@@ -550,7 +622,7 @@ function editFooterHtml(data, articleId) {
 }
 
 function commentAddItem(articleId, parentId, placeholder) {
-    let btnHtml = '<button type="button" class="btn btn-sm btn-primary" name="commentAdd" value="' + articleId + '"';
+    let btnHtml = '<button type="button" class="btn btn-sm btn-primary" name="commentAdd" disabled value="' + articleId + '"';
     if (parentId) {
         btnHtml += 'parentid="' + parentId + '"';
     }
@@ -561,7 +633,7 @@ function commentAddItem(articleId, parentId, placeholder) {
         '<div class="input-group">' +
         ' <input type="text" class="form-control" name="commentInput" placeholder="' + placeholder + '">' +
         ' <div class="input-group-append">' +
-        '  <button class="input-group-text" type="button" data-toggle="popover" data-placement="bottom">' +
+        '  <button class="input-group-text" type="button" data-toggle="popover" value="' + articleId + '" data-placement="bottom">' +
         '   <svg class="Zi Zi--Emotion" fill="currentColor" viewBox="0 0 24 24" width="24" height="24">' +
         '    <path d="M7.523 13.5h8.954c-.228 2.47-2.145 4-4.477 4-2.332 0-4.25-1.53-4.477-4zM12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18zm0-1.5a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15zm-3-8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>' +
         '   </svg>' +
@@ -703,4 +775,11 @@ function addCommentData(data, item) {
             toItem.append(options);
         }
     }
+}
+
+function popoverDispose(btnItem) {
+    btnItem.popover('dispose');
+    btnItem.find("svg:first").attr('fill', 'currentColor');
+    btnItem.removeAttr('aria-describedby');
+    btnItem.removeAttr("disabled");
 }
