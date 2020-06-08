@@ -40,6 +40,19 @@ $(document).ready(function () {
         return ajaxGet($(this), url, titleItemId, fun);
     });
 
+    // 阅读全文-收起
+    parentItem.delegate("a[name='articleList']", "click", function () {
+        let itemId = $(this).attr('id');
+        itemId = itemId.substr(0, itemId.length - 4);
+        let item = $('#' + itemId)
+        item.show();
+        // 让滚动条回到打开之前的状态
+        parentItem.delegate("#articleScrollDiv").scrollTop(item.offset().top);
+        $('#' + itemId + 'Display').remove();
+        $(this).addClass('d-none');
+        return false;
+    });
+
     // 文章赞同
     parentItem.delegate("a[name='articleAgree']", "click", function () {
         let articleId = $(this).attr('value');
@@ -65,29 +78,16 @@ $(document).ready(function () {
         return ajaxGet($(this), url, agreeSpanItemId, fun);
     });
 
-    // 文章反对
+    // 文章评论展开
     parentItem.delegate("a[name='articleCountUp']", "click", function () {
         let articleId = $(this).attr('value');
         let url = "/GSABSComments/" + articleId;
         let fun = 'listCommentData';
 
         $(this).hide();
-        $(this).next().addClass('d-inline');
+        $(this).next().removeClass('d-none');
 
         return ajaxGet($(this), url, articleId, fun);
-    });
-
-    // 文章评论展开
-    parentItem.delegate("a[name='articleList']", "click", function () {
-        let itemId = $(this).attr('id');
-        itemId = itemId.substr(0, itemId.length - 4);
-        let item = $('#' + itemId)
-        item.show();
-        // 让滚动条回到打开之前的状态
-        parentItem.delegate("#articleScrollDiv").scrollTop(item.offset().top);
-        $('#' + itemId + 'Display').remove();
-        $(this).addClass('d-inline');
-        return false;
     });
 
     // 文章评论收起
@@ -95,11 +95,10 @@ $(document).ready(function () {
         let articleId = $(this).attr('value');
         let itemId = "comment" + articleId + "Div";
 
-        $(this).removeClass('d-inline');
+        $(this).addClass('d-none');
         $(this).prev().show();
 
         $('#' + itemId).next().remove();
-
     });
 
     // 文章分享
@@ -415,7 +414,7 @@ function listArticleData(data, itemId) {
 
     item.after(options);
     item.hide();
-    $('#' + itemId + 'List').addClass('d-inline');
+    $('#' + itemId + 'List').removeClass('d-none');
 }
 
 function getAgreeParam(articleId, agreeFlg) {
