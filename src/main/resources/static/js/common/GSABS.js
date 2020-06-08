@@ -283,6 +283,22 @@ $(document).ready(function () {
         let articleId = $(this).attr('value');
         let parentId = $(this).attr('parentid');
         let content = $(this).parent().parent().find("input[name='commentInput']").val();
+
+        let imgId = $(this).prev().attr('aria-describedby')
+        if (imgId) {
+            let imgDiv = $('#' + imgId);
+            let img = imgDiv.find('img');
+            if (1 == img.length) {
+                img.attr('width', '50px');
+                img.attr('height', '50px');
+                let imgHtml = img.prop('outerHTML');
+                content += imgHtml;
+                imgDiv.find('button.popoverCloseButton').click();
+            } else {
+                $(this).prev().click();
+            }
+        }
+
         let url = "/GSABSComment/" + articleId + '?content=' + content;
         if (parentId) {
             url += "&parentId=" + parentId;
@@ -746,7 +762,7 @@ function addCommentData(data, item) {
         commentCountHeader.text(parseInt(cnt) + 1);
     } else {
         commentCountHeader.html('1');
-        commentCountHeader.append('条评论');
+        commentCountHeader.after('条评论');
     }
 
     if (parentId) {
