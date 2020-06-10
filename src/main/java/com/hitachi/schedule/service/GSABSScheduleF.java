@@ -2,6 +2,7 @@ package com.hitachi.schedule.service;
 
 import com.hitachi.schedule.controller.param.ArticleDetialInfo;
 import com.hitachi.schedule.controller.param.CommentDetialInfo;
+import com.hitachi.schedule.dao.jpa.entity.Article;
 import com.hitachi.schedule.dao.jpa.entity.Comment;
 import com.hitachi.schedule.dao.jpa.entity.Folder;
 import com.hitachi.schedule.service.param.TitleFindResult;
@@ -33,4 +34,6 @@ public interface GSABSScheduleF {
     void updateCollects(long articleId, String userId, long folderId);
 
     CommentDetialInfo insertComment(Comment comment);
+
+    long insertArticle(Article article);
 }

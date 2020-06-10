@@ -101,23 +101,43 @@ $(document).ready(function () {
         $('#' + itemId).next().remove();
     });
 
-    // 文章分享
-    parentItem.delegate("a[name='shareLinkCopy']", "click", function () {
-        let value = $(this).attr('value');
-        let hrefUrl = $(this).attr('href')
-        let copyValue = value + "\r\n" + hrefUrl;
+    // // 文章分享 第一种方式，通过js实现
+    // parentItem.delegate("a[name='shareLinkCopy']", "click", function () {
+    //     let value = $(this).attr('value');
+    //     let hrefUrl = $(this).attr('href')
+    //     let copyValue = value + "\r\n" + hrefUrl;
+    //
+    //
+    //     let oInput = document.createElement('textarea');
+    //     oInput.value = copyValue;
+    //     document.body.appendChild(oInput);
+    //     oInput.select();
+    //     document.execCommand("Copy");
+    //     $(oInput).remove();
+    //
+    //     $('#GSAXS040').after('<div class="copyMsg"><b>链接复制成功</b></div>');
+    //
+    //     setTimeout(removeCopyMsg, 500);
+    //     return false;
+    // });
 
-        let oInput = document.createElement('textarea');
-        oInput.value = copyValue;
-        document.body.appendChild(oInput);
-        oInput.select();
-        document.execCommand("Copy");
-        oInput.style.display = 'none';
 
-        $('#GSAXS040').after('<div class="copyMsg"><b>链接复制成功</b></div>');
+    // 文章分享 第二种方式，通过clipboard.js实现
+    let clipboard = new ClipboardJS("a[name='shareLinkCopy']", {
+        text: function (trigger) {
+            let text = $(trigger).attr('data-clipboard-text');
+            let hrefUrl = $(trigger).attr('data-clipboard-url')
+            return text + "\r\n" + hrefUrl;
+        }
+    });
 
-        setTimeout(removeCopyMsg, 500);
-        return false;
+    clipboard.on('success', function (e) {
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        e.clearSelection();
+
+        addJsMsg('链接复制成功');
     });
 
     // 文章收藏
@@ -679,10 +699,6 @@ function getPageBtnItemByPage(articleId, levelFlg, disableFlg, page, comment) {
     options += ' value="' + articleId + '" page="' + page + '">' + comment + '</button>';
 
     return options;
-}
-
-function removeCopyMsg() {
-    $('div.copyMsg').remove();
 }
 
 function updateLikesArea(data, item) {

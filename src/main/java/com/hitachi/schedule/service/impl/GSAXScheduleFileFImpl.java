@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.hitachi.schedule.config.common.GCConstGlobals;
 import com.hitachi.schedule.config.exception.ErrorDownload;
+import com.hitachi.schedule.controller.param.ImgUploadResult;
 import com.hitachi.schedule.dao.mongodb.FileDocument;
 import com.hitachi.schedule.service.GSAXScheduleFileF;
 import com.mongodb.client.gridfs.GridFSBucket;
@@ -20,12 +21,14 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -107,7 +110,7 @@ public class GSAXScheduleFileFImpl implements GSAXScheduleFileF {
             if (null == fsFile) {
                 return Optional.empty();
             }
-            
+
             GridFSDownloadStream in = gridFsBucket.openDownloadStream(fsFile.getObjectId());
             if (in.getGridFSFile().getLength() <= 0) {
                 return Optional.empty();
@@ -121,6 +124,10 @@ public class GSAXScheduleFileFImpl implements GSAXScheduleFileF {
             }
             if (null != height) {
                 builder = builder.height(height);
+            }
+
+            if (null == width && null == height) {
+                builder = builder.scale(1f);
             }
 
             BufferedImage bufferedImage = builder.asBufferedImage();
@@ -151,5 +158,24 @@ public class GSAXScheduleFileFImpl implements GSAXScheduleFileF {
         field.exclude("content");
         List<FileDocument> files = mongoTemplate.find(query, FileDocument.class, collectionName);
         return files;
+    }
+
+    @Override
+    public ImgUploadResult saveImgFile(MultiValueMap<String, MultipartFile> multiFileMap) {
+        String collectionName = GCConstGlobals.GSAB_MONGODB_COLLECTION_NAME_ARTICLE;
+        String prefix = "/commonGetImg/";
+        String suffix = "?param=" + GCConstGlobals.GSAB_MONGODB_PARAM_ARTICLE;
+        List<String> dataList = new ArrayList<>();
+        for (List<MultipartFile> multiFiles : multiFileMap.values()) {
+            for (MultipartFile multiFile : multiFiles) {
+                String fileName = saveFile(collectionName, multiFile);
+                dataList.add(prefix.concat(fileName).concat(suffix));
+            }
+        }
+
+        ImgUploadResult iur = new ImgUploadResult();
+        iur.setErrno(0);
+        iur.setData(dataList);
+        return iur;
     }
 }

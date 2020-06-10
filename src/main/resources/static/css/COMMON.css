@@ -29,7 +29,7 @@ pre {
     padding-left: 40px;
 }
 
-.copyMsg {
+.jsMsg {
     position: absolute;
     z-index: 1;
     left: 400px;

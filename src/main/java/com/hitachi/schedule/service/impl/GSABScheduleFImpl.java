@@ -240,6 +240,12 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
         return getCommentDetialList(list, dateTimeNow, articleId).get(0);
     }
 
+    @Override
+    public long insertArticle(Article article) {
+        article = articleDao.save(article);
+        return article.getArticleId();
+    }
+
     private TitleInfo getTitleByTitleId(long titleId) {
         TitleInfo info = new TitleInfo();
         Title title = titleDao.findByTitleId(titleId);
@@ -247,11 +253,9 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
         info.setTitleName(title.getTitleName());
 
         String content = title.getTitleContent();
-        if (content.length() > contentLen) {
-            content = content.substring(0, contentLen);
-            info.setContentFlg(true);
-        }
-        info.setTitleContent(content);
+        String contentTxt = getContentTxt(content);
+        info.setTitleContent(contentTxt);
+        info.setContentFlg(!content.equals(contentTxt));
 
         return info;
     }
@@ -292,7 +296,8 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
 
             String content = obj.getArticleContent();
             info.setArticleContent(content);
-            int startIndex = content.indexOf("<img src=");
+
+            int startIndex = content.indexOf("<img style=\"max-width: 100%;\" src=\"");
             int endIndex = 0;
             if (startIndex >= 0) {
                 String prefix = content.substring(0, startIndex);
@@ -300,18 +305,17 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
 
                 endIndex = suffix.indexOf(">") + 1;
                 String articleImg = suffix.substring(0, endIndex);
-                info.setArticleImg(articleImg);
+                info.setArticleImg(articleImg.substring(0, 4)
+                        .concat(" width=\"200\" height=\"100\"")
+                        .concat(articleImg.substring(4)));
 
-                suffix = content.substring(endIndex);
+                suffix = suffix.substring(endIndex);
                 content = prefix.concat(suffix);
             }
 
-            if (content.length() > contentLen) {
-                content = content.substring(0, contentLen);
-                info.setContentFlg(true);
-            }
-
-            info.setArticleContent(content);
+            String contentTxt = getContentTxt(content);
+            info.setArticleContent(contentTxt);
+            info.setContentFlg(!content.equals(contentTxt));
 
             long articleCount = commentDao.countByArticleId(articleId);
             info.setArticleCount(articleCount);
@@ -319,6 +323,16 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
             articleList.add(info);
         }
         return articleList;
+    }
+
+    private String getContentTxt(String content) {
+        String contentTxt = content.replaceAll("<(\\S*?)[^>]*>.*?|<.*? />", "");
+        contentTxt = contentTxt.replaceAll("&nbsp;", " ");
+
+        if (contentTxt.length() > contentLen) {
+            contentTxt = contentTxt.substring(0, contentLen);
+        }
+        return contentTxt;
     }
 
     private List<CommentDetialInfo> getCommentDetialList(List<Comment> levelList, LocalDateTime dateNow, long articleId) {

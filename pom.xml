@@ -141,6 +141,34 @@
             <version>4.4.1-1</version>
         </dependency>
 
+        <!-- 引入clipboard.js的webjars
+            网址: https://www.webjars.org/ -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>clipboard.js</artifactId>
+            <version>2.0.4</version>
+        </dependency>
+
+        <!-- 引入bs-custom-file-input的webjars
+            网址: https://www.webjars.org/ -->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>bs-custom-file-input</artifactId>
+            <version>1.3.4</version>
+        </dependency>
+
+        <!-- 引入wangEditor的webjars
+            网址: https://www.webjars.org/
+            因为ie11下 插入多张图片，光标选中同一位置，导致之后只显示一张图片
+            为解决此问题，不使用webjars，改用自己修正bug后的版本-->
+        <!--
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>wangEditor</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        -->
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
