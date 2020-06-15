@@ -16,7 +16,9 @@ spring:
     # Redis数据库索引（默认为0）
     database: 0
     # Redis服务器地址
-    host: 127.0.0.1
+    # 20200615 改用dockerRedis 数据源地址变更 127.0.0.1⇒10.97.24.222
+    #    host: 127.0.0.1
+    host: 10.97.24.222
     # Redis服务器连接端口
     port: 6379
     # Redis服务器连接密码（默认为空）
@@ -41,7 +43,9 @@ spring:
   #    password: sysdba
   #    driverClassName: org.postgresql.Driver
   datasource:
-    jdbc-url: jdbc:postgresql://127.0.0.1:5432/postgres?useSSL=false?useAffectedRows=true
+    # 20200615 改用dockerPostgres 数据源地址变更 127.0.0.1⇒10.97.24.222
+    #    jdbc-url: jdbc:postgresql://127.0.0.1:5432/postgres?useSSL=false?useAffectedRows=true
+    jdbc-url: jdbc:postgresql://10.97.24.222:5432/postgres?useSSL=false?useAffectedRows=true
     username: postgres
     password: sysdba
   #    driverClassName: org.postgresql.Driver
@@ -72,7 +76,9 @@ spring:
   data:
     mongodb:
       # 使用全局最高权限连接
-      uri: mongodb://MongoDB:mongodb@localhost:27017
+      # 20200615 改用dockerMongoDB 数据源地址变更 localhost⇒10.97.24.222
+      #      uri: mongodb://MongoDB:mongodb@localhost:27017
+      uri: mongodb://MongoDB:mongodb@10.97.24.222:27017
       # 使用数据库权限连接
       #uri: mongodb://root:123456@localhost:27017/fileManager
       # 数据库名
@@ -105,7 +111,9 @@ web:
 # 20200511改用双数据源 mybatis+postgrel spring-data-jpa+mysql 配置在最后
 jpa:
   datasource:
-    jdbc-url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    # 20200615 改用dockerMysql 数据源地址变更 localhost⇒10.97.24.222
+    #    jdbc-url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    jdbc-url: jdbc:mysql://10.97.24.222:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: root
 #    driverClassName: com.mysql.cj.jdbc.Driver

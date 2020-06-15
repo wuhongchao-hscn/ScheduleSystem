@@ -2,10 +2,11 @@ package com.hitachi.schedule.dao.mybatis.pojo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class Ssk {
+public class Ssk implements Serializable {
     private String ssk_id;
     private String jui_ssk_id;
     private String ssk_name;

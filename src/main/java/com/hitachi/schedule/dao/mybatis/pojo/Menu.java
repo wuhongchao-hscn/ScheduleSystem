@@ -2,8 +2,10 @@ package com.hitachi.schedule.dao.mybatis.pojo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Menu {
+public class Menu implements Serializable {
     private String gyoumu_name;
     private String href_url;
     private String div_name;

@@ -2,8 +2,10 @@ package com.hitachi.schedule.dao.mybatis.pojo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Shkin {
+public class Shkin implements Serializable {
     private String shkin_id;
     private String ssk_id;
     private String shkin_smi;
