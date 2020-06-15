@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.handler.gsax;
 
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.controller.actionform.GSAXS010Form;
 import com.hitachi.schedule.controller.actionform.GSAXS020Form;
@@ -37,16 +37,16 @@ public class GSAXDisplayHandler {
 
         SessionUtil.removeSessionValue(request,
                 Arrays.asList(
-                        GCConstGlobals.GSAA_PROP_GSACT010_KNSK_JUKN,
-                        GCConstGlobals.GSAA_PROP_GSACT010_KNSK_KEKA,
-                        GCConstGlobals.GSAA_PROP_GSACT020_USER_ID,
-                        GCConstGlobals.GSAA_PROP_GSACT030_USER_KEKA,
-                        GCConstGlobals.GSAA_PROP_GSAAT020_KNSK_JUKN,
-                        GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY,
-                        GCConstGlobals.GSAA_PROP_GSAAT040_SCHEDULE_ID,
-                        GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY,
-                        GCConstGlobals.GSAA_PROP_GSAAT050_SCHEDULE_ID,
-                        GCConstGlobals.GSAA_PROP_GSAAT050_EX_KEY
+                        GXConst.GSAA_PROP_GSACT010_KNSK_JUKN,
+                        GXConst.GSAA_PROP_GSACT010_KNSK_KEKA,
+                        GXConst.GSAA_PROP_GSACT020_USER_ID,
+                        GXConst.GSAA_PROP_GSACT030_USER_KEKA,
+                        GXConst.GSAA_PROP_GSAAT020_KNSK_JUKN,
+                        GXConst.GSAA_PROP_GSAAT040_EX_KEY,
+                        GXConst.GSAA_PROP_GSAAT040_SCHEDULE_ID,
+                        GXConst.GSAA_PROP_GSAAT040_EX_KEY,
+                        GXConst.GSAA_PROP_GSAAT050_SCHEDULE_ID,
+                        GXConst.GSAA_PROP_GSAAT050_EX_KEY
                 ));
 
         GSAXS020Form outForm = new GSAXS020Form();

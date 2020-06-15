@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.handler.gsaa;
 
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.controller.actionform.GSAAS030Form;
@@ -34,11 +34,11 @@ public class GSAAS030Handler {
             HttpServletRequest request) {
         String scheduleId = SessionUtil.getSessionValueString(
                 request,
-                GCConstGlobals.GSAA_PROP_GSAAT050_SCHEDULE_ID
+                GXConst.GSAA_PROP_GSAAT050_SCHEDULE_ID
         );
         int ex_key_session = SessionUtil.getSessionValueInt(
                 request,
-                GCConstGlobals.GSAA_PROP_GSAAT050_EX_KEY
+                GXConst.GSAA_PROP_GSAAT050_EX_KEY
         );
 
         String rtn = doDeletePre(redirectModel, form, request, scheduleId, ex_key_session);
@@ -59,8 +59,8 @@ public class GSAAS030Handler {
             RedirectAttributes redirectModel) {
         SessionUtil.removeSessionValue(request,
                 Arrays.asList(
-                        GCConstGlobals.GSAA_PROP_GSAAT050_SCHEDULE_ID,
-                        GCConstGlobals.GSAA_PROP_GSAAT050_EX_KEY
+                        GXConst.GSAA_PROP_GSAAT050_SCHEDULE_ID,
+                        GXConst.GSAA_PROP_GSAAT050_EX_KEY
                 ));
         redirectModel.addFlashAttribute("timedelta", 0);
         return RTN_STR_OK;
@@ -91,15 +91,15 @@ public class GSAAS030Handler {
         schedule.setSchedule_id(scheduleId);
         schedule.setSchedule_ex_key(ex_key_db == 999 ? 0 : ex_key_db + 1);
         schedule.setUser_id(userId);
-        schedule.setSchedule_delete_flag(GCConstGlobals.GSAA_PROP_GSAAT050_DELETE_FLG);
+        schedule.setSchedule_delete_flag(GXConst.GSAA_PROP_GSAAT050_DELETE_FLG);
         gsaaService.updateSchedule(schedule);
     }
 
     private void doDeletePro(HttpServletRequest request, RedirectAttributes redirectModel) {
         SessionUtil.removeSessionValue(request,
                 Arrays.asList(
-                        GCConstGlobals.GSAA_PROP_GSAAT050_SCHEDULE_ID,
-                        GCConstGlobals.GSAA_PROP_GSAAT050_EX_KEY
+                        GXConst.GSAA_PROP_GSAAT050_SCHEDULE_ID,
+                        GXConst.GSAA_PROP_GSAAT050_EX_KEY
                 ));
         redirectModel.addFlashAttribute("timedelta", 0);
     }

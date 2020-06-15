@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.handler.gsac;
 
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.config.component.MessageReadUtil;
@@ -60,11 +60,11 @@ public class GSACS040Handler {
 
         String userId = SessionUtil.getSessionValueString(
                 request,
-                GCConstGlobals.GSAA_PROP_GSACT020_USER_ID
+                GXConst.GSAA_PROP_GSACT020_USER_ID
         );
         int user_ex_key_session = SessionUtil.getSessionValueInt(
                 request,
-                GCConstGlobals.GSAA_PROP_GSACT040_EX_KEY
+                GXConst.GSAA_PROP_GSACT040_EX_KEY
         );
 
         if (doUpdatePre(redirectModel, request, form, userId, user_ex_key_session)) {
@@ -112,7 +112,7 @@ public class GSACS040Handler {
         User user = new User();
         user.setUser_id(userId);
         user.setUser_password(form.getStrUserPassword());
-        user.setUser_delete_flag(GCConstGlobals.GSAA_PROP_GSACT040_SEARCH_FLG);
+        user.setUser_delete_flag(GXConst.GSAA_PROP_GSACT040_SEARCH_FLG);
         user.setUser_update_uid(loginUserId);
         user.setUser_ex_key(user_ex_key_session == 999 ? 0 : user_ex_key_session + 1);
 
@@ -122,12 +122,12 @@ public class GSACS040Handler {
         userRl.setRl_id(rlId);
         userRl.setUser_id(userId);
         userRl.setUser_rl_update_uid(loginUserId);
-        userRl.setUser_rl_ex_key(GCConstGlobals.GS_PROP_INIT_EX_KEY);
+        userRl.setUser_rl_ex_key(GXConst.GS_PROP_INIT_EX_KEY);
 
         String strImageRadio = form.getStrImageRadio();
         if ("6".equals(strImageRadio)) {
             String userImage = gsaxFileService.saveFile(
-                    GCConstGlobals.GSAB_MONGODB_COLLECTION_NAME_USER,
+                    GXConst.GSAB_MONGODB_COLLECTION_NAME_USER,
                     form.getImageFile());
             user.setUser_image(userImage);
 
@@ -151,7 +151,7 @@ public class GSACS040Handler {
 
             SessionUtil.saveUserDetial(request, gs_info);
 
-            if (!rlIdList.contains(GCConstGlobals.GS_PROP_ADMIN_CODE)) {
+            if (!rlIdList.contains(GXConst.GS_PROP_ADMIN_CODE)) {
                 String errMsg = messageUtil.getMessage("GSACM027E");
                 redirectModel.addFlashAttribute("error", errMsg);
                 SessionUtil.clearSessionValue(request);

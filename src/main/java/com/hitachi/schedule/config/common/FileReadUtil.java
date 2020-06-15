@@ -12,8 +12,8 @@ public class FileReadUtil {
 
     public static String readFileName(MultipartFile imageFile) {
         String image_name = imageFile.getOriginalFilename();
-        while (image_name.contains(GCConstGlobals.GS_PROP_FILE_PATH_SPLIT_FUGO)) {
-            image_name = image_name.substring(image_name.indexOf(GCConstGlobals.GS_PROP_FILE_PATH_SPLIT_FUGO) + 1);
+        while (image_name.contains(GXConst.GS_PROP_FILE_PATH_SPLIT_FUGO)) {
+            image_name = image_name.substring(image_name.indexOf(GXConst.GS_PROP_FILE_PATH_SPLIT_FUGO) + 1);
         }
         return image_name;
     }

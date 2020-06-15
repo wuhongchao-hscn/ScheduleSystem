@@ -10,13 +10,13 @@ import java.util.Date;
 public class DateUtil {
 
     public static String getSysDateYmd() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(GCConstGlobals.GS_FORMAT_STORE_YMD);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(GXConst.GS_FORMAT_STORE_YMD);
         return LocalDate.now().format(dtf);
     }
 
     public static String calculateDay(String searchKey, Object timedelta) {
         Integer calDay = Integer.parseInt(timedelta.toString());
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(GCConstGlobals.GS_FORMAT_STORE_YMD);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(GXConst.GS_FORMAT_STORE_YMD);
         LocalDate searchKeyT = LocalDate.parse(searchKey, dtf);
 
         searchKeyT = searchKeyT.plusDays(calDay);

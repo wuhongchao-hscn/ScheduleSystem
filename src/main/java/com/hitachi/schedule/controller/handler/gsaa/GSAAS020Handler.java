@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.handler.gsaa;
 
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.config.component.MessageReadUtil;
 import com.hitachi.schedule.controller.actionform.GSAAS010Form;
@@ -53,7 +53,7 @@ public class GSAAS020Handler {
 
         String searchKey = SessionUtil.getSessionValueString(
                 request,
-                GCConstGlobals.GSAA_PROP_GSAAT020_KNSK_JUKN
+                GXConst.GSAA_PROP_GSAAT020_KNSK_JUKN
         );
 
         YmdInfo yyk_ymd = YmdInfo.init(searchKey);
@@ -84,7 +84,7 @@ public class GSAAS020Handler {
 
         SessionUtil.saveSessionValue(
                 request,
-                GCConstGlobals.GSAA_PROP_GSAAT040_SCHEDULE_ID,
+                GXConst.GSAA_PROP_GSAAT040_SCHEDULE_ID,
                 scheduleId
         );
 
@@ -108,7 +108,7 @@ public class GSAAS020Handler {
 
         SessionUtil.saveSessionValue(
                 request,
-                GCConstGlobals.GSAA_PROP_GSAAT050_SCHEDULE_ID,
+                GXConst.GSAA_PROP_GSAAT050_SCHEDULE_ID,
                 scheduleId
         );
         return "redirect:/GSAAS030Display";

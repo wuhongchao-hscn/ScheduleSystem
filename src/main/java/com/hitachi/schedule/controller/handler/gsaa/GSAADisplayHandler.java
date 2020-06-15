@@ -1,7 +1,7 @@
 package com.hitachi.schedule.controller.handler.gsaa;
 
 import com.hitachi.schedule.config.common.DateUtil;
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.config.component.MessageReadUtil;
@@ -55,7 +55,7 @@ public class GSAADisplayHandler {
 
         String scheduleId = SessionUtil.getSessionValueString(
                 request,
-                GCConstGlobals.GSAA_PROP_GSAAT040_SCHEDULE_ID);
+                GXConst.GSAA_PROP_GSAAT040_SCHEDULE_ID);
 
         if (!StringUtils.isEmpty(scheduleId)) {
             outForm.setInsertFlg(false);
@@ -84,7 +84,7 @@ public class GSAADisplayHandler {
 
             SessionUtil.saveSessionValue(
                     request,
-                    GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY,
+                    GXConst.GSAA_PROP_GSAAT040_EX_KEY,
                     schedule.getSchedule_ex_key()
             );
         }
@@ -101,7 +101,7 @@ public class GSAADisplayHandler {
 
         String searchKey = SessionUtil.getSessionValueString(
                 request,
-                GCConstGlobals.GSAA_PROP_GSAAT020_KNSK_JUKN
+                GXConst.GSAA_PROP_GSAAT020_KNSK_JUKN
         );
 
         Object timedelta = model.getAttribute("timedelta");
@@ -113,7 +113,7 @@ public class GSAADisplayHandler {
 
         SessionUtil.saveSessionValue(
                 request,
-                GCConstGlobals.GSAA_PROP_GSAAT020_KNSK_JUKN,
+                GXConst.GSAA_PROP_GSAAT020_KNSK_JUKN,
                 searchKey
         );
 
@@ -135,7 +135,7 @@ public class GSAADisplayHandler {
 
         String scheduleId = SessionUtil.getSessionValueString(
                 request,
-                GCConstGlobals.GSAA_PROP_GSAAT050_SCHEDULE_ID
+                GXConst.GSAA_PROP_GSAAT050_SCHEDULE_ID
         );
 
         Schedule schedule = gsaaService.getScheduleById(scheduleId);
@@ -154,7 +154,7 @@ public class GSAADisplayHandler {
 
         SessionUtil.saveSessionValue(
                 request,
-                GCConstGlobals.GSAA_PROP_GSAAT050_EX_KEY,
+                GXConst.GSAA_PROP_GSAAT050_EX_KEY,
                 schedule.getSchedule_ex_key()
         );
 

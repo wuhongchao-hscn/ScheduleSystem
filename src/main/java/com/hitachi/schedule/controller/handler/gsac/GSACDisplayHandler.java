@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.handler.gsac;
 
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.config.component.MessageReadUtil;
@@ -38,7 +38,7 @@ public class GSACDisplayHandler {
 
         Object obj = SessionUtil.getSessionValue(
                 request,
-                GCConstGlobals.GSAA_PROP_GSACT010_KNSK_JUKN
+                GXConst.GSAA_PROP_GSACT010_KNSK_JUKN
         );
         if (null != obj) {
             UserFindParam ufp = (UserFindParam) obj;
@@ -105,7 +105,7 @@ public class GSACDisplayHandler {
         List<String> userIdList = null;
         String userId = SessionUtil.getSessionValueString(
                 request,
-                GCConstGlobals.GSAA_PROP_GSACT020_USER_ID
+                GXConst.GSAA_PROP_GSACT020_USER_ID
         );
 
         if (!StringUtils.isEmpty(userId)) {
@@ -138,7 +138,7 @@ public class GSACDisplayHandler {
             commonUtil.doInitGSACS040(outForm);
             String userId = SessionUtil.getSessionValueString(
                     request,
-                    GCConstGlobals.GSAA_PROP_GSACT020_USER_ID
+                    GXConst.GSAA_PROP_GSACT020_USER_ID
             );
 
             List<String> userIdList = Arrays.asList(userId);
@@ -152,7 +152,7 @@ public class GSACDisplayHandler {
 
             SessionUtil.saveSessionValue(
                     request,
-                    GCConstGlobals.GSAA_PROP_GSACT040_EX_KEY,
+                    GXConst.GSAA_PROP_GSACT040_EX_KEY,
                     obj.getUser_ex_key()
             );
 

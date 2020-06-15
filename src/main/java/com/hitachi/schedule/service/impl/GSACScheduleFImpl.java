@@ -1,7 +1,7 @@
 package com.hitachi.schedule.service.impl;
 
 import com.hitachi.schedule.config.common.DateUtil;
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.controller.param.SelectInfo;
 import com.hitachi.schedule.controller.param.UserDetialInfoList;
@@ -141,7 +141,7 @@ public class GSACScheduleFImpl implements GSACScheduleF {
         int id = Integer.parseInt(code_id);
         String rtn = codeMapper.getCodeNameById(id);
         return rtn.length() > 18
-                ? rtn.substring(0, 18) + GCConstGlobals.GSAA_FUGO_SCHEDULE_LIST_DISPLAY
+                ? rtn.substring(0, 18) + GXConst.GSAA_FUGO_SCHEDULE_LIST_DISPLAY
                 : rtn;
     }
 

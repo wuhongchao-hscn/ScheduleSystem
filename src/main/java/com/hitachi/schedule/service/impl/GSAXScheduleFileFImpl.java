@@ -2,7 +2,7 @@ package com.hitachi.schedule.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.SecureUtil;
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.exception.ErrorDownload;
 import com.hitachi.schedule.controller.param.ImgUploadResult;
 import com.hitachi.schedule.dao.mongodb.FileDocument;
@@ -132,7 +132,7 @@ public class GSAXScheduleFileFImpl implements GSAXScheduleFileF {
 
             BufferedImage bufferedImage = builder.asBufferedImage();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, GCConstGlobals.GSAB_THUMBNAIL_DEFAULT_SUFFIX, baos);
+            ImageIO.write(bufferedImage, GXConst.GSAB_THUMBNAIL_DEFAULT_SUFFIX, baos);
             fileDocument.setContent(baos.toByteArray());
 
             return Optional.of(fileDocument);
@@ -162,9 +162,9 @@ public class GSAXScheduleFileFImpl implements GSAXScheduleFileF {
 
     @Override
     public ImgUploadResult saveImgFile(MultiValueMap<String, MultipartFile> multiFileMap) {
-        String collectionName = GCConstGlobals.GSAB_MONGODB_COLLECTION_NAME_ARTICLE;
+        String collectionName = GXConst.GSAB_MONGODB_COLLECTION_NAME_ARTICLE;
         String prefix = "/commonGetImg/";
-        String suffix = "?param=" + GCConstGlobals.GSAB_MONGODB_PARAM_ARTICLE;
+        String suffix = "?param=" + GXConst.GSAB_MONGODB_PARAM_ARTICLE;
         List<String> dataList = new ArrayList<>();
         for (List<MultipartFile> multiFiles : multiFileMap.values()) {
             for (MultipartFile multiFile : multiFiles) {

@@ -1,6 +1,6 @@
 package com.hitachi.schedule.config.exception;
 
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.component.MessageReadUtil;
 import com.hitachi.schedule.config.configuration.GamenInfoConfig;
 import com.hitachi.schedule.controller.actionform.GCAXS010Form;
@@ -39,13 +39,13 @@ public class GMExceptionHandler {
             errMsg = eigm.getErrMsg();
         } else if (e instanceof ErrorDownload) {
             errLevel = "ダウンロードエラー";
-            errMsg = messageUtil.getMessage(GCConstGlobals.GSXA_DOWNLOAD_ERROR);
+            errMsg = messageUtil.getMessage(GXConst.GSXA_DOWNLOAD_ERROR);
             Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
             errScreenId = "506";
             errScreenName = messageUtil.getMessage(errScreenId);
         } else if (e instanceof ErrorTimeOut) {
             errLevel = "タイムアウトエラー";
-            errMsg = messageUtil.getMessage(GCConstGlobals.GCXA_TIMEOUT_ERROR);
+            errMsg = messageUtil.getMessage(GXConst.GCXA_TIMEOUT_ERROR);
             errScreenId = "504";
             errScreenName = messageUtil.getMessage(errScreenId);
         }
@@ -58,7 +58,7 @@ public class GMExceptionHandler {
         outForm.setErrScreenId(errScreenId);
         outForm.setErrScreenName(errScreenName);
         outForm.setErrorTimeDate(LocalDate.now().toString());
-        outForm.setContMsg(messageUtil.getMessage(GCConstGlobals.GCXA_CONMSG));
+        outForm.setContMsg(messageUtil.getMessage(GXConst.GCXA_CONMSG));
         model.addAttribute("form", outForm);
         return "GCXAS010";
     }

@@ -20,7 +20,7 @@ public class CsvExportUtil {
     public static void setProperties(String fileName, HttpServletResponse response) throws UnsupportedEncodingException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String fn = fileName + sdf.format(new Date()) + ".csv";
-        String utf = GCConstGlobals.GS_PROP_STORE_UTF8;
+        String utf = GXConst.GS_PROP_STORE_UTF8;
         response.setContentType("application/ms-txt.numberformat:@");
         response.setCharacterEncoding(utf);
         response.setHeader("Pragma", "public");
@@ -30,7 +30,7 @@ public class CsvExportUtil {
 
     public static void doExport(List<Map<String, Object>> dataList, String titles, String keys, OutputStream os) throws Exception {
         StringBuffer buf = new StringBuffer();
-        String utf = GCConstGlobals.GS_PROP_STORE_UTF8;
+        String utf = GXConst.GS_PROP_STORE_UTF8;
 
         String[] titleArr = titles.split(",");
         String[] keyArr = keys.split(",");
@@ -54,11 +54,11 @@ public class CsvExportUtil {
     }
 
     public static void doExport(List<List<String>> dataList, OutputStream os) throws Exception {
-        String utf = GCConstGlobals.GS_PROP_STORE_UTF8;
+        String utf = GXConst.GS_PROP_STORE_UTF8;
         StringBuffer buf = new StringBuffer();
         if (null != dataList && !dataList.isEmpty()) {
             for (List<String> data : dataList) {
-                buf.append(String.join(GCConstGlobals.GS_PROP_LIST_STRING_SPLIT_FUGO, data));
+                buf.append(String.join(GXConst.GS_PROP_LIST_STRING_SPLIT_FUGO, data));
                 buf.append(CSV_ROW_SEPARATOR);
             }
         }

@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.handler.gsaa;
 
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.controller.actionform.GSAAS010Form;
@@ -72,11 +72,11 @@ public class GSAAS010Handler {
         }
         String scheduleId = SessionUtil.getSessionValueString(
                 request,
-                GCConstGlobals.GSAA_PROP_GSAAT040_SCHEDULE_ID
+                GXConst.GSAA_PROP_GSAAT040_SCHEDULE_ID
         );
         int ex_key_session = SessionUtil.getSessionValueInt(
                 request,
-                GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY
+                GXConst.GSAA_PROP_GSAAT040_EX_KEY
         );
 
         if (doUpdatePre(model, request, form, scheduleId, ex_key_session)) {
@@ -96,8 +96,8 @@ public class GSAAS010Handler {
             RedirectAttributes redirectModel) {
         SessionUtil.removeSessionValue(request,
                 Arrays.asList(
-                        GCConstGlobals.GSAA_PROP_GSAAT040_SCHEDULE_ID,
-                        GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY
+                        GXConst.GSAA_PROP_GSAAT040_SCHEDULE_ID,
+                        GXConst.GSAA_PROP_GSAAT040_EX_KEY
                 ));
         redirectModel.addFlashAttribute("timedelta", 0);
         return RTN_STR_OK;
@@ -123,8 +123,8 @@ public class GSAAS010Handler {
         schedule.setSchedule_yukn(form.getStrScheduleYukn());
         schedule.setKigst_id(form.getStrKigstName());
         schedule.setSchedule_bku(form.getStrScheduleBku());
-        schedule.setSchedule_ex_key(GCConstGlobals.GS_PROP_INIT_EX_KEY);
-        schedule.setSchedule_delete_flag(GCConstGlobals.GSAA_PROP_GSAAT050_SEARCH_FLG);
+        schedule.setSchedule_ex_key(GXConst.GS_PROP_INIT_EX_KEY);
+        schedule.setSchedule_delete_flag(GXConst.GSAA_PROP_GSAAT050_SEARCH_FLG);
         schedule.setUser_id(loginUserId);
 
         gsaaService.insertSchedule(schedule);
@@ -179,7 +179,7 @@ public class GSAAS010Handler {
         schedule.setKigst_id(form.getStrKigstName());
         schedule.setSchedule_bku(form.getStrScheduleBku());
         schedule.setSchedule_ex_key(ex_key_session == 999 ? 0 : ex_key_session + 1);
-        schedule.setSchedule_delete_flag(GCConstGlobals.GSAA_PROP_GSAAT050_SEARCH_FLG);
+        schedule.setSchedule_delete_flag(GXConst.GSAA_PROP_GSAAT050_SEARCH_FLG);
         schedule.setUser_id(userId);
 
         gsaaService.updateSchedule(schedule);
@@ -188,8 +188,8 @@ public class GSAAS010Handler {
     private void doUpdatePro(HttpServletRequest request, RedirectAttributes redirectModel) {
         SessionUtil.removeSessionValue(request,
                 Arrays.asList(
-                        GCConstGlobals.GSAA_PROP_GSAAT040_SCHEDULE_ID,
-                        GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY
+                        GXConst.GSAA_PROP_GSAAT040_SCHEDULE_ID,
+                        GXConst.GSAA_PROP_GSAAT040_EX_KEY
                 ));
         redirectModel.addFlashAttribute("timedelta", 0);
     }

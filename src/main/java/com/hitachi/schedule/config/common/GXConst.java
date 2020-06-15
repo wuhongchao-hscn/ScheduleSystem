@@ -1,6 +1,6 @@
 package com.hitachi.schedule.config.common;
 
-public class GCConstGlobals {
+public class GXConst {
     public static final String GS_PROP_USER_INFO = "GS_USERINFO";
     public static final String GS_FORMAT_STORE_YMD = "yyyyMMdd";
     public static final String GS_PROP_STORE_UTF8 = "UTF-8";
@@ -50,5 +50,5 @@ public class GCConstGlobals {
     public static final String GSAB_MONGODB_COLLECTION_NAME_DEFAULT = "otherImgDatas";
     public static final String GSAB_THUMBNAIL_DEFAULT_SUFFIX = "jpg";
 
-
+    public static final String GSAA_CACHE_NAME = "GSAA";
 }

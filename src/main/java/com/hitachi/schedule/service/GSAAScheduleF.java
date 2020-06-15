@@ -15,7 +15,7 @@ public interface GSAAScheduleF {
 
     int getScheduleExKeyById(String schedule_id);
 
-    void updateSchedule(Schedule schedule);
+    Schedule updateSchedule(Schedule schedule);
 
     String insertSchedule(Schedule schedule);
 

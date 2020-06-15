@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.handler.gsac;
 
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.controller.actionform.GSACS010Form;
@@ -52,7 +52,7 @@ public class GSACS010Handler {
         ufp.setStrKnskShbtCode(strKnskShbtCode);
         ufp.setStrTabFlag(strTabFlag);
         Integer startNo = 1;
-        Integer endNo = startNo + GCConstGlobals.GSAA_PROP_GSACT020_DISPLAY_SIZE - 1;
+        Integer endNo = startNo + GXConst.GSAA_PROP_GSACT020_DISPLAY_SIZE - 1;
         ufp.setStartNo(startNo);
         ufp.setEndNo(endNo);
 

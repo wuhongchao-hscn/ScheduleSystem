@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.handler.gsac;
 
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.config.component.MessageReadUtil;
@@ -61,9 +61,9 @@ public class GSACS030Handler {
         log.info("戻るボタンを押下しました。");
         SessionUtil.removeSessionValue(request,
                 Arrays.asList(
-                        GCConstGlobals.GSAA_PROP_GSACT020_USER_ID,
-                        GCConstGlobals.GSAA_PROP_GSACT030_USER_KEKA,
-                        GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY
+                        GXConst.GSAA_PROP_GSACT020_USER_ID,
+                        GXConst.GSAA_PROP_GSACT030_USER_KEKA,
+                        GXConst.GSAA_PROP_GSAAT040_EX_KEY
                 ));
         return "redirect:/GSACS020Display";
     }
@@ -71,7 +71,7 @@ public class GSACS030Handler {
     private int doDelete(GSACS030Form form, List<String> userIdList, String loginUserId) {
         UserDeleteParam udp = new UserDeleteParam();
         udp.setUserIdList(userIdList);
-        udp.setUser_delete_flag(GCConstGlobals.GSAA_PROP_GSACT040_DELETE_FLG);
+        udp.setUser_delete_flag(GXConst.GSAA_PROP_GSACT040_DELETE_FLG);
         udp.setUser_update_uid(loginUserId);
 
         return gsacService.deleteUserList(udp);

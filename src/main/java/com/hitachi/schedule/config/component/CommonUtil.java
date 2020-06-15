@@ -1,6 +1,6 @@
 package com.hitachi.schedule.config.component;
 
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.exception.ErrorInfoGM;
 import com.hitachi.schedule.controller.actionform.*;
 import com.hitachi.schedule.controller.param.HmInfo;
@@ -128,8 +128,8 @@ public class CommonUtil {
     }
 
     public int getPageNo(Integer obj) {
-        int rtn = obj / GCConstGlobals.GSAA_PROP_GSACT020_DISPLAY_SIZE;
-        if (obj % GCConstGlobals.GSAA_PROP_GSACT020_DISPLAY_SIZE > 0) {
+        int rtn = obj / GXConst.GSAA_PROP_GSACT020_DISPLAY_SIZE;
+        if (obj % GXConst.GSAA_PROP_GSACT020_DISPLAY_SIZE > 0) {
             rtn++;
         }
         return rtn;
@@ -138,25 +138,25 @@ public class CommonUtil {
     public List<String> getListFromString(String str) {
         List<String> rtn_obj = new ArrayList<>();
         if (!StringUtils.isEmpty(str)) {
-            String[] array = str.split(GCConstGlobals.GS_PROP_LIST_STRING_SPLIT_FUGO);
+            String[] array = str.split(GXConst.GS_PROP_LIST_STRING_SPLIT_FUGO);
             Collections.addAll(rtn_obj, array);
         }
         return rtn_obj;
     }
 
     public String getStringFromList(List<String> li) {
-        return String.join(GCConstGlobals.GS_PROP_LIST_STRING_SPLIT_FUGO, li);
+        return String.join(GXConst.GS_PROP_LIST_STRING_SPLIT_FUGO, li);
     }
 
     public String getStringFromListBySpace(List<String> li) {
-        return String.join(GCConstGlobals.GS_PROP_LIST_STRING_SPLIT_FUGO_SPACE, li);
+        return String.join(GXConst.GS_PROP_LIST_STRING_SPLIT_FUGO_SPACE, li);
     }
 
     public Set<String> getSetFromList(List<String> strList) {
         List<String> rtn_obj = new ArrayList<>();
         for (String str : strList) {
             if (!StringUtils.isEmpty(str)) {
-                String[] array = str.split(GCConstGlobals.GS_PROP_LIST_STRING_SPLIT_FUGO);
+                String[] array = str.split(GXConst.GS_PROP_LIST_STRING_SPLIT_FUGO);
                 Collections.addAll(rtn_obj, array);
             }
         }
@@ -192,12 +192,12 @@ public class CommonUtil {
 
     public String getCollectionName(String param) {
         switch (param) {
-            case GCConstGlobals.GSAB_MONGODB_PARAM_USER:
-                return GCConstGlobals.GSAB_MONGODB_COLLECTION_NAME_USER;
-            case GCConstGlobals.GSAB_MONGODB_PARAM_ARTICLE:
-                return GCConstGlobals.GSAB_MONGODB_COLLECTION_NAME_ARTICLE;
+            case GXConst.GSAB_MONGODB_PARAM_USER:
+                return GXConst.GSAB_MONGODB_COLLECTION_NAME_USER;
+            case GXConst.GSAB_MONGODB_PARAM_ARTICLE:
+                return GXConst.GSAB_MONGODB_COLLECTION_NAME_ARTICLE;
             default:
-                return GCConstGlobals.GSAB_MONGODB_COLLECTION_NAME_DEFAULT;
+                return GXConst.GSAB_MONGODB_COLLECTION_NAME_DEFAULT;
         }
     }
 }

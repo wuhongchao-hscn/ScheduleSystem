@@ -1,6 +1,6 @@
 package com.hitachi.schedule.config.exception;
 
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.component.MessageReadUtil;
 import com.hitachi.schedule.controller.actionform.GCAXS010Form;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class GCExceptionHandler implements ErrorController {
     @RequestMapping("/error")
     public String handleError(Model model,
                               HttpServletRequest request) {
-        String errMsg = messageUtil.getMessage(GCConstGlobals.GCXA_SYSTEM_ERROR);
+        String errMsg = messageUtil.getMessage(GXConst.GCXA_SYSTEM_ERROR);
         String errLevel = "システムエラー";
         log.info("***{}が発生しました。URL:{} ERROR:{}****",
                 errLevel, request.getRequestURL(), errMsg);
@@ -40,7 +40,7 @@ public class GCExceptionHandler implements ErrorController {
             outForm.setErrMsg(errMsg);
         }
         outForm.setErrorTimeDate(LocalDate.now().toString());
-        outForm.setContMsg(messageUtil.getMessage(GCConstGlobals.GCXA_CONMSG));
+        outForm.setContMsg(messageUtil.getMessage(GXConst.GCXA_CONMSG));
         model.addAttribute("form", outForm);
         return "GCXAS010";
     }

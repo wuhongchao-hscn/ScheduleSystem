@@ -1,7 +1,7 @@
 package com.hitachi.schedule.controller.handler.gsac;
 
 import com.hitachi.schedule.config.common.CsvExportUtil;
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.config.exception.ErrorDownload;
@@ -69,8 +69,8 @@ public class GSACS020Handler {
             }
         }
 
-        Integer startNo = (pageNo - 1) * GCConstGlobals.GSAA_PROP_GSACT020_DISPLAY_SIZE + 1;
-        Integer endNo = startNo + GCConstGlobals.GSAA_PROP_GSACT020_DISPLAY_SIZE - 1;
+        Integer startNo = (pageNo - 1) * GXConst.GSAA_PROP_GSACT020_DISPLAY_SIZE + 1;
+        Integer endNo = startNo + GXConst.GSAA_PROP_GSACT020_DISPLAY_SIZE - 1;
         ufp.setStartNo(startNo);
         ufp.setEndNo(endNo);
 
@@ -127,7 +127,7 @@ public class GSACS020Handler {
 
         SessionUtil.saveSessionValue(
                 request,
-                GCConstGlobals.GSAA_PROP_GSACT020_USER_ID,
+                GXConst.GSAA_PROP_GSACT020_USER_ID,
                 userId
         );
         return "redirect:/GSACS030Display";
@@ -148,7 +148,7 @@ public class GSACS020Handler {
         }
 
         try {
-            CsvExportUtil.setProperties(GCConstGlobals.GSAA_PROP_GSACT010_CSV_NAME, response);
+            CsvExportUtil.setProperties(GXConst.GSAA_PROP_GSACT010_CSV_NAME, response);
             CsvExportUtil.doExport(csvData, response.getOutputStream());
         } catch (Exception e) {
             throw new ErrorDownload();
@@ -161,10 +161,10 @@ public class GSACS020Handler {
         log.info("戻るボタンを押下しました。");
         SessionUtil.removeSessionValue(request,
                 Arrays.asList(
-                        GCConstGlobals.GSAA_PROP_GSACT010_KNSK_KEKA,
-                        GCConstGlobals.GSAA_PROP_GSACT020_USER_ID,
-                        GCConstGlobals.GSAA_PROP_GSACT030_USER_KEKA,
-                        GCConstGlobals.GSAA_PROP_GSAAT040_EX_KEY
+                        GXConst.GSAA_PROP_GSACT010_KNSK_KEKA,
+                        GXConst.GSAA_PROP_GSACT020_USER_ID,
+                        GXConst.GSAA_PROP_GSACT030_USER_KEKA,
+                        GXConst.GSAA_PROP_GSAAT040_EX_KEY
                 ));
         return "redirect:/GSACS010Display";
     }

@@ -1,6 +1,6 @@
 package com.hitachi.schedule.controller.handler.gsac;
 
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.config.component.MessageReadUtil;
@@ -54,7 +54,7 @@ public class GSACS050Handler {
         UserFindParam ufp = new UserFindParam();
         ufp.setStrUserId(userId);
         Integer startNo = 1;
-        Integer endNo = startNo + GCConstGlobals.GSAA_PROP_GSACT020_DISPLAY_SIZE - 1;
+        Integer endNo = startNo + GXConst.GSAA_PROP_GSACT020_DISPLAY_SIZE - 1;
         ufp.setStartNo(startNo);
         ufp.setEndNo(endNo);
 
@@ -62,7 +62,7 @@ public class GSACS050Handler {
 
         SessionUtil.saveSessionValue(
                 request,
-                GCConstGlobals.GSAA_PROP_GSACT020_USER_ID,
+                GXConst.GSAA_PROP_GSACT020_USER_ID,
                 userId
         );
         return "redirect:/GSACS030Display";
@@ -113,13 +113,13 @@ public class GSACS050Handler {
     }
 
     private UserInsertResult doInsert(GSACS050Form form, String loginUserId) {
-        int ex_key = GCConstGlobals.GS_PROP_INIT_EX_KEY;
+        int ex_key = GXConst.GS_PROP_INIT_EX_KEY;
         User user = new User();
         user.setUser_password(form.getStrUserPassword());
-        user.setUser_delete_flag(GCConstGlobals.GSAA_PROP_GSACT040_SEARCH_FLG);
+        user.setUser_delete_flag(GXConst.GSAA_PROP_GSACT040_SEARCH_FLG);
 
         String userImage = gsaxFileService.saveFile(
-                GCConstGlobals.GSAB_MONGODB_COLLECTION_NAME_USER,
+                GXConst.GSAB_MONGODB_COLLECTION_NAME_USER,
                 form.getImageFile());
         user.setUser_image(userImage);
 

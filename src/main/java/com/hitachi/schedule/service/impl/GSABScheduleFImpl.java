@@ -1,7 +1,7 @@
 package com.hitachi.schedule.service.impl;
 
 import com.hitachi.schedule.config.common.DateUtil;
-import com.hitachi.schedule.config.common.GCConstGlobals;
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.controller.param.ArticleDetialInfo;
 import com.hitachi.schedule.controller.param.CommentDetialInfo;
 import com.hitachi.schedule.controller.param.TitleInfo;
@@ -134,7 +134,7 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
 
         commentCount = commentDao.countByArticleIdAndParentIdIsNull(articleId);
 
-        int pageCnt = (int) Math.ceil((double) commentCount / GCConstGlobals.GSAA_PROP_GSABT020_DISPLAY_SIZE);
+        int pageCnt = (int) Math.ceil((double) commentCount / GXConst.GSAA_PROP_GSABT020_DISPLAY_SIZE);
         if (1 < pageCnt) {
             result.put("pageCnt", pageCnt);
         }
@@ -147,7 +147,7 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
             result.put("pageNow", pageNow);
         }
 
-        PageRequest pageParam = PageRequest.of(pageNow - 1, GCConstGlobals.GSAA_PROP_GSABT020_DISPLAY_SIZE);
+        PageRequest pageParam = PageRequest.of(pageNow - 1, GXConst.GSAA_PROP_GSABT020_DISPLAY_SIZE);
         LocalDateTime dateTimeNow = LocalDateTime.now();
 
         Page<Comment> levelList = null;

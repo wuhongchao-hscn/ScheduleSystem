@@ -11,7 +11,7 @@ import java.io.OutputStream;
 public class ImgGetUtil {
 
     public static void setProperties(HttpServletResponse response) {
-        String utf = GCConstGlobals.GS_PROP_STORE_UTF8;
+        String utf = GXConst.GS_PROP_STORE_UTF8;
         response.setContentType("image/jpeg");
         response.setCharacterEncoding(utf);
     }
