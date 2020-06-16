@@ -3,8 +3,10 @@ package com.hitachi.schedule.controller.param;
 import com.hitachi.schedule.config.configuration.GamenInfoConfig;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class NavInfo {
+public class NavInfo implements Serializable {
     private String hrefUrl;
     private String hrefText;
 

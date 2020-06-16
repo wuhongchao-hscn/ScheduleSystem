@@ -11,7 +11,7 @@ import com.hitachi.schedule.dao.mybatis.pojo.Shkin;
 import com.hitachi.schedule.dao.mybatis.pojo.User;
 import com.hitachi.schedule.dao.mybatis.pojo.UserRl;
 import com.hitachi.schedule.service.GSACScheduleF;
-import com.hitachi.schedule.service.GSAXScheduleFileF;
+import com.hitachi.schedule.service.GSAYScheduleF;
 import com.hitachi.schedule.service.param.UserFindParam;
 import com.hitachi.schedule.service.param.UserInsertResult;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class GSACS050Handler {
     @Autowired
     private CommonUtil commonUtil;
     @Autowired
-    private GSAXScheduleFileF gsaxFileService;
+    private GSAYScheduleF gsaxFileService;
 
     private static final String RTN_STR_OK = "redirect:/GSACS010Display";
 

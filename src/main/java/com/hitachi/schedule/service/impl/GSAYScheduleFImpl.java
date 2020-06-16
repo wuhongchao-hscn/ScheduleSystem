@@ -6,13 +6,15 @@ import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.exception.ErrorDownload;
 import com.hitachi.schedule.controller.param.ImgUploadResult;
 import com.hitachi.schedule.dao.mongodb.FileDocument;
-import com.hitachi.schedule.service.GSAXScheduleFileF;
+import com.hitachi.schedule.service.GSAYScheduleF;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSDownloadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.client.result.DeleteResult;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -34,7 +36,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GSAXScheduleFileFImpl implements GSAXScheduleFileF {
+@CacheConfig(cacheNames = GXConst.GSAY_CACHE_NAME)
+public class GSAYScheduleFImpl implements GSAYScheduleF {
     @Autowired
     private MongoTemplate mongoTemplate;
     @Autowired
@@ -98,6 +101,7 @@ public class GSAXScheduleFileFImpl implements GSAXScheduleFileF {
     }
 
     @Override
+    @Cacheable
     public Optional<FileDocument> getFileById(String id, String collectionName, Integer width, Integer height) {
         try {
             FileDocument fileDocument = mongoTemplate.findById(id, FileDocument.class, collectionName);

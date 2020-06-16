@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
 
-public interface GSAXScheduleFileF {
+public interface GSAYScheduleF {
 
     @Transactional
     String saveFile(String collectionName, MultipartFile imageFile);

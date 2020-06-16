@@ -5,7 +5,7 @@ import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.config.exception.ErrorDownload;
 import com.hitachi.schedule.controller.param.ImgUploadResult;
 import com.hitachi.schedule.dao.mongodb.FileDocument;
-import com.hitachi.schedule.service.GSAXScheduleFileF;
+import com.hitachi.schedule.service.GSAYScheduleF;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +37,7 @@ public class CommonFileHandler {
     @Autowired
     private CommonUtil commonUtil;
     @Autowired
-    private GSAXScheduleFileF gsaxFileService;
+    private GSAYScheduleF gsaxFileService;
 
     @GetMapping("/commonGetImg/{id}")
     public void commonGetImg(

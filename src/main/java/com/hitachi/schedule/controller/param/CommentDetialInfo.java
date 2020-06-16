@@ -2,10 +2,11 @@ package com.hitachi.schedule.controller.param;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class CommentDetialInfo {
+public class CommentDetialInfo implements Serializable {
     private long id;
 
     private byte[] imgData;

@@ -9,7 +9,7 @@ import com.hitachi.schedule.controller.checker.GSACS040Checker;
 import com.hitachi.schedule.dao.mybatis.pojo.User;
 import com.hitachi.schedule.dao.mybatis.pojo.UserRl;
 import com.hitachi.schedule.service.GSACScheduleF;
-import com.hitachi.schedule.service.GSAXScheduleFileF;
+import com.hitachi.schedule.service.GSAYScheduleF;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +35,7 @@ public class GSACS040Handler {
     @Autowired
     private GSACScheduleF gsacService;
     @Autowired
-    private GSAXScheduleFileF gsaxFileService;
+    private GSAYScheduleF gsaxFileService;
 
     private static final String RTN_STR_NG = "redirect:/GSACS040Display";
     private static final String RTN_STR_OK = "redirect:/GSACS040Display";

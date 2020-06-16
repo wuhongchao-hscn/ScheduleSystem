@@ -2,8 +2,10 @@ package com.hitachi.schedule.controller.param;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class TitleInfo {
+public class TitleInfo implements Serializable {
 
     private long titleId;
 

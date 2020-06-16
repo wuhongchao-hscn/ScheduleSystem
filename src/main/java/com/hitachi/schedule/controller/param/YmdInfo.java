@@ -3,8 +3,10 @@ package com.hitachi.schedule.controller.param;
 import com.hitachi.schedule.config.common.StringUtil;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class YmdInfo {
+public class YmdInfo implements Serializable {
     private String yyyy;
     private String mm;
     private String dd;

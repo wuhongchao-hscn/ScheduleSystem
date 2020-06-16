@@ -50,5 +50,9 @@ public class GXConst {
     public static final String GSAB_MONGODB_COLLECTION_NAME_DEFAULT = "otherImgDatas";
     public static final String GSAB_THUMBNAIL_DEFAULT_SUFFIX = "jpg";
 
+    public static final String GSAX_CACHE_NAME = "GSAX";
+    public static final String GSAY_CACHE_NAME = "GSAY";
     public static final String GSAA_CACHE_NAME = "GSAA";
+    public static final String GSAB_CACHE_NAME = "GSAB";
+    public static final String GSAC_CACHE_NAME = "GSAC";
 }

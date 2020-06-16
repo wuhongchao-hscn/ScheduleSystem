@@ -1,5 +1,6 @@
 package com.hitachi.schedule.service.impl;
 
+import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.config.component.CommonUtil;
 import com.hitachi.schedule.controller.param.MenuInfo;
 import com.hitachi.schedule.controller.param.UserHeadInfo;
@@ -10,6 +11,8 @@ import com.hitachi.schedule.dao.mybatis.pojo.Ssk;
 import com.hitachi.schedule.dao.mybatis.pojo.User;
 import com.hitachi.schedule.service.GSAXScheduleF;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@CacheConfig(cacheNames = GXConst.GSAX_CACHE_NAME)
 public class GSAXScheduleFImpl implements GSAXScheduleF {
     @Autowired
     private UserMapper userMapper;
@@ -34,12 +38,14 @@ public class GSAXScheduleFImpl implements GSAXScheduleF {
     private CommonUtil commonUtil;
 
     @Override
+    @Cacheable
     public User findByUserId(String user_id) {
         User user = userMapper.findUserById(user_id);
         return user;
     }
 
     @Override
+    @Cacheable
     public UserHeadInfo getUserHeadInfo(User user) {
         String user_id = user.getUser_id();
         Shkin shkin = user.getShkin();
@@ -60,6 +66,7 @@ public class GSAXScheduleFImpl implements GSAXScheduleF {
     }
 
     @Override
+    @Cacheable
     public String join_ssk(String ssk_id) {
         List<String> ssk_name_list = new ArrayList<>();
         Ssk ssk = sskMapper.findSskById(ssk_id);
@@ -93,8 +100,6 @@ public class GSAXScheduleFImpl implements GSAXScheduleF {
     @Override
     public Set<String> getUserRoles(String user_id) {
         List<String> db_rtn = rlMapper.getUserRolesByUserId(user_id);
-
-        List<String> rtn_obj = rlMapper.getUserRolesByUserId(user_id);
         return commonUtil.getSetFromList(db_rtn);
     }
 

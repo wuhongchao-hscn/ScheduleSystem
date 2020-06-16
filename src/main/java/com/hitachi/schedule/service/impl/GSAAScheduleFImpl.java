@@ -11,6 +11,7 @@ import com.hitachi.schedule.dao.mybatis.pojo.Schedule;
 import com.hitachi.schedule.service.GSAAScheduleF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -76,7 +77,8 @@ public class GSAAScheduleFImpl implements GSAAScheduleF {
     }
 
     @Override
-    @CachePut(key = "#result.schedule_id")
+    @CachePut(key = "#result.schedule_id", condition = "#schedule.schedule_delete_flag == '0'")
+    @CacheEvict(key = "#schedule.schedule_id", condition = "#schedule.schedule_delete_flag != '0'")
     public Schedule updateSchedule(Schedule schedule) {
         schedule.setSchedule_update_uid(schedule.getUser_id());
         schedule.setSchedule_update_ymd(DateUtil.getSysDateYmd());
@@ -86,11 +88,11 @@ public class GSAAScheduleFImpl implements GSAAScheduleF {
 
     @Override
     @CachePut(key = "#schedule.schedule_id")
-    public String insertSchedule(Schedule schedule) {
+    public Schedule insertSchedule(Schedule schedule) {
         schedule.setSchedule_update_uid(schedule.getUser_id());
         schedule.setSchedule_update_ymd(DateUtil.getSysDateYmd());
         scheduleMapper.insertSchedule(schedule);
-        return schedule.getSchedule_id();
+        return schedule;
     }
 
     @Override

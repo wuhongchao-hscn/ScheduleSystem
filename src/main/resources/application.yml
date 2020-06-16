@@ -84,12 +84,6 @@ spring:
       # 数据库名
       database: fileManager
 
-  cache:
-    cacheNames[0]: GSAX
-    cacheNames[1]: GSAA
-    cacheNames[2]: GSAB
-    cacheNames[3]: GSAC
-
 logging:
   level:
     root: error

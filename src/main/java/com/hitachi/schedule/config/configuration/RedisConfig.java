@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
-import org.springframework.beans.factory.annotation.Value;
+import com.hitachi.schedule.config.common.GXConst;
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -18,14 +18,10 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
 
 @Configuration
 @EnableCaching// 开启基于注解的缓存
 public class RedisConfig {
-    @Value("spring.cache.cacheNames")
-    private List<String> initCacheNames;
 
     @Bean
     RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
@@ -36,13 +32,12 @@ public class RedisConfig {
                 .defaultCacheConfig()
                 .serializeValuesWith(serializationPair);
 
-        HashMap<String, RedisCacheConfiguration> configMap = new HashMap<>();
-        for (String initCacheName : initCacheNames) {
-            configMap.put(initCacheName, config);
-        }
-
         return (builder) -> builder
-                .withInitialCacheConfigurations(configMap);
+                .withCacheConfiguration(GXConst.GSAX_CACHE_NAME, config)
+                .withCacheConfiguration(GXConst.GSAY_CACHE_NAME, config)
+                .withCacheConfiguration(GXConst.GSAA_CACHE_NAME, config)
+                .withCacheConfiguration(GXConst.GSAB_CACHE_NAME, config)
+                .withCacheConfiguration(GXConst.GSAC_CACHE_NAME, config);
     }
 
     @Bean

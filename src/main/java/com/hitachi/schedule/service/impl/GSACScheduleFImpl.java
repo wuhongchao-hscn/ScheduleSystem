@@ -16,6 +16,8 @@ import com.hitachi.schedule.service.param.UserFindParam;
 import com.hitachi.schedule.service.param.UserFindResult;
 import com.hitachi.schedule.service.param.UserInsertResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -24,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
+@CacheConfig(cacheNames = GXConst.GSAC_CACHE_NAME)
 public class GSACScheduleFImpl implements GSACScheduleF {
     @Autowired
     private UserMapper userMapper;
@@ -117,6 +120,7 @@ public class GSACScheduleFImpl implements GSACScheduleF {
     }
 
     @Override
+    @Cacheable
     public List<SelectInfo> getCodeInfoByBnri(String code_bnri) {
         List<Code> db_rtn = codeMapper.getCodeInfoByBnri(code_bnri);
         List<SelectInfo> rtn_obj = new ArrayList<>();
@@ -127,6 +131,7 @@ public class GSACScheduleFImpl implements GSACScheduleF {
     }
 
     @Override
+    @Cacheable(key = "'allRlInfo'")
     public List<SelectInfo> getRlInfo() {
         List<Rl> db_rtn = rlMapper.listAllRl();
         List<SelectInfo> rtn_obj = new ArrayList<>();
@@ -137,6 +142,7 @@ public class GSACScheduleFImpl implements GSACScheduleF {
     }
 
     @Override
+    @Cacheable
     public String getCodeName(String code_id) {
         int id = Integer.parseInt(code_id);
         String rtn = codeMapper.getCodeNameById(id);
@@ -186,6 +192,7 @@ public class GSACScheduleFImpl implements GSACScheduleF {
     }
 
     @Override
+    @Cacheable
     public List<SelectInfo> getSskInfo(String jui_ssk_id) {
         List<Boolean> cLi = Arrays.asList(null == jui_ssk_id, "null".equals(jui_ssk_id));
         List<Ssk> db_rtn = cLi.contains(true) ? sskMapper.listAllSskByNull() : sskMapper.listAllSskByJuiSskId(jui_ssk_id);
@@ -224,6 +231,7 @@ public class GSACScheduleFImpl implements GSACScheduleF {
     }
 
     @Override
+    @Cacheable
     public String getAllRlName(String userId) {
         List<String> allRlName = rlMapper.getAllRlNameByUserId(userId);
         return commonUtil.getStringFromListBySpace(allRlName);
