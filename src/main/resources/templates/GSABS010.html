@@ -18,7 +18,7 @@
         <div id="articleScrollDiv" class="card-body overflow-auto" style="height: calc(100vh - 240px)"
              th:fragment="articleList(titleHideFlg)">
 
-            <div th:each="obj, stat : *{articleList}">
+            <div th:each="obj, stat : *{articleList}" class="articleInfo">
                 <hr th:unless="1 eq ${stat.count}"/>
                 <b th:unless="${titleHideFlg}">
                     <a class="btn text-left px-sm-0"

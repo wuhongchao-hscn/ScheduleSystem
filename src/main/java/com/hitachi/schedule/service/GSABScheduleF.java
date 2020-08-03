@@ -2,16 +2,18 @@ package com.hitachi.schedule.service;
 
 import com.hitachi.schedule.controller.param.ArticleDetialInfo;
 import com.hitachi.schedule.controller.param.CommentDetialInfo;
+import com.hitachi.schedule.crawler.param.ZhTitleParam;
 import com.hitachi.schedule.dao.jpa.entity.Article;
 import com.hitachi.schedule.dao.jpa.entity.Comment;
 import com.hitachi.schedule.dao.jpa.entity.Folder;
 import com.hitachi.schedule.service.param.TitleFindResult;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public interface GSABSScheduleF {
+public interface GSABScheduleF {
     List<ArticleDetialInfo> getArticleList(String userId);
 
     Map<String, Object> getAllArticleContentById(long articleId);
@@ -36,4 +38,9 @@ public interface GSABSScheduleF {
     CommentDetialInfo insertComment(Comment comment);
 
     long insertArticle(Article article);
+
+    Map<String, Long> findAllTitleIdAndTitleName();
+
+    @Transactional
+    void insertByCrawler(Collection<ZhTitleParam> zhTitleParams);
 }

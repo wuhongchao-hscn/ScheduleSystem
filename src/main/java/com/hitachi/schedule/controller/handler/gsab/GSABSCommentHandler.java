@@ -3,7 +3,7 @@ package com.hitachi.schedule.controller.handler.gsab;
 import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.controller.param.CommentDetialInfo;
 import com.hitachi.schedule.dao.jpa.entity.Comment;
-import com.hitachi.schedule.service.GSABSScheduleF;
+import com.hitachi.schedule.service.GSABScheduleF;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import java.util.Map;
 @Slf4j
 public class GSABSCommentHandler {
     @Autowired
-    private GSABSScheduleF gsabsService;
+    private GSABScheduleF gsabService;
 
     @GetMapping("/GSABSComments/{articleId}")
     @ResponseBody
@@ -27,7 +27,7 @@ public class GSABSCommentHandler {
             @PathVariable("articleId") long articleId,
             Integer pageNow,
             Integer sortParam) {
-        return gsabsService.getCommentList(articleId, pageNow, sortParam);
+        return gsabService.getCommentList(articleId, pageNow, sortParam);
     }
 
     @GetMapping("/GSABSComment/{articleId}")
@@ -48,6 +48,6 @@ public class GSABSCommentHandler {
         comment.setAgree(0);
         comment.setLevel(0);
 
-        return gsabsService.insertComment(comment);
+        return gsabService.insertComment(comment);
     }
 }

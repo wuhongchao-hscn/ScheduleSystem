@@ -1,7 +1,7 @@
 package com.hitachi.schedule.controller.handler.gsab;
 
 import com.hitachi.schedule.config.common.SessionUtil;
-import com.hitachi.schedule.service.GSABSScheduleF;
+import com.hitachi.schedule.service.GSABScheduleF;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ import java.util.Map;
 @Slf4j
 public class GSABSCollectHandler {
     @Autowired
-    private GSABSScheduleF gsabsService;
+    private GSABScheduleF gsabService;
 
     @GetMapping("/GSABSCollectList/{articleId}")
     @ResponseBody
@@ -25,7 +25,7 @@ public class GSABSCollectHandler {
             HttpServletRequest request,
             @PathVariable("articleId") long articleId) {
         String loginUserId = SessionUtil.getUserId(request);
-        return gsabsService.getCollects(articleId, loginUserId);
+        return gsabService.getCollects(articleId, loginUserId);
     }
 
     @GetMapping("/GSABSCollect/{articleId}/{folderId}")
@@ -35,7 +35,7 @@ public class GSABSCollectHandler {
             @PathVariable("articleId") long articleId,
             @PathVariable("folderId") long folderId) {
         String loginUserId = SessionUtil.getUserId(request);
-        gsabsService.updateCollects(articleId, loginUserId, folderId);
+        gsabService.updateCollects(articleId, loginUserId, folderId);
     }
 
 

@@ -55,4 +55,17 @@ public class GXConst {
     public static final String GSAA_CACHE_NAME = "GSAA";
     public static final String GSAB_CACHE_NAME = "GSAB";
     public static final String GSAC_CACHE_NAME = "GSAC";
+
+
+    public static final String ZHIHU_URL = "https://www.zhihu.com/";
+    public static final String ARGS = "chrome.exe " +
+            "--remote-debugging-port=9222 " +
+            "--start-maximized " +
+            "--user-data-dir=\"E:\\\\tools\\\\SeleniumData\" ";
+    public static final String DRIVER = "E:\\Tools\\Python38\\chromedriver.exe";
+    public static final String IMG_STYLE = "max-width: 100%;";
+    public static final String HREF_TARGET = "_blank";
+    public static final String GSAX_CRAWLER_ZHIHU_USER_ID = "1";
+    public static final String GSAX_CRAWLER_ZHIHU_ARTICLE_OPENALL_CLASS = ".Button.ContentItem-more.Button--plain";
+    public static final String GSAX_CRAWLER_ZHIHU_TITLE_OPENALL_CLASS = ".Button.QuestionRichText-more.Button--plain";
 }

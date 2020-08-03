@@ -3,7 +3,7 @@ package com.hitachi.schedule.controller.handler.gsab;
 import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.controller.actionform.GSABS020Form;
 import com.hitachi.schedule.dao.jpa.entity.Article;
-import com.hitachi.schedule.service.GSABSScheduleF;
+import com.hitachi.schedule.service.GSABScheduleF;
 import com.hitachi.schedule.service.param.TitleFindResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +22,7 @@ import java.util.Map;
 @Slf4j
 public class GSABSTitleHandler {
     @Autowired
-    private GSABSScheduleF gsabsService;
+    private GSABScheduleF gsabService;
 
     @GetMapping("/GSABSTitles/{titleId}/{articleId}")
     public String GSABSTitles(
@@ -33,7 +33,7 @@ public class GSABSTitleHandler {
         GSABS020Form outForm = new GSABS020Form();
         String loginUserId = SessionUtil.getUserId(request);
 
-        TitleFindResult tfr = gsabsService.findByTitle(loginUserId, titleId, articleId);
+        TitleFindResult tfr = gsabService.findByTitle(loginUserId, titleId, articleId);
 
         BeanUtils.copyProperties(tfr, outForm);
 
@@ -45,7 +45,7 @@ public class GSABSTitleHandler {
     @GetMapping("/GSABSTitle/{titleId}")
     @ResponseBody
     public String GSABSTitleGet(@PathVariable("titleId") long titleId) {
-        return gsabsService.getAllTileContentById(titleId);
+        return gsabService.getAllTileContentById(titleId);
     }
 
     @PostMapping("/GSABSTitle/{titleId}")
@@ -55,16 +55,17 @@ public class GSABSTitleHandler {
             @PathVariable("titleId") long titleId,
             @RequestParam("inputHtml") String inputHtml) {
         String loginUserId = SessionUtil.getUserId(request);
+        Date uDate = new Date();
 
         Article article = new Article();
         article.setArticleTitleId(titleId);
         article.setArticleContent(inputHtml);
-        article.setArticleCreateDate(new Date());
+        article.setArticleCreateDate(uDate);
         article.setArticleCreateId(loginUserId);
-        article.setArticleUpdateDate(new Date());
+        article.setArticleUpdateDate(uDate);
         article.setArticleUpdateId(loginUserId);
         article.setArticleAgree(0);
-        long articleId = gsabsService.insertArticle(article);
+        long articleId = gsabService.insertArticle(article);
 
         Map<String, Object> result = new HashMap<>();
         result.put("success", articleId);

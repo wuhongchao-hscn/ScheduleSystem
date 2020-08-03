@@ -1,7 +1,7 @@
 package com.hitachi.schedule.controller.handler.gsab;
 
 import com.hitachi.schedule.config.common.SessionUtil;
-import com.hitachi.schedule.service.GSABSScheduleF;
+import com.hitachi.schedule.service.GSABScheduleF;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class GSABSLikesHandler {
     @Autowired
-    private GSABSScheduleF gsabsService;
+    private GSABScheduleF gsabService;
 
     @GetMapping("/GSABSLikes/{articleId}")
     @ResponseBody
@@ -24,7 +24,7 @@ public class GSABSLikesHandler {
             HttpServletRequest request,
             @PathVariable("articleId") long articleId) {
         String loginUserId = SessionUtil.getUserId(request);
-        return gsabsService.getAndUpdateLikes(articleId, loginUserId);
+        return gsabService.getAndUpdateLikes(articleId, loginUserId);
     }
 
 

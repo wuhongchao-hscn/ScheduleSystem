@@ -175,6 +175,24 @@
         </dependency>
         -->
 
+        <!-- 引入selenium用作爬虫、自动化测试
+            https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+        -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.14.0</version>
+        </dependency>
+
+        <!-- 引入jsoup用作html的可视化
+            https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+        -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.13.1</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

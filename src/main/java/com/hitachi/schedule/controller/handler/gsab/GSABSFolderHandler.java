@@ -2,7 +2,7 @@ package com.hitachi.schedule.controller.handler.gsab;
 
 import com.hitachi.schedule.config.common.SessionUtil;
 import com.hitachi.schedule.dao.jpa.entity.Folder;
-import com.hitachi.schedule.service.GSABSScheduleF;
+import com.hitachi.schedule.service.GSABScheduleF;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class GSABSFolderHandler {
     @Autowired
-    private GSABSScheduleF gsabsService;
+    private GSABScheduleF gsabService;
 
     @GetMapping("/GSABSFolder")
     @ResponseBody
@@ -33,7 +33,7 @@ public class GSABSFolderHandler {
         folder.setLevel(level);
         folder.setUpdateId(loginUserId);
 
-        gsabsService.insertFolder(folder);
+        gsabService.insertFolder(folder);
     }
 
 

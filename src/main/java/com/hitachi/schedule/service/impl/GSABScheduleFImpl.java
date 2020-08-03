@@ -5,11 +5,14 @@ import com.hitachi.schedule.config.common.GXConst;
 import com.hitachi.schedule.controller.param.ArticleDetialInfo;
 import com.hitachi.schedule.controller.param.CommentDetialInfo;
 import com.hitachi.schedule.controller.param.TitleInfo;
+import com.hitachi.schedule.crawler.param.ZhArticleParam;
+import com.hitachi.schedule.crawler.param.ZhTitleParam;
 import com.hitachi.schedule.dao.jpa.dao.*;
 import com.hitachi.schedule.dao.jpa.entity.*;
+import com.hitachi.schedule.dao.jpa.param.TitleIdAndName;
 import com.hitachi.schedule.dao.mybatis.mapper.annotations.ArticleUserDao;
 import com.hitachi.schedule.dao.mybatis.param.ArticeleUserInfo;
-import com.hitachi.schedule.service.GSABSScheduleF;
+import com.hitachi.schedule.service.GSABScheduleF;
 import com.hitachi.schedule.service.param.TitleFindResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,9 +21,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
-public class GSABScheduleFImpl implements GSABSScheduleF {
+public class GSABScheduleFImpl implements GSABScheduleF {
     private static final int contentLen = 200;
     @Autowired
     private ArticleDao articleDao;
@@ -244,6 +248,44 @@ public class GSABScheduleFImpl implements GSABSScheduleF {
     public long insertArticle(Article article) {
         article = articleDao.save(article);
         return article.getArticleId();
+    }
+
+    @Override
+    public Map<String, Long> findAllTitleIdAndTitleName() {
+        Collection<TitleIdAndName> db_rtn = titleDao.findAllTitleIdAndTitleName();
+        return db_rtn.stream().collect(Collectors.toMap(TitleIdAndName::getTitleName, TitleIdAndName::getTitleId));
+    }
+
+    @Override
+    public void insertByCrawler(Collection<ZhTitleParam> zhTitleParams) {
+        String userId = GXConst.GSAX_CRAWLER_ZHIHU_USER_ID;
+        Date uDate = new Date();
+        for (ZhTitleParam zhTitleParam : zhTitleParams) {
+            Long titleId = zhTitleParam.getTitleId();
+            if (null == titleId) {
+                Title title = new Title();
+                title.setTitleName(zhTitleParam.getTitleName());
+                title.setTitleContent(zhTitleParam.getTitleContent());
+                title.setUpdateId(userId);
+                title.setUpdateDate(uDate);
+//                title = titleDao.save(title);
+                title.setTitleId(new Random(10).nextLong());
+                titleId = title.getTitleId();
+            }
+
+            for (ZhArticleParam zhArticleParam : zhTitleParam.getArticleParams()) {
+                Article article = new Article();
+                article.setArticleTitleId(titleId);
+                article.setArticleContent(zhArticleParam.getArticleContent());
+                article.setArticleAgree(zhArticleParam.getArticleAgree());
+                article.setArticleCreateId(userId);
+                article.setArticleCreateDate(uDate);
+                article.setArticleUpdateId(userId);
+                article.setArticleUpdateDate(uDate);
+//                articleDao.save(article);
+            }
+
+        }
     }
 
     private TitleInfo getTitleByTitleId(long titleId) {

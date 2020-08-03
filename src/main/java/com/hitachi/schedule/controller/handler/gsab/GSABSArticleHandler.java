@@ -1,7 +1,7 @@
 package com.hitachi.schedule.controller.handler.gsab;
 
 import com.hitachi.schedule.config.common.SessionUtil;
-import com.hitachi.schedule.service.GSABSScheduleF;
+import com.hitachi.schedule.service.GSABScheduleF;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,13 +17,13 @@ import java.util.Map;
 @Slf4j
 public class GSABSArticleHandler {
     @Autowired
-    private GSABSScheduleF gsabsService;
+    private GSABScheduleF gsabService;
 
     @GetMapping("/GSABSArticle/{articleId}")
     @ResponseBody
     public Map<String, Object> GSABSArticle(
             @PathVariable("articleId") long articleId) {
-        return gsabsService.getAllArticleContentById(articleId);
+        return gsabService.getAllArticleContentById(articleId);
     }
 
     @GetMapping("/GSABSArticleAgree/{articleId}")
@@ -33,6 +33,6 @@ public class GSABSArticleHandler {
             @PathVariable("articleId") long articleId,
             int agreeParam) {
         String loginUserId = SessionUtil.getUserId(request);
-        return gsabsService.updateArticleAgree(loginUserId, articleId, agreeParam);
+        return gsabService.updateArticleAgree(loginUserId, articleId, agreeParam);
     }
 }
