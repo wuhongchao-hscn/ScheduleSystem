@@ -1,0 +1,90 @@
+<div class="collectModal modal fade" tabindex="-1" role="dialog" aria-labelledby="collectModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-inline-block text-center border-0">
+                <h5 class="text-center">添加收藏</h5>
+                <p class="text-sm-center text-secondary">选择你想添加的收藏夹</p>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer d-inline-block text-center border-0">
+                <button type="button" class="moveToFolder btn btn-sm btn-primary w-50">
+                    创建收藏夹
+                </button>
+                <button type="button" class="modalCloseButton">
+                    <svg fill="white" viewBox="0 0 24 24" width="24" height="24">
+                        <path d="M13.486 12l5.208-5.207a1.048 1.048 0 0 0-.006-1.483 1.046 1.046 0 0 0-1.482-.005L12 10.514 6.793 5.305a1.048 1.048 0 0 0-1.483.005 1.046 1.046 0 0 0-.005 1.483L10.514 12l-5.208 5.207a1.048 1.048 0 0 0 .006 1.483 1.046 1.046 0 0 0 1.482.005L12 13.486l5.207 5.208a1.048 1.048 0 0 0 1.483-.006 1.046 1.046 0 0 0 .005-1.482L13.486 12z"
+                              fill-rule="evenodd">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="createFolderModal modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="collectModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-inline-block text-center border-0">
+                <h5 class="text-center">创建新收藏夹</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="collectTitle form-control" placeholder="收藏标题">
+                </div>
+                <div class="form-group">
+                            <textarea class="collectContent form-control" rows="10" cols="70"
+                                      placeholder="收藏描述内容（可选）"></textarea>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="levelPublic" name="collectLevel" class="levelPublic custom-control-input"
+                           value="1" checked="checked">
+                    <label class="custom-control-label" for="levelPublic">
+                        公开
+                        <span class="text-secondary ml-1">
+                                    <small>有其他人关注此收藏夹时不可设置为私密</small>
+                                </span>
+                    </label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="levelPrivate" name="collectLevel" class="custom-control-input"
+                           value="0">
+                    <label class="custom-control-label" for="levelPrivate">
+                        秘密
+                        <span class="text-secondary ml-1">
+                                    <small>只有你自己可以查看这个收藏夹</small>
+                                </span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer d-inline-block text-center border-0">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="backToCollect btn btn-sm btn-light w-100">
+                                返回
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="createFolderBtn btn btn-sm btn-primary w-100" disabled>
+                                确认创建
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="modalCloseButton">
+                    <svg fill="white" viewBox="0 0 24 24"
+                         width="24" height="24">
+                        <path d="M13.486 12l5.208-5.207a1.048 1.048 0 0 0-.006-1.483 1.046 1.046 0 0 0-1.482-.005L12 10.514 6.793 5.305a1.048 1.048 0 0 0-1.483.005 1.046 1.046 0 0 0-.005 1.483L10.514 12l-5.208 5.207a1.048 1.048 0 0 0 .006 1.483 1.046 1.046 0 0 0 1.482.005L12 13.486l5.207 5.208a1.048 1.048 0 0 0 1.483-.006 1.046 1.046 0 0 0 .005-1.482L13.486 12z"
+                              fill-rule="evenodd">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

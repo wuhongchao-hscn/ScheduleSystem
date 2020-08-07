@@ -116,7 +116,7 @@ public class GSABScheduleFImpl implements GSABScheduleF {
             agree.setUserId(userId);
             agree.setArticleId(articleId);
             agree.setAgree(Arrays.asList(3, 5).contains(agreeParam));
-            agree.setUserId(userId);
+            agree.setUpdateId(userId);
             agree.setUpdateDate(uDate);
             agreeDao.save(agree);
         }

@@ -3,16 +3,16 @@
 
 <section layout:fragment="main">
 
-    <div class="card" name="articleAnswersHead" th:value="*{titleInfo.titleId}">
+    <div class="card articleInfo" name="articleAnswersHead" th:value="*{titleInfo.titleId}">
         <!--表見出しエリア-->
         <div class="card-body">
             <b>[[*{titleInfo.titleName}]]</b>
 
-            <div class="media w-75" th:id="'title' + *{titleInfo.titleId}">
+            <div class="media w-75 articleAbbr">
                 <div class="media-body">
                     <span th:utext="*{titleInfo.titleContent}" th:if="*{titleInfo.contentFlg}"></span>
                     <pre th:utext="*{titleInfo.titleContent}" th:unless="*{titleInfo.contentFlg}"></pre>
-                    <a href="#" name="titleUp" th:value="*{titleInfo.titleId}" th:if="*{titleInfo.contentFlg}">
+                    <a href="#" class="articleUp" th:if="*{titleInfo.contentFlg}">
                         显示全部
                         <svg class="bi bi-chevron-down" width="1em" height="1em" viewBox="0 0 16 16"
                              fill="currentColor"
@@ -23,6 +23,11 @@
                         </svg>
                     </a>
                 </div>
+                <script th:inline="javascript">
+                    let titleInfo = [[${form.titleInfo}]];
+                    let item = document.querySelector(".articleInfo");
+                    item.articleObj = titleInfo;
+                </script>
             </div>
 
             <div>
@@ -35,9 +40,7 @@
                     写回答
                 </a>
                 <a href="#" class="btn btn-sm btn-outline-secondary">邀请回答</a>
-                <a class="text-secondary d-none" name="articleList"
-                   th:id="'title' + *{titleInfo.titleId} + 'List'"
-                   href="#">
+                <a class="text-secondary d-none articlePackUp" href="#">
                     收起
                     <svg class="bi bi-chevron-up" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                          xmlns="http://www.w3.org/2000/svg">
